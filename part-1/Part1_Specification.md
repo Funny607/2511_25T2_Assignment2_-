@@ -1,5 +1,9 @@
 # Part 1: Assignment Specification <!-- omit in toc -->
 
+### Changelog:
+
+- 05/07 4pm: Updated merging behaviour so that all slimes of the same colour now merge based on damage (higher absorbs lower), not just red slimes.
+
 This page contains the tasks you’ll need to complete part 1 for this assignment, and how you’ll be assessed.
 
 - [1. Assignment Parts](#1-assignment-parts)
@@ -237,9 +241,9 @@ Below are all the slime types you will encounter:
 </tbody>
 </table>
 
-**Slimes merge in a predetermined order: red, green, blue.**
+**Slimes merge in a predetermined order: red, green, blue. When two merging slimes have the same colour, the one with the larger damage absorbs the other.**
 
-- When slimes occupy the same tile, **red slimes** absorb other red slimes first with the red slime dealing the most damage absorbing the one dealing less damage, followed by green slimes and then blue slimes.
+- When slimes occupy the same tile, **red slimes** absorb other red slimes first, followed by green slimes and then blue slimes.
 - If there are no red slimes, **green slimes** absorb other green slimes first, followed by blue slimes.
 - If there are no red or green slimes, **blue slimes** absorb each other.
 
