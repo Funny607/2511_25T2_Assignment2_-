@@ -3,6 +3,7 @@
 ### Changelog:
 
 - 05/07 4pm: Updated merging behaviour so that all slimes of the same colour now merge based on damage (higher absorbs lower), not just red slimes.
+- 06/07 12pm: Clarified that slimes are limited by the same movement constraints as the Player, except portals have no effect on them.
 
 This page contains the tasks you’ll need to complete part 1 for this assignment, and how you’ll be assessed.
 
@@ -176,7 +177,8 @@ Feel free to split tasks further where you see fit, especially for larger tasks 
 
 In this section, you will modify the codebase to introduce a new type of enemy: slimes. Slimes roam the map, and when two or more slimes collide on the same tile, they merge into one slime, with one slime absorbing the others' special attributes.
 
-Slimes travel in a single, predetermined direction. When they encounter a wall or door, they instinctively change direction, going back in the direction they came from.
+Slimes travel in a single, predetermined direction. When they encounter an object they cannot move onto, they instinctively change direction, going back in the direction they came from. Slimes are limited by the same
+movement constraints as the Player, except portals have no effect on them (they simply pass through them).
 
 > For example, Slime A starts by moving right. On the next tick, it notices that there is a wall to its right. It changes direction, moves left, and continues moving left from then on until it hits another wall or door.
 
