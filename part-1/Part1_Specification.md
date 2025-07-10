@@ -4,6 +4,7 @@
 
 - 05/07 4pm: Updated merging behaviour so that all slimes of the same colour now merge based on damage (higher absorbs lower), not just red slimes.
 - 06/07 12pm: Clarified that slimes are limited by the same movement constraints as the Player, except portals have no effect on them.
+- 10/07 7pm: Added links to the approved assumptions forum post and assignment-ii walkthrough video.
 
 This page contains the tasks you’ll need to complete part 1 for this assignment, and how you’ll be assessed.
 
@@ -54,6 +55,8 @@ You can access your pair repository through the [course website](https://cgi.cse
 > - Your pair blog post, which contains the answers to these questions and links to your code changes.
 > - Your individual blog post, which serves as a record of your individual contribution.
 >   [You can view instructions and templates for this blogging here](./Blog_Instructions.md).
+
+You can also check out [this video](https://www.loom.com/share/cef4b99f5f42472a8c48532929fd18f3?sid=9ec3952e-e0c7-404b-89e8-c7a1af6e433f) to help you get started on part 1 of the assignment.
 
 # 3. Tasks
 
@@ -681,10 +684,10 @@ As you develop your implementation of the tasks, you will undoubtedly come acros
 Here are the steps you should follow if you are unsure about something in the spec:
 
 1. Double check the spec, do a ctrl/command-f to check it isn't mentioned elsewhere, in a lot of situations this will be the case.
-2. Check the Approved Assumptions post on the forum, all of the approved assumptions from previous terms are there and new ones will be added if they come up.
+2. **Check the [Approved Assumptions](https://discourse01.cse.unsw.edu.au/25T2/COMP2511/t/assignment-ii-part-1-approved-assumptions/1266) post on the forum**, all of the approved assumptions from previous terms are there and new ones will be added if they come up.
 3. Make a post in the forum **(please search first)** asking the Course Staff whether you are able to make an assumption about the behaviour in this case. We will either:
 
-- Approve the assumption and add to the Approved Assumptions page
+- Approve the assumption and add to the [Approved Assumptions](https://discourse01.cse.unsw.edu.au/25T2/COMP2511/t/assignment-ii-part-1-approved-assumptions/1266) page
 - Update the specification if appropriate, or
 - Respond explaining how the behaviour is defined in the scope of the specification.
 
