@@ -56,7 +56,7 @@ Add all other changes you made in the same format here:
 
 ## Task 2) Evolution of Requirements 🔧
 
-### a) Snakes (15 marks)
+### a) Slimes (15 marks)
 
 [Links to your merge requests](/put/links/here)
 
