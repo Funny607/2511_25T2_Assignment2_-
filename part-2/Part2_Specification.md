@@ -35,7 +35,6 @@ The list of user requirements are as follows:
   - [Stooq.com](https://stooq.com)
   - [Yahoo Finance](https://au.finance.yahoo.com)
   - [Alpha Vantage](https://www.alphavantage.co)
-  This restriction ensures a common foundation for all student submissions and simplifies integration and evaluation. Your architecture must clearly reflect this limitation.
 
 ## Architecture needed
 
