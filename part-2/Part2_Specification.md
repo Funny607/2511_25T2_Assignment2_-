@@ -75,14 +75,14 @@ Please make sure that:
 - The names of common entities (components and relations) in the 2 diagrams are matching as one is a further decomposition of the other.
 - Good C4 design rules have been followed.
 
-### Task 3: Defining the behaviour - (12 marks)
+### Task 3: Defining the behaviour (12 marks)
 
 For one of the use cases identified in Task 1, create a sequence diagram that illustrates how the architecture is supporting the use case. Make sure that:
 
 - Each component (vertical line) in the sequence diagram corresponds to a C4 component, either external (from System context level) or internal (from the Container diagram).
 - Invocations between components have to be clearly labelled according to good design rules in sequence diagrams.
 
-## Marking criteria |
+## Marking criteria
 
 | Criteria                            | Description                                                                                                                                                                                                                                                                                               |
 | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
