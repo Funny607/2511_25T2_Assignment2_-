@@ -6,6 +6,7 @@
 - 06/07 12pm: Clarified that slimes are limited by the same movement constraints as the Player, except portals have no effect on them.
 - 10/07 7pm: Added links to the approved assumptions forum post and assignment-ii walkthrough video.
 - 17/07 9pm: Clarified that slimes merge only after all slimes have finished moving.
+- 18/07 1am: Improved general wording of the slimes specification. Blue slimes heal the player in battle, rather than cause damage.
 
 This page contains the tasks you’ll need to complete part 1 for this assignment, and how you’ll be assessed.
 
