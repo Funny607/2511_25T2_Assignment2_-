@@ -20,6 +20,7 @@ Key notes:
 - There are no "Short Extensions" from Special Consideration for this assignment. See [this](#32-extenuating-circumstances).
 - Ensure your Part 1 submission compiles with our dryrun [here](./part-1/Part1_Specification.md#63-dryruns).
 - Please visit the [course website](https://cgi.cse.unsw.edu.au/~cs2511/25T2/els-spec-cons) for Special Consideration or Equitable Learning Plans.
+- Part 2 must be submitted on [Moodle](https://moodle.telt.unsw.edu.au/mod/turnitintooltwo/view.php?id=7987670).
 
 # 1. Part 1 [60 Marks]
 
@@ -52,6 +53,8 @@ We have also included some extra documentation which may be useful to you.
 Part 2 focuses on content introduced from Week 7 onward. Two tutorials and labs will explore key topics related to this part. In this part, you will model the high-level architecture of a system,
 focusing on both structural and behavioural aspects. The case study is inspired by realistic, industry-relevant requirements to provide a practical design experience. These models will be developed
 using the C4 architectural notation and behavioural modelling.
+
+- [Part 2 Specification](./part-2/Part2_Specification.md)
 
 # 3. Other Information
 

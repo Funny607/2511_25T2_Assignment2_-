@@ -1,12 +1,28 @@
-# COMP2511 Assignment 2 Part 2
+# Part 2: Assignment Specification <!-- omit in toc -->
 
-## Summary
+- [1. Summary](#1-summary)
+- [2. Case Study Description](#2-case-study-description)
+  - [2.1. Background](#21-background)
+- [3. User requirements](#3-user-requirements)
+- [4. Architecture needed](#4-architecture-needed)
+- [5. Assignment Requirements](#5-assignment-requirements)
+  - [5.1. Overall Tasks](#51-overall-tasks)
+  - [5.2. Task 1: Defining the Use cases (8 marks)](#52-task-1-defining-the-use-cases-8-marks)
+  - [5.3. Task 2: Defining the Architecture (20 marks)](#53-task-2-defining-the-architecture-20-marks)
+  - [5.4. Task 3: Defining the behaviour (12 marks)](#54-task-3-defining-the-behaviour-12-marks)
+- [6. Marking criteria](#6-marking-criteria)
+- [7. Resources](#7-resources)
+  - [7.1. Information on the C4 model:](#71-information-on-the-c4-model)
+  - [7.2. Information on modelling tools](#72-information-on-modelling-tools)
+- [8. Submission](#8-submission)
 
-This assignmentʼs goal is for you to practice the structural and behavioural modelling of a high-level architecture based on a case study inspired by realistic requirements from industry. These models will be developed using the C4 architectural notation.
+## 1. Summary
 
-## Case Study Description
+This assignment's goal is for you to practice the structural and behavioural modelling of a high-level architecture based on a case study inspired by realistic requirements from industry. These models will be developed using the C4 architectural notation.
 
-### Background
+## 2. Case Study Description
+
+### 2.1. Background
 
 Modern businesses crucially depend on obtaining and processing quality data for efficient decision-making. One of the major issues is that such data is often scattered across multiple sources which makes data acquisition a very expensive process. For example, in the area of finance, there are multiple data sources such as:
 
@@ -19,7 +35,7 @@ Often the mechanisms to acquire the data are very different. In some cases, data
 
 In this case study, we assume that you are working as part of a financial institution that wants to build a platform that ingests data from different **price information feeds**. This data is then supplied to its customers via alerts and notifications.
 
-## User requirements
+## 3. User requirements
 
 The list of user requirements are as follows:
 
@@ -36,7 +52,7 @@ The list of user requirements are as follows:
   - [Yahoo Finance](https://au.finance.yahoo.com)
   - [Alpha Vantage](https://www.alphavantage.co)
 
-## Architecture needed
+## 4. Architecture needed
 
 As a first step in building a solution, you need to design an architecture that offers the following advantages:
 
@@ -44,9 +60,9 @@ As a first step in building a solution, you need to design an architecture that 
 - It has to support pre-processing and cleaning of the data to fit customers' data format requirements
 - It has to support alerts to notify customers when a specific type of event arises.
 
-## Assignment Requirements
+## 5. Assignment Requirements
 
-### Overall Tasks
+### 5.1. Overall Tasks
 
 In this assignment, there are 3 tasks:
 
@@ -54,7 +70,7 @@ In this assignment, there are 3 tasks:
 2. Define two architecture diagrams (**Context and Container**) that supports the use cases using the C4 notation.
 3. For one of your use cases, define a **sequence diagram** showing how components in your Container diagram interact over time
 
-### Task 1: Defining the Use cases (8 marks)
+### 5.2. Task 1: Defining the Use cases (8 marks)
 
 Based on the analysis of the requirements, define your most important use cases (**2 or 3 use cases approximately**). These use cases represent the high priority requirements that need to be supported by the architecture. Each use case must:
 
@@ -63,7 +79,7 @@ Based on the analysis of the requirements, define your most important use cases 
 
 As an alternative to use cases, you can use define your most important requirements using **user stories**.
 
-### Task 2: Defining the Architecture (20 marks)
+### 5.3. Task 2: Defining the Architecture (20 marks)
 
 To support the use cases, you need to produce 2 architecture diagrams:
 
@@ -75,29 +91,29 @@ Please make sure that:
 - The names of common entities (components and relations) in the 2 diagrams are matching as one is a further decomposition of the other.
 - Good C4 design rules have been followed.
 
-### Task 3: Defining the behaviour (12 marks)
+### 5.4. Task 3: Defining the behaviour (12 marks)
 
 For one of the use cases identified in Task 1, create a sequence diagram that illustrates how the architecture is supporting the use case. Make sure that:
 
 - Each component (vertical line) in the sequence diagram corresponds to a C4 component, either external (from System context level) or internal (from the Container diagram).
 - Invocations between components have to be clearly labelled according to good design rules in sequence diagrams.
 
-## Marking criteria
+## 6. Marking criteria
 
-| Criteria                            | Description                                                                                                                                                                                                                                                                                               |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Defining the Use Cases (8 marks)**    | • Are the use cases clearly defined and articulated?<br>• Do use cases align with the intended purpose of the application?                                                                                                                                                                                |
+| Criteria                                 | Description                                                                                                                                                                                                                                                                                               |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Defining the Use Cases (8 marks)**     | • Are the use cases clearly defined and articulated?<br>• Do use cases align with the intended purpose of the application?                                                                                                                                                                                |
 | **Defining the Architecture (20 marks)** | • Has the architecture followed good C4 design practices?<br>• Is the architecture clearly explained for a business user?<br>• Can the architecture serve as a good implementation blueprint for a developer?<br>• Is the architecture flexible, open to changes and extensible with new functionalities? |
 | **Defining the Behaviour (12 marks)**    | • Are the interactions clearly explained according to good modelling practices?<br>• Is the sequence diagram aligned with the use case description?<br>• Is the sequence diagram aligned with the architecture description?                                                                               |
 
-## Resources
+## 7. Resources
 
-### Information on the C4 model:
+### 7.1. Information on the C4 model:
 
 - Home page: [Home | C4 model](https://c4model.com)
 - C4 modelling:[ Visualising software architecture with the C4 model - Simon Brown, Agile on the Beach 2019 ](https://www.youtube.com/watch?v=x2-rSnhpw0g&t=785s)(watch from min 9)
 
-### Information on modelling tools
+### 7.2. Information on modelling tools
 
 **Recommended tool:**
 
@@ -107,3 +123,7 @@ For one of the use cases identified in Task 1, create a sequence diagram that il
 
 - [Draw.io / diagrams.net](https://app.diagrams.net): Flowchart Maker & Online Diagram Software is the simplest diagramming tool out there that supports C4 diagrams, UML diagrams, and sequence diagrams.
 - [PlantUML](https://plantuml.com): Open-source tool that uses simple textual descriptions to draw beautiful UML diagrams. This is good for code to diagram and diagram to code but has a steep learning curve as you will need to learn the diagramming syntax and DSL.
+
+## 8. Submission
+
+This assignment is to be submitted on [Moodle](https://moodle.telt.unsw.edu.au/mod/turnitintooltwo/view.php?id=7987670). Only **one** group member needs to submit the assignment.
