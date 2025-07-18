@@ -179,14 +179,14 @@ Feel free to split tasks further where you see fit, especially for larger tasks 
 
 ### a) Slimes (15 marks)
 
-In this section, you will modify the codebase to introduce a new type of enemy: slimes. After all slimes finish moving, when two or more slimes collide on the same tile, they merge into one slime, with the remaining slime absorbing the others' special attributes.
+In this section, you will modify the codebase to introduce a new type of enemy: slimes. Slimes travel in a single, predetermined direction. When they encounter an object they cannot move onto, they instinctively reverse direction and head back the way they came. Slimes follow the same movement constraints as the Player, except portals have no effect on them (they simply pass through).
 
-Slimes travel in a single, predetermined direction. When they encounter an object they cannot move onto, they instinctively change direction, going back in the direction they came from. Slimes are limited by the same
-movement constraints as the Player, except portals have no effect on them (they simply pass through them).
+> For example, Slime A starts by moving right. On the next tick, it notices an object to its right that it cannot move onto. It reverses direction, moves left, and continues moving left until it encounters another obstacle it cannot pass.
 
-> For example, Slime A starts by moving right. On the next tick, it notices that there is a wall to its right. It changes direction, moves left, and continues moving left from then on until it hits another wall or door.
+When two or more slimes occupy the same tile at the end of a tick, they merge into a single slime. The remaining slime absorbs the others' special attributes.
 
-There are multiple kinds of slimes. Importantly, **the type of the slime that is absorbed becomes the type of the resulting slime**. For example, if a red slime absorbs a green slime, it transforms into a green slime with red slime effects appended to it.
+There are multiple kinds of slimes. Importantly, **the type of the slime that is absorbed becomes the type of the resulting slime**. For example, if a red slime absorbs a green slime, it transforms into a green slime with the red slime’s effects appended to it.
+
 
 Below are all the slime types you will encounter:
 
@@ -202,7 +202,7 @@ Below are all the slime types you will encounter:
   <tr>
     <td>Green Slime</td>
     <td><img src='/images/green_slime.png' /></td>
-    <td>Green slimes are often found in lush forest areas. Their tranquil nature makes them curious but non-aggressive, meaning they initially move upwards and deal no damage until absorbed. When absorbed by another slime, they halve the damage that slime inflicts.
+    <td>Green slimes are often found in lush forest areas. They begin with a peaceful nature, moving upwards and dealing no damage. However, once absorbed, they can inherit damage from other slimes &mdash; making them more dangerous than they first appear.
     <details style="margin-top:5px">
       <summary>Example</summary>
       <p>
@@ -214,7 +214,7 @@ Below are all the slime types you will encounter:
   <tr>
     <td>Red Slime</td>
     <td><img src='/images/red_slime.png' /></td>
-    <td>Red slimes frequently inhabit hot, volcanic regions. Constant exposure to heat has made them more aggressive. They begin by moving downwards and, when they encounter the player, they inflict as much damage as possible. When absorbed by another slime, they increase the amount of damage dealt by the resulting red slime.
+    <td>Red slimes commonly dwell in hot, volcanic regions. Their constant exposure to intense heat has made them highly aggressive. They start by moving downwards and deal maximum damage upon encountering the player. When absorbed by another slime, they increase the damage dealt by their own attack power.
     <details style="margin-top:5px">
       <summary>Example</summary>
       <p>
@@ -226,7 +226,7 @@ Below are all the slime types you will encounter:
   <tr>
     <td>Blue Slime</td>
     <td><img src='/images/blue_slime.png' /></td>
-    <td>Blue slimes are extremely rare, and their natural habitat is unknown. According to legend, when they come into contact with the player, the player is miraculously healed rather than harmed. They begin by moving to the right and, if they encounter any slimes along the way, they undo the effects of the most recent slime absorption. However, when a blue slime is absorbed, its mystical healing properties are no longer retained.
+    <td>Blue slimes are extremely rare, and their natural habitat remains a mystery. Legends say that when blue slimes battle the player, they don't deal damage &mdash; instead, they mysteriously restore the player's health. They start by moving to the right and, if they encounter other slimes, they reverse the effects of the most recent absorption. However, when a blue slime itself is absorbed, it loses its mystical healing powers.
     <details style="margin-top:5px">
       <summary>Example 1</summary>
       <p>Consider a case where a red slime absorbs a green slime, and then a blue slime:</p>
