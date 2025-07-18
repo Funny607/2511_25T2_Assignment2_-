@@ -118,6 +118,7 @@ For one of the use cases identified in Task 1, create a sequence diagram that il
 **Recommended tool:**
 
 - [Excalidraw — Collaborative whiteboarding made easy](https://excalidraw.com)
+- [Excalidraw & Mermaid Guide](https://cgi.cse.unsw.edu.au/~cs2511/25T2/setup/excalidraw-mermaid)
 
 **Alternatives (with tutor approval):**
 
