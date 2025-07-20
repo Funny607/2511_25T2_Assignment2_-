@@ -7,6 +7,7 @@
 - 10/07 7pm: Added links to the approved assumptions forum post and assignment-ii walkthrough video.
 - 17/07 9pm: Clarified that slimes merge only after all slimes have finished moving.
 - 18/07 1am: Improved general wording of the slimes specification. Blue slimes heal the player in battle, rather than cause damage.
+- 20/07 3pm: Undid error in recent changelog which removed the halving effect of green slimes.
 
 This page contains the tasks you’ll need to complete part 1 for this assignment, and how you’ll be assessed.
 
@@ -203,7 +204,8 @@ Below are all the slime types you will encounter:
   <tr>
     <td>Green Slime</td>
     <td><img src='/images/green_slime.png' /></td>
-    <td>Green slimes are often found in lush forest areas. They begin with a peaceful nature, moving upwards and dealing no damage. However, once absorbed, they can inherit damage from other slimes &mdash; making them more dangerous than they first appear.
+    <td>Green slimes are often found in lush forest areas. They begin with a peaceful nature, moving upwards and dealing no damage. However, once absorbed, they can inherit damage from other slimes, though only at half the
+    original strength &mdash; making them more dangerous than they first appear.
     <details style="margin-top:5px">
       <summary>Example</summary>
       <p>
