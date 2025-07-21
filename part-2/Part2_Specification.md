@@ -56,7 +56,7 @@ The list of user requirements are as follows:
 
 As a first step in building a solution, you need to design an architecture that offers the following advantages:
 
-- It has to support any type of price feeds with different data acquisition methods. We assume changes in the methods of acquisition of the data for example a change in the URL of a website or in the address of an API
+- It has to support any type of price feeds with different data acquisition methods. We assume that these methods may change over time &mdash; for example, a change in a website's URL or in an API endpoint
 - It has to support pre-processing and cleaning of the data to fit customers' data format requirements
 - It has to support alerts to notify customers when a specific type of event arises.
 
