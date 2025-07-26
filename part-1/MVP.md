@@ -1,321 +1,321 @@
-# 1. Preamble and Problem
+# 1. 前言与问题
 
-For many years, Penguin Pty Ltd (a small software business run by Atilla Brungs) has dominated the native application gaming market with hit games. However in recent years, advancements in web technologies mean that the new generation of consumers don't want to download and run a native application, but instead want to play games online. To adapt to the ever-changing market, Penguin Pty Ltd decided in 2021 to take users back to the 1980s and develop a new game called Dungeonmania, but with a modern twist - designed as a web application.
+多年来，Penguin Pty Ltd（由 Atilla Brungs 运营的一家小型软件公司）凭借热门游戏在原生应用游戏市场中占据主导地位。然而，近年来，Web 技术的进步使得新一代消费者不再愿意下载并运行原生应用，而是希望在线玩游戏。为了适应不断变化的市场，Penguin Pty Ltd 在 2021 年决定带用户回到 20 世纪 80 年代，开发一款名为 Dungeonmania 的新游戏，并加入现代元素——该游戏被设计为 Web 应用程序。
 
-Together, their team of engineers built an MVP which brought Penguin back to #1 on the charts - but now the users are wanting more! The hard working backend engineers, previous terms' COMP2511 students have all left. A lull in sales has left only budget for two people rather than the previous five to work on the backend. What’s more, the previous engineers left a series of design issues in their implementation.
+他们的工程团队共同构建了一个 MVP（最简可行产品），让 Penguin 再次登上排行榜榜首——但现在用户想要更多！努力工作的后端工程师，也就是上个学期的 COMP2511 学生们都已经离开。销售低迷导致现在只能保留两位员工来负责后端，而非之前的五人团队。更糟糕的是，前任工程师在实现中留下了一系列设计问题。
 
-[[_TOC_]]
+\[\[*TOC*]]
 
-# 2. Product Specification (MVP)
+# 2. 产品规格（MVP）
 
-You and your partner have been hired and have inherited the existing codebase for the Dungeonmania game.
+你和你的搭档被雇佣并继承了 Dungeonmania 游戏的现有代码库。
 
-You have been given the product specification from the MVP version of Dungeonmania to help you understand the existing code and functionality it provides.
+你们获得了 Dungeonmania MVP 版本的产品规格说明，以帮助你理解现有代码及其所提供的功能。
 
-> **_NOTE:_** All of this functionality in this file has been implemented in the monolith repository we have provided to you. You do not need to implement it yourselves.
+> ***注意：*** 本文件中的所有功能已经在我们提供给你的 monolith 仓库中实现。你不需要自行实现它们。
 
-In Dungeon Mania you control a Player and have to complete various goals within a series of dungeons to complete the game!
+在 Dungeon Mania 中，你控制一名玩家，并需要在一系列地下城中完成各种目标以通关游戏！
 
 ![](/images/dungeon1.png)
 
-The simplest form of such a puzzle is a maze, where the Player must find their way from the starting point to the exit.
+这种谜题的最简单形式是迷宫，玩家必须从起点找到通往出口的路径。
 
 ![](/images/dungeon2.png)
 
-More advanced puzzles may contain things like boulders that need to be pushed onto floor switches,
+更高级的谜题可能包含需要推到地面开关上的巨石，
 
 ![](/images/dungeon3.png)
 
-enemies that need to be fought with weapons, or collectables like potions and treasure.
+需要用武器战斗的敌人，或像药水和宝藏这样的可收集物品。
 
 ![](/images/dungeon4.png)
 
-## 2.0 Map
+## 2.0 地图
 
-Entities occupy tiles on the map. Each tile has an (x,y) coordinate.
+实体占据地图上的格子。每个格子有一个 (x,y) 坐标。
 
-More information on the technical details of the map is available in [Section 4.1](#41-dungeon-maps).
+有关地图技术细节的更多信息请参阅 [第 4.1 节](#41-dungeon-maps)。
 
-## 2.1 Player
+## 2.1 玩家
 
-There is only one player per game.
+每局游戏中只有一个玩家。
 
-The Player, can be moved up, down, left and right into cardinally adjacent squares, provided another entity doesn't stop them (e.g. a wall). The Player begins the game with a set amount of health and attack damage. The Player spawns at a set 'entry location' at the beginning of a game.
+玩家可以向上、下、左、右移动到相邻的格子，前提是没有其他实体阻挡（例如墙）。玩家在游戏开始时拥有一定的生命值和攻击力。玩家从一个设定好的“入口位置”开始生成。
 
-## 2.2 Static Entities
+## 2.2 静态实体
 
-The game contains the following static entities.
+游戏包含以下静态实体。
 
 <table>
 <thead>
   <tr>
-    <th><span style="font-weight:bold">Entity</span></th>
-    <th><span style="font-weight:bold">Image</span></th>
-    <th><span style="font-weight:bold">Description</span></th>
+    <th><span style="font-weight:bold">实体</span></th>
+    <th><span style="font-weight:bold">图片</span></th>
+    <th><span style="font-weight:bold">描述</span></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Wall</td>
+    <td>墙</td>
     <td><img src='/images/wall.png' /></td>
-    <td>Blocks the movement of the Player, enemies and boulders.</td>
+    <td>阻挡玩家、敌人和巨石的移动。</td>
   </tr>
   <tr>
-    <td>Exit</td>
+    <td>出口</td>
     <td><img src='/images/exit.png' /></td>
-    <td>If the Player goes through it, the puzzle may be complete.</td>
+    <td>如果玩家穿过它，则可能完成该谜题。</td>
   </tr>
   <tr>
-    <td>Boulder</td>
+    <td>巨石</td>
     <td><img src='/images/boulder.png' /></td>
-    <td>Acts like a wall in most cases. The only difference is that it can be pushed by the Player into cardinally adjacent squares. The Player is only strong enough to push <span style="font-weight:bold">one </span>boulder at a time. When the player pushes a boulder, they move into the spot the boulder was previously in. Boulders can be pushed onto collectable entities.</td>
+    <td>在大多数情况下表现得像墙。唯一的区别是它可以被玩家推入相邻格子。玩家一次只能推动<strong>一个</strong>巨石。当玩家推动巨石时，他们会移动到巨石原本所在的位置。巨石可以被推到可收集实体上。</td>
   </tr>
   <tr>
-    <td>Floor Switch</td>
+    <td>地面开关</td>
     <td><img src='/images/switch.png' /></td>
-    <td>Switches behave like empty squares, so other entities can appear on top of them. When a boulder is pushed onto a floor switch, it is triggered. Pushing a boulder off the floor switch untriggers it.</td>
+    <td>开关的表现与空格子类似，因此其他实体可以出现在其上。当一个巨石被推到地面开关上时，开关会被触发。将巨石从开关上移开会取消触发状态。</td>
   </tr>
   <tr>
-    <td>Door</td>
+    <td>门</td>
     <td><img src='/images/door.png' /></td>
-    <td>Exists in conjunction with a single key that can open it. If the Player holds the key, they can open the door by moving through it. Once open, it remains open.</td>
+    <td>与一个可以打开它的钥匙一起存在。如果玩家持有钥匙，他们可以通过移动穿过门来打开它。一旦门被打开，将保持开启状态。</td>
   </tr>
   <tr>
-    <td>Portal</td>
+    <td>传送门</td>
     <td><img src='/images/portal.png' /></td>
-    <td>Teleports players to a corresponding portal. The player must end up in a square cardinally adjacent to the corresponding portal. The square they teleport onto must also be within movement constraints - e.g. the player cannot teleport and end up on a wall. If all squares cardinally adjacent to the corresponding portal are walls, then the player should remain where they are.</td>
+    <td>将玩家传送到对应的传送门。玩家必须最终落在对应传送门相邻的格子上。传送到的格子也必须符合移动限制——例如，玩家不能传送到墙上。如果所有相邻格子都是墙，则玩家应保持原位不动。</td>
   </tr>
   <tr>
-    <td>Zombie Toast Spawner</td>
+    <td>僵尸吐司生成器</td>
     <td><img src='/images/zombie_spawner.png' /></td>
-    <td>Spawns zombie toasts in an empty square cardinally adjacent to the spawner. If none of the cardinally adjacent cells to the spawner are empty, then the spawner will not spawn any zombies. If the player has a weapon (sword or bow) and is cardinally adjacent to the spawner, they can destroy the zombie spawner by interacting with it. The spawner will be destroyed immediately and the durability of the weapon will be decreased by 1.</td>
+    <td>在与生成器相邻的空格子中生成僵尸吐司。如果相邻的格子都不为空，则不会生成僵尸。如果玩家有武器（剑或弓）并靠近生成器，他们可以与生成器交互将其摧毁。生成器将立即被摧毁，武器的耐久度减少 1。</td>
   </tr>
 </tbody>
 </table>
 
-## 2.3 Moving Entities
+## 2.3 移动实体
 
-In addition to the Player, the game contains the following moving entities.
+除了玩家外，游戏还包含以下可移动实体。
 
-All enemy entities can be created as part of the initial dungeon. Each tick, all enemies move according to their respective behaviour.
+所有敌对实体都可以作为初始地下城的一部分生成。每个时间单位（tick），所有敌人都会根据各自的行为规则移动。
 
 <table>
 <thead>
   <tr>
-    <th><span style="font-weight:bold">Entity</span></th>
-    <th><span style="font-weight:bold">Image</span></th>
-    <th><span style="font-weight:bold">Description</span></th>
+    <th><span style="font-weight:bold">实体</span></th>
+    <th><span style="font-weight:bold">图片</span></th>
+    <th><span style="font-weight:bold">描述</span></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Spider</td>
+    <td>蜘蛛</td>
     <td><img src='/images/spider.png' /></td>
-    <td>Spiders spawn at random locations in the dungeon from the beginning of the game. When the spider spawns, they immediately move the 1 square upwards (towards the top of the screen) and then begin 'circling' their spawn spot (see a visual example below). <br>
+    <td>蜘蛛在游戏开始时随机生成在地下城中的位置。生成后，它们会立即向上移动 1 格（即朝屏幕顶部），然后开始围绕其出生点“旋转”（见下方示意图）。<br>
     <details margin-top="10px">
         <br>
-        <summary>Spider Movement Figure 1</summary>
+        <summary>蜘蛛移动图示 1</summary>
         <br>
         <img src='/images/spider_movement1.png' width=200px>
         </details>
     <br>
-    Spiders are able to traverse over walls, doors, switches, portals, exits (which all have no effect), but not boulders, in which case it will reverse direction (see a visual example below). 
+    蜘蛛可以穿越墙、门、开关、传送门和出口（这些不会对其产生影响），但不能穿越巨石，若遇到巨石将会反向移动（见下方图示）。
     <details>
-        <summary>Spider Movement Figure 2</summary>
+        <summary>蜘蛛移动图示 2</summary>
         <br>
         <img src='/images/spider_movement2.png' width=200px>
         </details>
     <br>
-    Spiders spawn in a square that is less than or equal to a radius of 20 (via Manhattan distance) around the player’s current position. If there is no available space, a spider is not spawned. Spiders cannot spawn on boulders, or in the same square as the player/enemies. If a spider is stuck between two boulders in its movement path, it should remain still.
-
+    蜘蛛会生成在玩家当前位置周围曼哈顿距离小于等于 20 的格子内。如果没有可用空间，则不会生成蜘蛛。蜘蛛不能生成在巨石上，或与玩家/敌人重叠的位置。如果蜘蛛在其移动路径中被两个巨石夹住，它将保持静止。
 </td>
   </tr>
   <tr>
-    <td>Zombie Toast </td>
+    <td>僵尸吐司</td>
     <td><img src='/images/zombie.png' /></td>
-    <td>Zombies spawn at zombie spawners and move in random directions. Zombies are limited by the same movement constraints as the Player, except portals have no effect on them.</td>
+    <td>僵尸从僵尸生成器生成，并向随机方向移动。它们受到与玩家相同的移动限制，但传送门对其无效。</td>
   </tr>
   <tr>
-    <td>Mercenary</td>
+    <td>佣兵</td>
     <td><img src='/images/mercenary.png' /></td>
-    <td>Mercenaries do not spawn; they are only present if created as part of the dungeon. They constantly move towards the Player, stopping only if they cannot move any closer (they are able to move around walls). Mercenaries are limited by the same movement constraints as the Player. All mercenaries are considered hostile, unless the Player can bribe them with a certain amount of gold; in which case they become allies. Mercenaries must be within a certain radius of the player in order to be bribed, which is formed by the diagonally and cardinally adjacent cells in a "square" fashion, akin to the blast radius for bombs. As an ally, once it reaches the Player it simply follows the Player around, occupying the square the player was previously in.</td>
+    <td>佣兵不会自行生成；只有在地下城中预置时才会出现。它们会持续向玩家移动，仅当无法靠近玩家时才会停止（例如会绕过墙）。佣兵受到与玩家相同的移动限制。所有佣兵默认是敌对的，除非玩家使用一定数量的金币贿赂他们；此时他们会成为盟友。佣兵必须在一定半径范围内才能被贿赂，这个范围是斜对角和正对角格子构成的“方形”区域，类似炸弹的爆炸半径。作为盟友后，一旦靠近玩家，他们会持续跟随玩家，并站在玩家原本所在的格子。</td>
   </tr>
 </tbody>
 </table>
 
-## 2.4 Collectable Entities
+## 2.4 可收集实体
 
-Collectable entities can be picked up by the player by walking over the tile the item is on. This will place the item into the player's inventory.
+玩家通过走到物品所在的格子上可以拾取可收集实体。拾取后，该物品将被放入玩家的背包中。
 
 <table>
 <thead>
   <tr>
-    <th><span style="font-weight:bold">Entity</span></th>
-    <th><span style="font-weight:bold">Image</span></th>
-    <th><span style="font-weight:bold">Description</span></th>
+    <th><span style="font-weight:bold">实体</span></th>
+    <th><span style="font-weight:bold">图片</span></th>
+    <th><span style="font-weight:bold">描述</span></th>
   </tr>
 </thead>
 <tbody>
     <tr>
-    <td>Treasure </td>
+    <td>宝藏</td>
     <td><img src='/images/treasure.png' /></td>
-    <td>Can be picked up by the Player.</td>
+    <td>可以被玩家拾取。</td>
   </tr>
     <tr>
-    <td>Key </td>
+    <td>钥匙</td>
     <td><img src='/images/key.png' /></td>
-    <td>Can be picked up by the player when they move into the square containing it. The Player can carry only one key at a time, and only one door has a lock that fits the key. Keys disappear once used in any context i.e. opening a door, building an item. If a key is used before opening its door, its corresponding door may be locked forever.</td>
+    <td>当玩家进入该物品所在的格子时可拾取。玩家一次只能携带一把钥匙，且每把钥匙只对应一扇特定的门。一旦钥匙被使用（例如开门或合成物品），它就会消失。如果钥匙在开门之前被用于其他用途，对应的门可能会永远被锁住。</td>
   </tr>
     <tr>
-    <td>Invincibility Potion </td>
+    <td>无敌药水</td>
     <td><img src='/images/invincibility_potion.png' /></td>
-    <td>When a Player picks up an Invincibility potion, they may consume it at any time. Any battles that occur when the Player has the effects of the potion end immediately after the first round, with the Player immediately winning and taking no damage. Zombies and hostile mercenaries will run away from the player when the player is invincible. Movement of spiders and allied mercenaries remains unaffected. The effects of the potion only last for a limited time.</td>
+    <td>玩家拾取无敌药水后，可以随时使用。只要无敌效果存在，战斗将在第一回合立即结束，玩家立刻胜利并且不受任何伤害。处于无敌状态时，僵尸和敌对佣兵会逃离玩家。蜘蛛和友军佣兵的移动不受影响。药水效果持续时间有限。</td>
   </tr>
   <tr>
-    <td>Invisibility Potion </td>
+    <td>隐身药水</td>
     <td><img src='/images/invisibility_potion.png' /></td>
-    <td>When a player picks up an invisibility potion, they may consume it at any time and they immediately become invisible and can move past all other entities undetected. This means that hostile mercenaries will no longer pursue the player and will now move randomly when the player is invisible, though allies will continue to follow the player. Battles do not occur when a player is under the influence of an invisibility potion.</td>
+    <td>玩家拾取隐身药水后，可以随时使用，使用后玩家立刻变为隐形，并可不被发现地穿过其他实体。此时敌对佣兵不再追击玩家，而是改为随机移动，但盟友仍会继续跟随玩家。隐身状态下不会发生战斗。</td>
   </tr>
   <tr>
-    <td>Wood </td>
+    <td>木材</td>
     <td><img src='/images/wood.png' /></td>
-    <td>Can be picked up by the Player.</td>
+    <td>可以被玩家拾取。</td>
   </tr>
   <tr>
-    <td>Arrows </td>
+    <td>箭</td>
     <td><img src='/images/arrows.png' /></td>
-    <td>Can be picked up by the Player.</td>
+    <td>可以被玩家拾取。</td>
   </tr>
   <tr>
-    <td>Bomb </td>
+    <td>炸弹</td>
     <td><img src='/images/bomb.png' /></td>
-    <td>Can be collected by the player. When used it is removed from the inventory it is placed on the map at the player's location. When a bomb is cardinally adjacent to an active switch, it destroys all entities in diagonally and cardinally adjacent cells, except for the player, forming a "square" blast radius. The bomb should detonate when it is placed next to an already active switch, or placed next to an inactive switch that then becomes active. The bomb explodes on the same tick it becomes cardinally adjacent to an active switch. A bomb cannot be picked up once it has been placed down or exploded.</td>
+    <td>可被玩家拾取。使用后从背包中移除并放置在当前所在地图位置。当炸弹与一个已激活的开关正对相邻时，它会爆炸，摧毁其对角线和正对角所有相邻格子中的所有实体（不包括玩家），形成一个“方形”爆炸半径。如果炸弹被放置在已激活的开关旁，或放置后相邻的开关被激活，则会立即引爆。炸弹一旦放置或爆炸后无法再次拾取。</td>
   </tr>
   <tr>
-    <td>Sword </td>
+    <td>剑</td>
     <td><img src='/images/sword.png' /></td>
-    <td>A standard melee weapon. Swords can be collected by the Player and used in battles, increasing the amount of damage they deal by an additive factor. Each sword has a specific durability that dictates the number of battles it can be used before it deteriorates and is no longer usable.</td>
+    <td>一种标准的近战武器。可以被玩家拾取并用于战斗，提升攻击力（加法）。每把剑有一定耐久度，限制它可以参与的战斗次数。耐久耗尽后不可再用。</td>
   </tr>
 </tbody>
 </table>
 
-Players can only be under the effect of one potion at a time. It is possible for a player to use another potion while the effects of an existing potion are still lasting (can be of the same or a different type of potion). In this case, the effects are not registered immediately but are instead 'queued' and will take place the tick following the previous potion wearing of. For example:
+玩家同一时间只能处于一种药水效果之下。若玩家在药效持续期间再次使用药水（无论是否同种类），新药水效果不会立即生效，而是“排队”等待前一药效结束后一刻生效。例如：
 
-- On tick 0 the Player consumes an invisibility potion that lasts for 5 ticks and becomes invisible to enemies moving that tick
-- On tick 3 they use an invincibility potion
-- At the end of tick 4 (after all enemy movements) the player becomes visible again and becomes invincible.
+* tick 0：玩家使用持续 5 个 tick 的隐身药水，当 tick 开始时立即变为隐形
+* tick 3：玩家再次使用无敌药水
+* tick 4 结束时（即敌人移动后），隐身效果结束，玩家变为可见且获得无敌效果
 
-## 2.5 Buildable Entities
+## 2.5 可建造实体
 
-Some entities can be built using a 'recipe' by the player, where entities are combined to form more complex and useful entities. Once a buildable item has been constructed, it is stored in a player's inventory. For all buildable entities, once the item is constructed the materials used in that construction have been consumed and disappear from the player's inventory.
+某些实体可以由玩家通过“配方”建造，即将多个实体组合成更复杂且更有用的实体。一旦建造完成，该物品会被放入玩家的背包中。对所有可建造实体而言，建造完成后所用材料会从玩家的背包中消失。
 
 <table>
 <thead>
   <tr>
-    <th><span style="font-weight:bold">Entity</span></th>
-    <th><span style="font-weight:bold">Image</span></th>
-    <th><span style="font-weight:bold">Description</span></th>
+    <th><span style="font-weight:bold">实体</span></th>
+    <th><span style="font-weight:bold">图片</span></th>
+    <th><span style="font-weight:bold">描述</span></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Bow</td>
+    <td>弓</td>
     <td><img src='/images/bow.png' /></td>
-    <td>Can be crafted with 1 wood + 3 arrows. The bow has a durability which deteriorates after a certain number of battles. Bows give the Player double damage in each round, to simulate being able to attack an enemy at range (it can't actually attack an enemy at range).
-
-</td>
+    <td>可通过 1 个木材 + 3 个箭合成。弓有耐久度，使用次数有限。弓使玩家在每回合造成双倍伤害，用于模拟远程攻击（实际上无法远程攻击）。</td>
   </tr>
   <tr>
-    <td>Shield </td>
+    <td>盾牌</td>
     <td><img src='/images/shield.png' /></td>
-    <td>Can be crafted with 2 wood + (1 treasure OR 1 key). Shields decrease the effect of enemy attacks. Each shield has a specific durability that dictates the number of battles it can be used before it deteriorates.</td>
+    <td>可通过 2 个木材 + （1 个宝藏 或 1 把钥匙）合成。盾牌可降低敌人攻击效果。每个盾牌有特定耐久度，决定可参与的战斗次数。</td>
   </tr>
 </tbody>
 </table>
 
-## 2.6 Battles
+## 2.6 战斗
 
-A battle takes place when the Player and an enemy are in the same cell at any point within a single tick. The conditions for a battle occurring are the same regardless of whether the player moves onto the same tile as the enemy, or vice versa.
+当玩家与敌人出现在同一个格子时（在同一个 tick 内的任意时刻），将触发战斗。无论是玩家移动到敌人所在格子，还是敌人移动到玩家所在格子，战斗都会发生。
 
-A 'round' of a battle occurs as follows:
-
-```
-Player Health = Player Health - (Enemy Attack Damage / 10)
-Enemy Health = Enemy Health - (Player Attack Damage / 5)
-```
-
-Damage will be applied simultaneously to the player and enemy in each round.
-
-If the Player's health is <= 0, then the Player dies, is removed from the game and the game is over. If the enemy's health is <= 0, then the enemy dies and is removed from the game. If after the above 'round', neither the Player nor the enemy is dead, the round repeats until either the Player or enemy is dead.
-
-All rounds of a battle take place within a single tick.
-
-### 2.6.1 Weapons in Battle
-
-In battles, weapons and allies provide an attack and defence bonus to the player.
-
-These buffs can be additive (+), subtractive (-), multiplicative (\*), or reductive (/), and stack onto each other. You can have multiple weapons/allies of the same type.
-
-An example of a bow, sword and shield being used in battle is as follows:
+一轮战斗的计算方式如下：
 
 ```
-player health = 10
-player base attack damage = 5
-bow attack damage = 2
-sword attack damage = 1
-shield defence = 2
-enemy health = 10
-enemy attack damage = 5
-
-Battle occurs:
-- Round 1   enemy health    = 10 - ((2 * (5 + 1)) / 5)  = 7.6
-            player health   = 10 - ((5 - 2) / 10)       = 9.7
-- Round 2   enemy health    = 7.6 - ((2 * (5 + 1)) / 5) = 5.2
-            player health   = 9.7 - ((5 - 2) / 10)      = 9.4
-- Round 3   ...
+玩家生命值 = 玩家生命值 -（敌人攻击力 / 10）
+敌人生命值 = 敌人生命值 -（玩家攻击力 / 5）
 ```
 
-All additive/subtractive bonuses are processed before multiplicative/reductive bonuses.
+每轮中，玩家和敌人同时受到伤害。
 
-## 2.7 Goals
+如果玩家生命值 <= 0，则玩家死亡并从游戏中移除，游戏结束。
+如果敌人生命值 <= 0，则敌人死亡并从游戏中移除。如果在上述回合后，双方都未死亡，则战斗继续下一轮，直到有一方死亡。
 
-In addition to its layout, each dungeon also has a goal that defines what must be achieved by the player for the dungeon to be considered complete. Basic goals are:
+所有战斗回合均在同一个 tick 中完成。
 
-- Being on the exit;
-- Having a boulder on all floor switches;
-- Collecting a certain number of treasure items (or more). This is the total amount collected, not the amount in the inventory.
+### 2.6.1 战斗中的武器
 
-Goals are only evaluated after the first tick.
+在战斗中，武器和盟友可为玩家提供攻击和防御加成。
 
-It is possible for a goal to become un-achived, such as if the player gets to the exit (goal achieved) and then steps off of it, or if a boulder is moved off of a floor switch.
+这些增益可以是加法（+）、减法（-）、乘法（\*）或除法（/），并可叠加。玩家可以持有多个相同类型的武器/盟友。
 
-### 2.7.1 Complex Goals
+以下是使用弓、剑和盾牌的战斗示例：
 
-More complex goals can be built by logically composing goals. For example:
+```
+玩家生命值 = 10
+玩家基础攻击力 = 5
+弓攻击加成 = 2
+剑攻击加成 = 1
+盾牌防御 = 2
+敌人生命值 = 10
+敌人攻击力 = 5
 
-- Collecting a certain number of treasure AND getting to an exit
-- Collecting a certain number of treasure OR having a boulder on all floor switches
-- Getting to an exit AND (having a boulder on all floor switches OR collecting all treasure)
+战斗开始：
+- 回合 1   敌人生命值 = 10 - ((2 * (5 + 1)) / 5)  = 7.6
+            玩家生命值 = 10 - ((5 - 2) / 10)       = 9.7
+- 回合 2   敌人生命值 = 7.6 - ((2 * (5 + 1)) / 5) = 5.2
+            玩家生命值 = 9.7 - ((5 - 2) / 10)      = 9.4
+- 回合 3   ...
+```
 
-All compound goals are binary (they contain two and only two subgoals).
+所有加法/减法的加成在乘法/除法加成之前处理。
 
-## 2.8 Winning & Losing
+## 2.7 目标
 
-The game is won when all the goals are achieved. The game is lost when the player dies and is removed from the map.
-There is no set behaviour for ticks occuring in the game after winning or losing.
+除了地图布局外，每个地下城还包含一个目标，定义了玩家必须完成哪些条件才能通关该地下城。基本目标包括：
 
-It is also possible for the game to be in an unwinnable state. In this case, gameplay continues as usual.
+* 站在出口上；
+* 所有地面开关上都有一个巨石；
+* 收集一定数量（或更多）的宝藏。这里指的是累计收集数量，而非背包中当前持有数量。
 
-## 2.9 Advanced Movement
+目标只会在第一个 tick 之后开始评估。
 
-The movement of mercenaries follows a Djikstra's algorithm to take the shortest path towards the player.
+目标可能会在达成后被“取消”，例如玩家到达出口（目标达成）后离开，或巨石从地面开关上被移开。
 
-  <details>
-     <summary>Pseudocode for this algorithm</summary>
-     <br>
-     Note: This is not necessarily optimal (A* is probably a better algorithm for our common maze like dungeons), but since this is a design course and not an algorithms course, this is fine.
+### 2.7.1 复合目标
 
-    function Dijkstras(grid, source):
+更复杂的目标可以通过逻辑组合多个基本目标构建。例如：
+
+* 收集一定数量的宝藏 且 到达出口；
+* 收集一定数量的宝藏 或 所有地面开关上有巨石；
+* 到达出口 且（所有地面开关上有巨石 或 收集所有宝藏）
+
+所有复合目标都是二元的（即仅包含两个子目标）。
+
+## 2.8 胜利与失败
+
+当所有目标达成时，游戏获胜。
+当玩家死亡并从地图中移除时，游戏失败。
+游戏在胜利或失败后，tick 是否继续没有强制规定。
+
+游戏也可能进入不可胜利状态，在这种情况下，游戏继续进行。
+
+## 2.9 高级移动
+
+佣兵的移动使用 Dijkstra（迪杰斯特拉）算法，以最短路径接近玩家。
+
+<details>
+   <summary>该算法伪代码</summary>
+   <br>
+   注意：这不一定是最优方案（A* 算法可能更适合我们的迷宫类地图），但因为本课程为设计课程而非算法课程，因此可以接受。
+
+```
+function Dijkstras(grid, source):
     let dist be a Map<Position, Double>
     let prev be a Map<Position, Position>
 
@@ -332,260 +332,126 @@ The movement of mercenaries follows a Djikstra's algorithm to take the shortest 
                 dist[v] := dist[u] + cost(u, v)
                 previous[v] := u
     return previous
+```
 
-   </details>
+</details>
 
-  <br>
+> 📝 所有与“半径”相关的距离，除非特别说明，均指 [曼哈顿距离](https://iq.opengenus.org/manhattan-distance/)。
 
-> 📝 All references to radii distances are [Manhattan Distances](https://iq.opengenus.org/manhattan-distance/) unless otherwise specified.
+## 2.10 Tick 定义
 
-## 2.10 Tick Definition
+Tick 表示从一个状态转换到另一个新状态。每个 tick 总是从用户输入开始。用户输入可以包括移动、使用物品、合成物品、或与实体交互。
 
-A tick is a transition from one state to a new state. A tick always starts with user input. This input can include moving, using an item, crafting an object, or interacting with an entity.
-
-Then the game world changes in the tick and ends when another user input is needed. So “tick n” is the transition from the n-th state to the (n+1)-th state. There can be multiple developer-defined phases within one tick deciding the order of changes to the game world. Here is one possible example of a phase sequence to help you understand.
+然后游戏世界发生变化，该 tick 结束，等待下一次用户输入。因此，“tick n” 表示从第 n 个状态过渡到第 n+1 个状态。一个 tick 内可以包含多个开发者定义的“阶段”，以决定游戏世界变化的顺序。以下是阶段顺序的示例，帮助你理解。
 
 ![](images/tick.png)
 
-Within a phase of a tick, actions can happen in any order. For example, enemies can move in any order. Or if a player picks up an item and triggers a battle in the same action, this can occur in either order.
+在 tick 的某一阶段内，动作可以按任意顺序发生。例如，敌人可以按任意顺序移动。又如，如果玩家拾取物品并触发战斗，这两个动作的发生顺序是无关紧要的。
 
-# 3. UML Diagram
+# 3. UML 图
 
-A sample [UML diagram of this MVP specification](MVP_UML.pdf) has been included in this repository.
+本仓库中包含一个 [MVP 规格的 UML 示例图](MVP_UML.pdf)。
 
-Note there may be minor inaccuracies or omissions in this diagram, as it is purely for reference purposes. Refer to the specification for the definitive requirements.
+请注意，该图可能存在轻微不准确或遗漏，仅供参考。最终要求以文字规格为准。
 
-You may choose to create your own personal editable copy of the UML diagram using [this LucidChart link](https://lucid.app/lucidchart/6400884c-7337-4e46-978c-daee1c68c796/editNew?existing=1&docId=6400884c-7337-4e46-978c-daee1c68c796&shared=true&invitationId=inv_96df826d-2a71-4510-a0b7-0b2a115f3d7c&page=0_0#). However, you are not required to do so.
+你可以选择使用 [此 LucidChart 链接](https://lucid.app/lucidchart/6400884c-7337-4e46-978c-daee1c68c796/editNew?existing=1&docId=6400884c-7337-4e46-978c-daee1c68c796&shared=true&invitationId=inv_96df826d-2a71-4510-a0b7-0b2a115f3d7c&page=0_0#) 创建一个你个人可编辑的 UML 图副本，但不是必须。
 
-# 4. Technical Specification
+# 4. 技术规格
 
-## 4.1. Dungeon Maps
+## 4.1. 地下城地图
 
-**All maps are infinite in all directions.**
+**所有地图在所有方向上都是无限的。**
 
-Moving left/right is a decrease/increase in the x co-ordinate of an entity respectively, moving up/down is a decrease/increase in the y co-ordinate of an entity respectively.
+向左/右移动分别表示实体的 x 坐标减少/增加，向上/下移动分别表示实体的 y 坐标减少/增加。
 
-Each game requires a dungeon map to be loaded in. Dungeon maps consist of JSON files which contain the following:
+每个游戏都需要加载一个地下城地图。地下城地图由包含以下内容的 JSON 文件组成：
 
-- `entities`, an array of entities in the map when the game starts; and
-- `goal-condition`, a specification of the goals for winning the dungeon.
+* `entities`：游戏开始时地图中的实体数组；
+* `goal-condition`：用于描述通关地下城所需完成的目标。
 
-There will be no other fields present in the JSON.
+JSON 文件中不会存在其他字段。
 
-### 4.1.1 Input Specification - Entities (MVP)
+### 4.1.1 输入规格 - 实体（MVP）
 
-Each entry in the entities JSON Array will be a JSON Object with the following fields:
+entities JSON 数组中的每个条目都是一个 JSON 对象，包含以下字段：
 
-- `x` - the x-position of the entity in the dungeon when the game starts;
-- `y` - the y-position of the entity in the dungeon when the game starts; and
-- `type` - the type of the entity.
+* `x` - 游戏开始时实体在地下城中的 x 坐标；
+* `y` - 游戏开始时实体在地下城中的 y 坐标；
+* `type` - 实体的类型。
 
-The combination of `x` and `y` will be unique for each entity in on the map - i.e. only one entity will ever be created per tile.
+每个实体在地图上的 `x` 和 `y` 组合都是唯一的——即每个方块上最多只有一个实体。
 
-The type field will be a string that starts with one of the following prefixes. For automarking purposes, all entities passed in will have a type in the following table.
-
-<table>
-<thead>
-  <tr>
-    <th>Entity</th>
-    <th>JSON Prefix</th>
-    <th>Creatable from Dungeon Map?</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>Player</td>
-    <td>
-    <code>player</code>
-  </td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td>Wall</td>
-    <td>
-    <code>wall</code>
-  </td>
-    <td>Yes</td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Exit</span></td>
-    <td>
-    <code>exit</code>
-  </td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Boulder</span></td>
-    <td>
-    <code>boulder</code>
-  </td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Floor Switch</span></td>
-    <td>
-    <code>switch</code>
-  </td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Door</span></td>
-    <td>
-    <code>door</code>
-  </td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Portal</span></td>
-    <td><span style="font-weight:normal">
-    <code>portal</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Zombie Toast Spawner</span></td>
-    <td><span style="font-weight:normal">
-    <code>zombie_toast_spawner</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Spider</span></td>
-    <td><span style="font-weight:normal">
-    <code>spider</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Zombie Toast</span></td>
-    <td><span style="font-weight:normal">
-    <code>zombie_toast</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Mercenary</span></td>
-    <td><span style="font-weight:normal">
-    <code>mercenary</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Treasure</span></td>
-    <td><span style="font-weight:normal">
-    <code>treasure</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Key</span></td>
-    <td><span style="font-weight:normal">
-    <code>key</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Invincibility Potion</span></td>
-    <td><span style="font-weight:normal">
-    <code>invincibility_potion</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Invisibility Potion</span></td>
-    <td><span style="font-weight:normal">
-    <code>invisibility_potion</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Wood</span></td>
-    <td><span style="font-weight:normal">
-    <code>wood</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Arrows</span></td>
-    <td><span style="font-weight:normal">
-    <code>arrow</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Bomb</span></td>
-    <td><span style="font-weight:normal">
-    <code>bomb</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Sword</span></td>
-    <td><span style="font-weight:normal">
-    <code>sword</code>
-  </span></td>
-    <td><span style="font-weight:normal">Yes</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Bow</span></td>
-    <td><span style="font-weight:normal">
-    <code>bow</code>
-  </span></td>
-    <td><span style="font-weight:normal">No, since this entity must be built by the player.</span></td>
-  </tr>
-  <tr>
-    <td><span style="font-weight:normal">Shield</span></td>
-    <td><span style="font-weight:normal">
-    <code>shield</code>
-  </span></td>
-    <td><span style="font-weight:normal">No, since this entity must be built by the player.</span></td>
-  </tr>
-</tbody>
-</table>
-
-### 4.1.2 Extra Fields (MVP)
-
-Some entities will contain additional fields in their JSON entry, namely:
-
-- All entities of type portal will have a field `colour`. Two portals which have the same colour are linked (travelling through one portal takes you to the other). We will never provide a dungeon which has more than two portals of the same colour, and all portals will have a counterpart of the same colour in the dungeon.
-- All entities of type door and key will have a `key` field which, in the case of the key is the identifier of the key, and in the case of the door the id of the key which fits that door.
-
-### 4.1.3 Entity Variants (MVP)
-
-Some entities may have different variations that need to be represented to the player. Currently, this includes portal colours and door status, and the code that handles this can be found in `dungeonmania/util/NameConverter.java`.
+`type` 字段是一个字符串，以下列前缀之一开头。为了自动评分，传入的所有实体类型都将符合下表中的类型。
 
 <table>
 <thead>
   <tr>
-    <th>Base Entity</th>
-    <th>Variants</th>
-    <th>Notes</th>
+    <th>实体</th>
+    <th>JSON 前缀</th>
+    <th>是否可由地图创建？</th>
   </tr>
 </thead>
-  <tr>
-    <td>Portal</td>
-    <td><code>portal_{COLOUR}</code> (eg. <code>portal_red</code>)</td>
-    <td>Portals are always represented with a color, which will be appended after the "portal" prefix.</td>
-
-  </tr>
-
-  <tr>
-    <td>Door</td>
-    <td><code>door</code>, <code>door_open</code></td>
-    <td>When a door is open it is represented with the "_open" suffix, however a closed door is just represented as <code>door</code>.</td>
-  </tr>
 <tbody>
-  <tr>
-
-  </tr>
+  <tr><td>玩家</td><td><code>player</code></td><td>是</td></tr>
+  <tr><td>墙</td><td><code>wall</code></td><td>是</td></tr>
+  <tr><td>出口</td><td><code>exit</code></td><td>是</td></tr>
+  <tr><td>巨石</td><td><code>boulder</code></td><td>是</td></tr>
+  <tr><td>地面开关</td><td><code>switch</code></td><td>是</td></tr>
+  <tr><td>门</td><td><code>door</code></td><td>是</td></tr>
+  <tr><td>传送门</td><td><code>portal</code></td><td>是</td></tr>
+  <tr><td>僵尸吐司生成器</td><td><code>zombie_toast_spawner</code></td><td>是</td></tr>
+  <tr><td>蜘蛛</td><td><code>spider</code></td><td>是</td></tr>
+  <tr><td>僵尸吐司</td><td><code>zombie_toast</code></td><td>是</td></tr>
+  <tr><td>佣兵</td><td><code>mercenary</code></td><td>是</td></tr>
+  <tr><td>宝藏</td><td><code>treasure</code></td><td>是</td></tr>
+  <tr><td>钥匙</td><td><code>key</code></td><td>是</td></tr>
+  <tr><td>无敌药水</td><td><code>invincibility_potion</code></td><td>是</td></tr>
+  <tr><td>隐身药水</td><td><code>invisibility_potion</code></td><td>是</td></tr>
+  <tr><td>木材</td><td><code>wood</code></td><td>是</td></tr>
+  <tr><td>箭</td><td><code>arrow</code></td><td>是</td></tr>
+  <tr><td>炸弹</td><td><code>bomb</code></td><td>是</td></tr>
+  <tr><td>剑</td><td><code>sword</code></td><td>是</td></tr>
+  <tr><td>弓</td><td><code>bow</code></td><td>否，该实体必须由玩家构建</td></tr>
+  <tr><td>盾牌</td><td><code>shield</code></td><td>否，该实体必须由玩家构建</td></tr>
 </tbody>
 </table>
 
-You may edit `NameConverter.java` if you find that you need to represent any other varied entities.
+### 4.1.2 额外字段（MVP）
 
-### 4.1.4 Input - Goals (MVP)
+某些实体在其 JSON 条目中包含附加字段，具体如下：
 
-A basic goal is represented in the dungeon as:
+* 所有 `portal` 类型的实体将包含一个 `colour` 字段。具有相同颜色的两个传送门是相连的（即穿过一个传送门会传送到另一个）。我们不会提供具有三个及以上相同颜色传送门的地下城，所有传送门都将成对出现。
+* 所有 `door` 和 `key` 类型的实体将包含一个 `key` 字段。对于钥匙，该字段是钥匙的标识符；对于门，该字段是能打开该门的钥匙的标识符。
+
+### 4.1.3 实体变体（MVP）
+
+某些实体可能具有不同的变体，需向玩家展示。例如，传送门颜色和门的状态。处理这些变体的代码在 `dungeonmania/util/NameConverter.java` 中。
+
+<table>
+<thead>
+  <tr>
+    <th>基础实体</th>
+    <th>变体</th>
+    <th>说明</th>
+  </tr>
+</thead>
+  <tr>
+    <td>传送门</td>
+    <td><code>portal_{COLOUR}</code>（例如 <code>portal_red</code>）</td>
+    <td>传送门总是以颜色表示，该颜色将附加在 "portal" 前缀后。</td>
+  </tr>
+  <tr>
+    <td>门</td>
+    <td><code>door</code>，<code>door_open</code></td>
+    <td>门开启时表示为 <code>door_open</code>，而关闭时仅为 <code>door</code>。</td>
+  </tr>
+</table>
+
+如果你需要表示其他变体实体，可自行修改 `NameConverter.java`。
+
+### 4.1.4 输入 - 目标（MVP）
+
+一个基本目标在地下城中表示如下：
 
 ```
 "goal-condition": {
@@ -593,9 +459,9 @@ A basic goal is represented in the dungeon as:
 }
 ```
 
-Where `<goal>` is one of `"boulders"`, `"treasure"` or `"exit"`.
+其中 `<goal>` 为 `"boulders"`、`"treasure"` 或 `"exit"` 之一。
 
-A complex goal is represented in the dungeon as:
+一个复合目标在地下城中表示如下：
 
 ```
 "goal-condition": {
@@ -607,207 +473,334 @@ A complex goal is represented in the dungeon as:
 }
 ```
 
-Where `<goal>` is one of `"boulders"`, `"treasure"` or `"exit"`, or another nested goal conjunction/disjunction itself, and `<supergoal>` is one of `"AND"` or `"OR"`.
+其中 `<goal>` 为 `"boulders"`、`"treasure"` 或 `"exit"` 之一，或是另一个嵌套的复合目标；`<supergoal>` 为 `"AND"` 或 `"OR"`。
 
-## 4.2. Configuration Files
+## 4.2 配置文件
 
-In `config_template.json` we have specified the template for a configuration file. This file is important as it specifies internal game mechanics which will affect the external behaviour of your application. Rather than hard coding these constants into your classes, you must instead read in these values from the specified file when the game is created.
+在 `config_template.json` 中，我们提供了配置文件的模板。该文件十分重要，它指定了内部的游戏机制，会影响你程序的外部行为。你必须在游戏创建时从该文件读取配置值，而不是将这些常量硬编码进你的类中。
 
-During automarking, we will be providing our own configuration files with each test dungeon - this allows our tests to set parameters that should ensure behaviours are produced without ambiguity. For this reason, if you do not read in the values correctly, you will likely fail a large number of our autotests.
+在自动评分过程中，我们会为每个测试用地下城提供我们自己的配置文件——这允许我们的测试设置参数，以确保行为表现明确。因此，如果你未正确读取这些值，你很可能会在大量自动测试中失败。
 
-Configuration fields are all integers unless specifically stated otherwise.
-
-### 4.2.1 Configuration Fields (MVP)
+除非特别说明，配置字段均为整数。
+### 4.2.1 配置字段（MVP）
 
 <table>
 <thead>
   <tr>
-    <th style="font-weight:bold">JSON Format<br></th>
-    <th style="font-weight:bold">Description</th>
+    <th style="font-weight:bold">JSON 格式<br></th>
+    <th style="font-weight:bold">说明</th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td> <code>ally_attack</code>
   </td>
-    <td>Attack bonus each ally gives to the player.</td>
+    <td>每个盟友给予玩家的攻击加成。</td>
   </tr>
   <tr>
     <td> <code>ally_defence</code>
   </td>
-    <td>Decrease in effect of enemy attack damage each ally gives to the player.</td>
+    <td>每个盟友给予玩家的敌人攻击伤害效果减弱。</td>
   </tr>
   <tr>
     <td> <code>bribe_radius</code>
     </td>
-  <td>Radius in which a mercenary can be bribed.</td>
+  <td>可以贿赂佣兵的半径范围。</td>
   </tr>
   <tr>
     <td> <code>bribe_amount</code>
   </td>
-    <td>Amount of gold required to bribe a mercenary.</td>
+    <td>贿赂佣兵所需的金币数量。</td>
   </tr>
   <tr>
     <td> <code>bomb_radius</code>
   </td>
-    <td>Blast radius of bomb.</td>
+    <td>炸弹的爆炸半径。</td>
   </tr>
   <tr>
     <td> <code>bow_durability</code>
   </td>
-    <td>The number of battles that the bow lasts for.</td>
+    <td>弓可以使用的战斗次数。</td>
   </tr>
   <tr>
     <td> <code>player_health</code>
   </td>
-    <td>Health of the character.</td>
+    <td>角色的生命值。</td>
   </tr>
   <tr>
     <td> <code>player_attack</code>
   </td>
-    <td>Attack damage of the character.</td>
+    <td>角色的攻击伤害。</td>
   </tr>
   <tr>
     <td> <code>invincibility_potion_duration</code>
   </td>
-    <td>The effects of the potion only last for x ticks.</td>
+    <td>无敌药水的效果持续 x 个 tick。</td>
   </tr>
   <tr>
     <td> <code>invisibility_potion_duration</code>
   </td>
-    <td>The effects of the potion only last for x ticks.</td>
+    <td>隐身药水的效果持续 x 个 tick。</td>
   </tr>
   <tr>
     <td> <code>mercenary_attack</code>
   </td>
-    <td>Attack damage of the mercenary.</td>
+    <td>佣兵的攻击伤害。</td>
   </tr>
   <tr>
     <td> <code>mercenary_health</code>
   </td>
-    <td>Health of the mercenary.</td>
+    <td>佣兵的生命值。</td>
   </tr>
   <tr>
     <td> <code>spider_attack</code>
   </td>
-    <td>Attack damage of the spider.</td>
+    <td>蜘蛛的攻击伤害。</td>
   </tr>
   <tr>
     <td> <code>spider_health</code>
   </td>
-    <td>Health of the spider.</td>
+    <td>蜘蛛的生命值。</td>
   </tr>
   <tr>
     <td> <code>spider_spawn_interval</code>
   </td>
-    <td>Spiders spawn every x ticks, starting from the x'th tick. Spawn rate of 0 means that spiders will never spawn in the game.</td>
+    <td>蜘蛛每隔 x 个 tick 生成一次，从第 x 个 tick 开始。如果生成率为 0，则游戏中永远不会生成蜘蛛。</td>
   </tr>
   <tr>
     <td> <code>shield_durability</code>
   </td>
-    <td>The number of battles that the shield lasts for.</td>
+    <td>盾牌可以使用的战斗次数。</td>
   </tr>
   <tr>
     <td> <code>shield_defence</code>
   </td>
-    <td>The decrease in the effect of the attack damage of the enemy as a result of the shield.</td>
+    <td>由于盾牌的存在而导致敌人攻击伤害效果的减弱。</td>
   </tr>
   <tr>
     <td> <code>sword_attack</code>
   </td>
-    <td>Amount of damage added to a players' attack damage when they use a sword in battle.</td>
+    <td>玩家在战斗中使用剑时增加的攻击伤害数值。</td>
   </tr>
   <tr>
     <td> <code>sword_durability</code>
   </td>
-    <td>The number of battles that the sword lasts for.</td>
+    <td>剑可以使用的战斗次数。</td>
   </tr>
   <tr>
     <td> <code>treasure_goal</code>
   </td>
-    <td>At least x treasure must be collected to complete the treasure goal</td>
+    <td>至少需要收集 x 个宝藏才能完成宝藏目标。</td>
   </tr>
   <tr>
     <td> <code>zombie_attack</code>
   </td>
-    <td>Attack damage of the zombie toast.</td>
+    <td>僵尸吐司的攻击伤害。</td>
   </tr>
   <tr>
     <td> <code>zombie_health</code>
   </td>
-    <td>Health of the zombie toast.</td>
+    <td>僵尸吐司的生命值。</td>
   </tr>
   <tr>
     <td> <code>zombie_spawn_interval</code>
   </td>
-    <td>Zombies spawn every x ticks from each spawner, starting from the x'th tick. Spawn rate of 0 means that zombies will never spawn in the game.</td>
+    <td>每个生成器每隔 x 个 tick 生成一次僵尸，从第 x 个 tick 开始。如果生成率为 0，则游戏中永远不会生成僵尸。</td>
   </tr>
 </tbody>
 </table>
 
-## 4.3 Interface
-
-The layer of abstraction is at the level of the controller. In the starter code, we have provided a class `DungeonManiaController`.
-
-The controller methods interact with a HTTP layer in the form of a web server, which we have written for you.
-
-### 4.3.1 Interface Data Types
-
-We have provided the following interface data types for you inside `response/models`. Similarly as for the assignment, you will need to create objects of these types for the controller to return and communicate information to the server layer.
-
-In case you are interested, the server layer then wraps these objects inside a `GenericResponseWrapper`, a generic type we have made for you, and converts these objects to JSON using a library called gson to allow them to be communicated to the frontend via a HTTP response.
+### 4.2.1 配置字段（MVP）
 
 <table>
 <thead>
   <tr>
-    <th style="font-weight:bold">Constructor Prototype<br></th>
-    <th style="font-weight:bold">Description<br></th>
+    <th style="font-weight:bold">JSON 格式<br></th>
+    <th style="font-weight:bold">说明</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td><code>public DungeonResponse(String dungeonId, String dungeonName, List<EntityResponse> entities, List<ItemResponse> inventory, List<BattleResponse> battles, List<String> buildables, String goals)</code></td>
+    <td> <code>ally_attack</code>
+  </td>
+    <td>每个盟友给予玩家的攻击加成。</td>
+  </tr>
+  <tr>
+    <td> <code>ally_defence</code>
+  </td>
+    <td>每个盟友给予玩家的敌人攻击伤害效果减弱。</td>
+  </tr>
+  <tr>
+    <td> <code>bribe_radius</code>
+    </td>
+  <td>可以贿赂佣兵的半径范围。</td>
+  </tr>
+  <tr>
+    <td> <code>bribe_amount</code>
+  </td>
+    <td>贿赂佣兵所需的金币数量。</td>
+  </tr>
+  <tr>
+    <td> <code>bomb_radius</code>
+  </td>
+    <td>炸弹的爆炸半径。</td>
+  </tr>
+  <tr>
+    <td> <code>bow_durability</code>
+  </td>
+    <td>弓可以使用的战斗次数。</td>
+  </tr>
+  <tr>
+    <td> <code>player_health</code>
+  </td>
+    <td>角色的生命值。</td>
+  </tr>
+  <tr>
+    <td> <code>player_attack</code>
+  </td>
+    <td>角色的攻击伤害。</td>
+  </tr>
+  <tr>
+    <td> <code>invincibility_potion_duration</code>
+  </td>
+    <td>无敌药水的效果持续 x 个 tick。</td>
+  </tr>
+  <tr>
+    <td> <code>invisibility_potion_duration</code>
+  </td>
+    <td>隐身药水的效果持续 x 个 tick。</td>
+  </tr>
+  <tr>
+    <td> <code>mercenary_attack</code>
+  </td>
+    <td>佣兵的攻击伤害。</td>
+  </tr>
+  <tr>
+    <td> <code>mercenary_health</code>
+  </td>
+    <td>佣兵的生命值。</td>
+  </tr>
+  <tr>
+    <td> <code>spider_attack</code>
+  </td>
+    <td>蜘蛛的攻击伤害。</td>
+  </tr>
+  <tr>
+    <td> <code>spider_health</code>
+  </td>
+    <td>蜘蛛的生命值。</td>
+  </tr>
+  <tr>
+    <td> <code>spider_spawn_interval</code>
+  </td>
+    <td>蜘蛛每隔 x 个 tick 生成一次，从第 x 个 tick 开始。如果生成率为 0，则游戏中永远不会生成蜘蛛。</td>
+  </tr>
+  <tr>
+    <td> <code>shield_durability</code>
+  </td>
+    <td>盾牌可以使用的战斗次数。</td>
+  </tr>
+  <tr>
+    <td> <code>shield_defence</code>
+  </td>
+    <td>由于盾牌的存在而导致敌人攻击伤害效果的减弱。</td>
+  </tr>
+  <tr>
+    <td> <code>sword_attack</code>
+  </td>
+    <td>玩家在战斗中使用剑时增加的攻击伤害数值。</td>
+  </tr>
+  <tr>
+    <td> <code>sword_durability</code>
+  </td>
+    <td>剑可以使用的战斗次数。</td>
+  </tr>
+  <tr>
+    <td> <code>treasure_goal</code>
+  </td>
+    <td>至少需要收集 x 个宝藏才能完成宝藏目标。</td>
+  </tr>
+  <tr>
+    <td> <code>zombie_attack</code>
+  </td>
+    <td>僵尸吐司的攻击伤害。</td>
+  </tr>
+  <tr>
+    <td> <code>zombie_health</code>
+  </td>
+    <td>僵尸吐司的生命值。</td>
+  </tr>
+  <tr>
+    <td> <code>zombie_spawn_interval</code>
+  </td>
+    <td>每个生成器每隔 x 个 tick 生成一次僵尸，从第 x 个 tick 开始。如果生成率为 0，则游戏中永远不会生成僵尸。</td>
+  </tr>
+</tbody>
+</table>
+
+### 4.3 接口
+
+抽象层位于控制器级别。在起始代码中，我们提供了一个类 `DungeonManiaController`。
+
+控制器方法与我们为你编写的 Web 服务器形式的 HTTP 层进行交互。
+
+#### 4.3.1 接口数据类型
+
+我们在 `response/models` 中为你提供了以下接口数据类型。和作业中一样，你需要创建这些类型的对象，以便控制器返回并将信息传递给服务器层。
+
+如果你感兴趣，服务器层会将这些对象包装在一个名为 `GenericResponseWrapper` 的泛型类型中，并使用一个名为 gson 的库将这些对象转换为 JSON，以便通过 HTTP 响应传输到前端。
+
+<table>
+<thead>
+  <tr>
+    <th style="font-weight:bold">构造函数原型<br></th>
+    <th style="font-weight:bold">说明<br></th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><code>public DungeonResponse(String dungeonId, String dungeonName, List&lt;EntityResponse&gt; entities, List&lt;ItemResponse&gt; inventory, List&lt;BattleResponse&gt; battles, List&lt;String&gt; buildables, String goals)</code></td>
     <td>
     <ul>
-    <li><code>dungeonId</code> is the unique identifier for the dungeon</li>
-    <li><code>dungeonName</code> is the name of the dungeon map being used (i.e. <code>maze</code>, which corresponds to the file <code>src/main/resources/dungeons/maze.json</code></li>
-    <li><code>entities</code> is a list of all entities currently in the dungeon (all entities in the Player's inventory aren't included); if a Player or enemy dies it is removed from this list</li>
-    <li><code>inventory</code> is the Player's current inventory</li>
-    <li><code>buildables</code> is a list of buildable item types that the player can build, given their current inventory and game state</li>
-    <li><code>battles</code> is the list of battles that has occurred in total in the game so far (see BattleResponse), in the order that they occurred</li>
-    <li><code>goals</code> is a string containing the goals yet to be completed. An empty string denotes the game has been won. Each goal in the string is preceded with a colon <code>:</code> and is one of the three basic goals listed in Section 2.7 or the fourth goal you will implement in task 2a). How you represent conjunctions (AND) and disjunctions (OR) is up to you, as the frontend will simply render your string with the goals as images. We will only check for the goal strings in our tests (e.g. <code>:exit</code>). An example of the <code>goals</code> string is <code>":exit AND (:treasure OR :enemies)"</code></li>
+    <li><code>dungeonId</code> 是地牢的唯一标识符</li>
+    <li><code>dungeonName</code> 是所使用地牢地图的名称（即 <code>maze</code>，对应文件 <code>src/main/resources/dungeons/maze.json</code>）</li>
+    <li><code>entities</code> 是当前地牢中所有实体的列表（不包括玩家背包中的实体）；如果玩家或敌人死亡，则会从该列表中移除</li>
+    <li><code>inventory</code> 是玩家当前的背包</li>
+    <li><code>buildables</code> 是玩家在当前背包和游戏状态下可以建造的物品类型列表</li>
+    <li><code>battles</code> 是到目前为止游戏中发生的所有战斗的列表（见 BattleResponse），按发生顺序排列</li>
+    <li><code>goals</code> 是一个包含尚未完成目标的字符串。空字符串表示游戏已获胜。字符串中的每个目标前都有一个冒号 <code>:</code>，并且是第 2.7 节中列出的三个基本目标之一，或你将在任务 2a) 中实现的第四个目标。你如何表示合取（AND）和析取（OR）是你自己的选择，前端只会将你的字符串以图像的方式呈现。我们在测试中只会检查目标字符串（例如 <code>:exit</code>）。一个 <code>goals</code> 字符串的示例为 <code>":exit AND (:treasure OR :enemies)"</code></li>
     </ul>
     </td>
   </tr>
   <tr>
-    <td><code>public BattleResponse(String enemy, List<RoundResponse> rounds, double initialPlayerHealth, double initialEnemyHealth, List<ItemResponse> weaponryUsed)</code></td>
+    <td><code>public BattleResponse(String enemy, List&lt;RoundResponse&gt; rounds, double initialPlayerHealth, double initialEnemyHealth, List&lt;ItemResponse&gt; weaponryUsed)</code></td>
     <td>
       <ul>
-      <li> <code>enemy</code> is the type of enemy (e.g. spider)</li>
-      <li><code>rounds</code> represent the rounds of the battle (see RoundResponse).</li>
-      <li><code>initialPlayerHealth</code> is the initial health of the player before the battle.</li>
-      <li><code>initialEnemyHealth</code> is the initial health of the enemy before the battle.</li>
-      <li> <code>weaponryUsed</code> is a list of all attack and defence items used in the battle, including potions.</li>
+      <li> <code>enemy</code> 是敌人的类型（例如 spider）</li>
+      <li><code>rounds</code> 表示战斗的各个回合（见 RoundResponse）</li>
+      <li><code>initialPlayerHealth</code> 是玩家在战斗前的初始生命值</li>
+      <li><code>initialEnemyHealth</code> 是敌人在战斗前的初始生命值</li>
+      <li> <code>weaponryUsed</code> 是战斗中使用的所有攻击和防御物品的列表，包括药水</li>
       </ul>
     </td></tr>
   <tr>
     <td><code>public RoundResponse(double deltaPlayerHealth, double deltaEnemyHealth)</code></td>
     <td>
       <ul>
-      <li> <code>deltaPlayerHealth</code> is the change in health of the character in that round of the battle (e.g. -3 is a decrease of 3 in health)</li>
-      <li><code>deltaEnemyHealth</code> is the corresponding change of health of the enemy in that round of the battle.</li>
+      <li> <code>deltaPlayerHealth</code> 是该战斗回合中角色生命值的变化（例如 -3 表示生命值减少 3）</li>
+      <li><code>deltaEnemyHealth</code> 是该战斗回合中敌人生命值的相应变化</li>
       </ul>
-      <br>Note that each of these deltas can be positive and that the 'sign' of the health matters (e.g. positive deltas correlate to increase and negative deltas correlated to decrease in health).
+      <br>注意，这些变化值可以为正数，并且生命值的“符号”很重要（例如，正数表示增加，负数表示减少）
     </td>
   </tr>
   <tr>
     <td><code>public EntityResponse(String id, String type, Position position, boolean isInteractable)</code></td>
     <td>
     <ul>
-      <li><code>id</code> is the unique identifier for the respective entity</li>
-      <li><code>type</code> is the type of the entity (a prefix corresponding to the table in Section 4.1.1)</li>
-      <li><code>position</code> is the x, y, z (layer) position of the entity</li>
-      <li><code>isInteractable</code> refers to if the entity can receive interaction updates from frontend, which only pertains to mercenaries and zombie toast spawners. When mercenaries become allies, they are no longer interactable.</li>
+      <li><code>id</code> 是该实体的唯一标识符</li>
+      <li><code>type</code> 是实体的类型（前缀对应第 4.1.1 节中的表格）</li>
+      <li><code>position</code> 是实体的 x, y, z（层）坐标</li>
+      <li><code>isInteractable</code> 表示该实体是否可以从前端接收交互更新，仅适用于佣兵和僵尸吐司生成器。当佣兵变成盟友时，它们将不再可交互</li>
     </ul>
     </td>
   </tr>
@@ -815,8 +808,8 @@ In case you are interested, the server layer then wraps these objects inside a `
     <td><code>public ItemResponse(String id, String type)</code></td>
     <td>
     <ul>
-      <li><code>id</code> is the unique identifier for the item</li>
-      <li><code>type</code> is the type of item (lowercase, see Section 4.1.1 for names).</li>
+      <li><code>id</code> 是该物品的唯一标识符</li>
+      <li><code>type</code> 是物品的类型（小写，名称见第 4.1.1 节）</li>
     </ul>
     </td>
   </tr>
@@ -824,8 +817,8 @@ In case you are interested, the server layer then wraps these objects inside a `
     <td><code>public Position(int x, int y, int layer)</code></td>
     <td>
     <ul>
-      <li><code>x</code>, <code>y</code> are the co-ordinates of the cell (<b>the top-left cell is 0,0</b>)</li>
-      <li><code>layer</code> is the Z-position of the entity on the screen (a higher layer is "in front" of a lower layer visually). The Z-position only matters for frontend rendering and is not something we will test.</li>
+      <li><code>x</code>, <code>y</code> 是该单元格的坐标（<b>左上角单元格为 0,0</b>）</li>
+      <li><code>layer</code> 是实体在屏幕上的 Z 轴位置（图像上更高的层位于更低层的前面）。Z 轴位置只影响前端渲染，我们不会对其进行测试</li>
       </ul>
     </td>
   </tr>
@@ -836,38 +829,42 @@ In case you are interested, the server layer then wraps these objects inside a `
         LEFT(-1, 0),
         RIGHT(1, 0); 
       }</code></td>
-    <td>Direction of movement for the player.</td>
+    <td>玩家的移动方向。</td>
     </tr>
     </tbody>
 </table>
+### 4.2.1 配置字段（MVP）
 
-#### 4.3.2 Interface Methods
+<!-- 原内容略 -->
+
+### 4.3.2 接口方法
 
 <table>
 <thead>
   <tr>
-    <th style="font-weight:bold">Method Prototype<br></th>
-    <th style="font-weight:bold">Description<br></th>
-    <th style="font-weight:bold">Exceptions<br></th>
+    <th style="font-weight:bold">方法原型<br></th>
+    <th style="font-weight:bold">说明<br></th>
+    <th style="font-weight:bold">异常<br></th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td><code>public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException</code></td>
     <td>
-     Creates a new game, where <code>dungeonName</code> is the name of the dungeon map (corresponding to a JSON file stored in the model) and <code>configName</code> is the name of the configuration file.
+     创建一个新游戏，其中 <code>dungeonName</code> 是地牢地图的名称（对应存储在 model 中的 JSON 文件），<code>configName</code> 是配置文件的名称。
     </td>
     <td>
-      IllegalArgumentException:
+      IllegalArgumentException：
       <ul>
-        <li>If <code>dungeonName</code> is not a dungeon that exists</li>
-        <li>If <code>configName</code> is not a configuration that exists</td></li>
+        <li>如果 <code>dungeonName</code> 不是一个存在的地牢</li>
+        <li>如果 <code>configName</code> 不是一个存在的配置</li>
       </ul>
+    </td>
   </tr>
   <tr>
     <td><code>public DungeonResponse getDungeonResponseModel()</code></td>
     <td>
-      Return the dungeon response for the current state of the game without any side effects on the game.
+      返回当前游戏状态下的地牢响应，不对游戏造成任何副作用。
     </td>
     <td>
       N/A
@@ -875,124 +872,126 @@ In case you are interested, the server layer then wraps these objects inside a `
   </tr>
   <tr>
     <td><code>public DungeonResponse tick(String itemUsedId) throws InvalidActionException</code></td>
-    <td> Ticks the game state when the player uses/attempts to use an item. The player's action (attempts/using an item) must be carried out first, <i>then</i> enemy movement. As soon as the item is used, it is removed from the inventory.</td>
+    <td> 当玩家使用/尝试使用物品时推进游戏状态。玩家的行为（尝试/使用物品）必须先执行，<i>然后</i>敌人移动。一旦物品被使用，它会从背包中移除。</td>
     <td>
-    IllegalArgumentException:
+    IllegalArgumentException：
     <ul>
-      <li>If <code>itemUsed</code> is not a <code>bomb</code>, <code>invincibility_potion</code>, or an <code>invisibility_potion</code>.</li> </ul><br><br>
-    InvalidActionException:
+      <li>如果 <code>itemUsed</code> 不是 <code>bomb</code>、<code>invincibility_potion</code> 或 <code>invisibility_potion</code>。</li>
+    </ul><br><br>
+    InvalidActionException：
     <ul>
-      <li> If <code>itemUsed</code> is not in the player's inventory</li></ul></td>
+      <li>如果 <code>itemUsed</code> 不在玩家的背包中</li>
+    </ul>
+    </td>
   </tr>
   <tr>
-    <td><code>public DungeonResponse tick(Direction movementDirection)</code>
-    </td>
+    <td><code>public DungeonResponse tick(Direction movementDirection)</code></td>
     <td>
-      Ticks the game state when the player moves in the specified direction one square. The player's movement must be carried out first, <i>then</i> enemy movement.
+      当玩家向指定方向移动一个格子时推进游戏状态。玩家的移动必须先执行，<i>然后</i>敌人移动。
     </td>
     <td>
       N/A
     </td>
   </tr>
   <tr>
-    <td><code>public DungeonResponse build(String buildable) throws InvalidActionException</code</td>
+    <td><code>public DungeonResponse build(String buildable) throws InvalidActionException</code></td>
     <td>
-    Builds the given entity, where buildable is one of <code>bow</code> or <code>shield</code>
+    构建给定的实体，<code>buildable</code> 的取值为 <code>bow</code> 或 <code>shield</code>
     </td>
     <td>
-    IllegalArgumentException:
-    <ul><li>If <code>buildable</code> is not one of <code>bow</code> or <code>shield</code></li></ul> <br><br>
-    InvalidActionException:
-    <ul><li>If the player does not have sufficient items to craft the buildable</li></ul>
+    IllegalArgumentException：
+    <ul><li>如果 <code>buildable</code> 不是 <code>bow</code> 或 <code>shield</code></li></ul><br><br>
+    InvalidActionException：
+    <ul><li>如果玩家没有足够的物品来合成该建造项</li></ul>
     </td>
   </tr>
   <tr>
-    <td><code>public DungeonResponse interact(String entityId) throws IllegalArgumentException</code</td>
+    <td><code>public DungeonResponse interact(String entityId) throws IllegalArgumentException</code></td>
     <td>
-    Interacts with a mercenary (where the Player bribes the mercenary) or a zombie spawner, where the Player destroys the spawner.
+    与佣兵或僵尸生成器进行交互：玩家贿赂佣兵，或摧毁生成器。
     </td>
     <td>
-    IllegalArgumentException:
+    IllegalArgumentException：
     <ul>
-    <li> If <code> entityId</code> is not a valid entity ID</li></ul><br><br>
-    InvalidActionException
+    <li>如果 <code>entityId</code> 不是一个有效的实体 ID</li></ul><br><br>
+    InvalidActionException：
     <ul>
-    <li>If the player is not within specified bribing radius to the mercenary, when they are bribing</li>
-    <li>If the player does not have enough gold and attempts to bribe a mercenary</li>
-    <li>If the player is not cardinally adjacent to the spawner, if they are destroying a spawner</li>
-    <li> If the player does not have a weapon and attempts to destroy a spawner</li>
+    <li>当玩家尝试贿赂佣兵时，其不在指定贿赂范围内</li>
+    <li>如果玩家金币不足却试图贿赂佣兵</li>
+    <li>当试图摧毁生成器时，玩家未与其在相邻的正交格子</li>
+    <li>如果玩家没有武器却尝试摧毁生成器</li>
     </ul>
     </td>
   </tr>
 </tbody>
 </table>
 
-### 4.3.3 Interface Exceptions
+### 4.3.3 接口异常
 
-The only two exceptions throwable by the Controller are:
+控制器可能抛出的两个异常为：
 
-- `IllegalArgumentException` (an builtin unchecked exception) on the specified conditions; and
-- `InvalidActionException` (a custom-defined checked exception inside `src/main/java/dungeonmania/exceptions`).
+* `IllegalArgumentException`（内置的未检查异常），在指定条件下抛出；
+* `InvalidActionException`（在 `src/main/java/dungeonmania/exceptions` 中定义的自定义已检查异常）。
 
-You can throw them in any order you like, we will not test any input that would fit multiple exceptions at the same time.
+你可以按任意顺序抛出这些异常，我们不会测试任何会同时触发多个异常的输入。
 
-### 4.3.4 Other Interface Files
+### 4.3.4 其他接口文件
 
 <table>
 <thead>
   <tr>
-    <th style="font-weight:bold">File<br></th>
-    <th style="font-weight:bold">Path<br></th>
-    <th style="font-weight:bold">Description<br></th>
-    <th style="font-weight:bold">Should you need to modify this?<br></th>
+    <th style="font-weight:bold">文件<br></th>
+    <th style="font-weight:bold">路径<br></th>
+    <th style="font-weight:bold">描述<br></th>
+    <th style="font-weight:bold">你需要修改它吗？<br></th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td><code>DungeonManiaController.java</code></td>
     <td><code>src/main/java/dungeonmania/DungeonManiaController.java</code></td>
-    <td>Contains one method for each command you need to implement.</td>
-    <td><b>Yes</b></td>
+    <td>包含你需要实现的每个命令的方法。</td>
+    <td><b>是</b></td>
   </tr>
   <tr>
     <td><code>App.java</code></td>
     <td><code>src/main/java/App.java</code></td>
-    <td>Runs a server for Dungeon Mania.</td>
-    <td><b>No</b></td>
+    <td>为 Dungeon Mania 运行服务器。</td>
+    <td><b>否</b></td>
   </tr>
   <tr>
-    <td><code>Position.java, Direction.java,</code> and <code>FileLoader.java</code></td>
-    <td><code>src/main/java/dungeonmania/util/Position.java, src/main/java/dungeonmania/util/FileLoader.java,</code> and <code>src/main/java/dungeonmania/util/Direction.java</code></td>
-    <td>See section 4.3.1</td>
-    <td><b>No - do not modify these as we will rely on them being the same in automarking.</b></td>
+    <td><code>Position.java, Direction.java,</code> 和 <code>FileLoader.java</code></td>
+    <td><code>src/main/java/dungeonmania/util/Position.java, src/main/java/dungeonmania/util/FileLoader.java,</code> 和 <code>src/main/java/dungeonmania/util/Direction.java</code></td>
+    <td>见第 4.3.1 节</td>
+    <td><b>否 - 请不要修改这些文件，我们会在自动评分时依赖它们保持不变。</b></td>
   </tr>
   <tr>
-    <td><code>DungeonResponse.java, EntityResponse.java, GenericResponseWrapper.java,</code> and <code>ItemResponse.java</code></td>
+    <td><code>DungeonResponse.java, EntityResponse.java, GenericResponseWrapper.java,</code> 和 <code>ItemResponse.java</code></td>
     <td><code>src/main/java/dungeonmania/response/models/</code></td>
-    <td>See section 4.3.1</td>
-    <td><b>No.</b></td>
+    <td>见第 4.3.1 节</td>
+    <td><b>否。</b></td>
   </tr>
   <tr>
-    <td><code>Scintilla.java</code> and auxiliary files; <code>Environment.java, PlatformUtils.java,</code> and <code>WebServer.java</code></td>
+    <td><code>Scintilla.java</code> 及辅助文件；<code>Environment.java, PlatformUtils.java,</code> 和 <code>WebServer.java</code></td>
     <td><code>src/main/java/scintilla</code></td>
-    <td>Contains a small custom built wrapper around Spark-Java for running a web server. When run it automatically opens a web browser.</td>
-    <td><b>No.</b</td>
+    <td>包含围绕 Spark-Java 构建的小型自定义封装器，用于运行 Web 服务器。运行时会自动打开网页浏览器。</td>
+    <td><b>否。</b></td>
   </tr>
   <tr>
     <td><code>InvalidActionException.java</code></td>
     <td><code>src/main/java/dungeonmania/exceptions</code></td>
-    <td>A checked exception to throw when an invalid action is attempted (See Section 4.3.5).</td>
-    <td><b>No - do not modify this class as we will be relying on it during automarking.</b></td>
+    <td>当尝试执行无效操作时抛出的受检异常（见第 4.3.5 节）。</td>
+    <td><b>否 - 请不要修改此类，我们会在自动评分中依赖它。</b></td>
   </tr>
 </tbody>
 </table>
 
-### 4.3.4 Gameplay
+### 4.3.4 游戏玩法
 
-Although you are only responsible for the improvement of the backend, a sample frontend has been provided for you.
+虽然你只负责改进后端部分，但我们为你提供了一个前端示例。
 
-The game will require you to select a dungeon file and configuration file. Dungeon and configuration files may be loaded into the frontend by placing them in the `main/resources/dungeons` and `main/resources/configs` folders respectively.
+游戏要求你选择一个地牢文件和一个配置文件。地牢文件和配置文件可以通过将它们分别放入 `main/resources/dungeons` 和 `main/resources/configs` 文件夹中来加载到前端。
 
-The player character can be moved using the WASD keys. Building and using items is performed by clicking the relevant icon in the inventory using the mouse. Interacting is performed by clicking the relative entity on the game map.
+玩家角色可以使用 WASD 键移动。建造和使用物品可以通过鼠标点击背包中的相应图标完成。交互可以通过点击游戏地图上的相关实体来执行。
 
-As the frontend is not a product requirement, the frontend provided is only a sample and may contain bugs.
+由于前端不是产品需求，因此所提供的前端仅为示例，可能包含错误。

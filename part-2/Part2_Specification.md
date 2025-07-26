@@ -1,130 +1,134 @@
-# Part 2: Assignment Specification <!-- omit in toc -->
+# Part 2: 作业说明 <!-- omit in toc -->
 
-- [1. Summary](#1-summary)
-- [2. Case Study Description](#2-case-study-description)
-  - [2.1. Background](#21-background)
-- [3. User requirements](#3-user-requirements)
-- [4. Architecture needed](#4-architecture-needed)
-- [5. Assignment Requirements](#5-assignment-requirements)
-  - [5.1. Overall Tasks](#51-overall-tasks)
-  - [5.2. Task 1: Defining the Use cases (8 marks)](#52-task-1-defining-the-use-cases-8-marks)
-  - [5.3. Task 2: Defining the Architecture (20 marks)](#53-task-2-defining-the-architecture-20-marks)
-  - [5.4. Task 3: Defining the behaviour (12 marks)](#54-task-3-defining-the-behaviour-12-marks)
-- [6. Marking criteria](#6-marking-criteria)
-- [7. Resources](#7-resources)
-  - [7.1. Information on the C4 model:](#71-information-on-the-c4-model)
-  - [7.2. Information on modelling tools](#72-information-on-modelling-tools)
-- [8. Submission](#8-submission)
+* [1. 摘要](#1-摘要)
+* [2. 案例研究描述](#2-案例研究描述)
 
-## 1. Summary
+  * [2.1. 背景](#21-背景)
+* [3. 用户需求](#3-用户需求)
+* [4. 所需架构](#4-所需架构)
+* [5. 作业要求](#5-作业要求)
 
-This assignment's goal is for you to practice the structural and behavioural modelling of a high-level architecture based on a case study inspired by realistic requirements from industry. These models will be developed using the C4 architectural notation.
+  * [5.1. 总体任务](#51-总体任务)
+  * [5.2. 任务 1：定义用例（8 分）](#52-任务-1定义用例8-分)
+  * [5.3. 任务 2：定义架构（20 分）](#53-任务-2定义架构20-分)
+  * [5.4. 任务 3：定义行为（12 分）](#54-任务-3定义行为12-分)
+* [6. 评分标准](#6-评分标准)
+* [7. 资源](#7-资源)
 
-## 2. Case Study Description
+  * [7.1. 关于 C4 模型的信息：](#71-关于-c4-模型的信息)
+  * [7.2. 建模工具的信息](#72-建模工具的信息)
+* [8. 提交](#8-提交)
 
-### 2.1. Background
+## 1. 摘要
 
-Modern businesses crucially depend on obtaining and processing quality data for efficient decision-making. One of the major issues is that such data is often scattered across multiple sources which makes data acquisition a very expensive process. For example, in the area of finance, there are multiple data sources such as:
+本次作业的目标是让你基于一个受现实工业需求启发的案例研究，练习高级架构的结构和行为建模。这些模型将使用 C4 架构表示法进行开发。
 
-- Stock market feeds
-- News providers
-- Regulatory reports
-- Macroeconomic announcements
+## 2. 案例研究描述
 
-Often the mechanisms to acquire the data are very different. In some cases, data can be downloaded, in other cases it has to be scraped from web pages. In other cases, it needs to be extracted from PDF reports and in some cases, it is available via API calls.
+### 2.1. 背景
 
-In this case study, we assume that you are working as part of a financial institution that wants to build a platform that ingests data from different **price information feeds**. This data is then supplied to its customers via alerts and notifications.
+现代企业在高效决策中极度依赖获取和处理高质量数据。其中一个主要问题是，这些数据通常分散在多个来源，使得数据采集变得非常昂贵。例如，在金融领域，有多个数据来源，例如：
 
-## 3. User requirements
+* 股市行情推送
+* 新闻提供商
+* 监管报告
+* 宏观经济公告
 
-The list of user requirements are as follows:
+通常，不同数据的采集机制各不相同。在某些情况下，数据可以下载；在另一些情况下，需要从网页抓取；也有从 PDF 报告中提取的情况；还有通过 API 调用获取的方式。
 
-- You need to design a data serving platform for a financial institution that regularly ingests, stores, and serves price information from different data sources on behalf of its customers
-- A data source in this case is a price feed which can be historical or real-time prices. Historical data is often in simple text files (like CSV file) that can be downloaded. An example of a data source is [Yahoo Finance](https://au.finance.yahoo.com/)
-- It is also possible for data to come from other sources like Australian Stock Exchange or a simulated market.
-- In general, customers prefer avoiding going to a data source directly and prefer to get it from the financial institution.
-- Customers can be traders, investors, and individuals. Customers would like **prices timeseries** that are customised to their needs.
-- Customers like to get prices timeseries in a specific **data format**. For example, an Excel spreadsheet that contains a clean timeseries with a particular frequency (like daily, hourly, minute-level prices).
-- Customers also want to be able to specify alerts/notifications for particular **events**. For example, a customer may specify “Please send me an alert when Stock A price rises above $1.”
-- **Only the following four data sources may be used to ingest price data:**
-  - [Investing.com](https://www.investing.com)
-  - [Stooq.com](https://stooq.com)
-  - [Yahoo Finance](https://au.finance.yahoo.com)
-  - [Alpha Vantage](https://www.alphavantage.co)
+在本案例中，我们假设你在一家金融机构工作，目标是构建一个平台，从不同的**价格信息源**中摄取数据，然后通过提醒和通知方式提供给客户。
 
-## 4. Architecture needed
+## 3. 用户需求
 
-As a first step in building a solution, you need to design an architecture that offers the following advantages:
+用户需求清单如下：
 
-- It has to support any type of price feeds with different data acquisition methods. We assume that these methods may change over time &mdash; for example, a change in a website's URL or in an API endpoint
-- It has to support pre-processing and cleaning of the data to fit customers' data format requirements
-- It has to support alerts to notify customers when a specific type of event arises.
+* 你需要为一家金融机构设计一个数据服务平台，能够定期摄取、存储并为客户提供来自不同数据源的价格信息。
+* 数据源在此为价格推送，可以是历史或实时价格。历史数据通常是简单的文本文件（如 CSV 文件）可供下载。一个例子是 [Yahoo Finance](https://au.finance.yahoo.com/)
+* 数据也可能来自其他来源，如澳大利亚证券交易所或模拟市场。
+* 通常客户希望避免直接访问数据源，更愿意从金融机构获取。
+* 客户可能是交易者、投资者或个人用户。他们希望获得**定制化的价格时间序列**。
+* 客户希望价格时间序列以特定**数据格式**提供。例如，一个包含特定频率（如每日、每小时、每分钟价格）的干净时间序列的 Excel 表格。
+* 客户还希望能够针对特定**事件**设置提醒/通知。例如，客户可能指定“当股票 A 的价格高于 \$1 时，请提醒我。”
+* **只能使用以下四个数据源来摄取价格数据：**
 
-## 5. Assignment Requirements
+  * [Investing.com](https://www.investing.com)
+  * [Stooq.com](https://stooq.com)
+  * [Yahoo Finance](https://au.finance.yahoo.com)
+  * [Alpha Vantage](https://www.alphavantage.co)
 
-### 5.1. Overall Tasks
+## 4. 所需架构
 
-In this assignment, there are 3 tasks:
+作为构建解决方案的第一步，你需要设计一个架构，需具备以下优势：
 
-1. Define 2–3 most important **use cases** that correspond to the requirements of the case study.
-2. Define two architecture diagrams (**Context and Container**) that supports the use cases using the C4 notation.
-3. For one of your use cases, define a **sequence diagram** showing how components in your Container diagram interact over time
+* 必须支持任何类型的价格推送及其不同的数据采集方法。我们假设这些方法可能随时间变化——例如网站 URL 或 API 端点发生变化。
+* 必须支持数据的预处理和清洗，以满足客户的数据格式需求。
+* 必须支持在特定事件发生时提醒客户。
 
-### 5.2. Task 1: Defining the Use cases (8 marks)
+## 5. 作业要求
 
-Based on the analysis of the requirements, define your most important use cases (**2 or 3 use cases approximately**). These use cases represent the high priority requirements that need to be supported by the architecture. Each use case must:
+### 5.1. 总体任务
 
-- Have a clear name and support a very specific user function
-- Be defined in a way that only illustrates the userʼs perspective (not technology or implementation dependent)
+在本次作业中，共有 3 个任务：
 
-As an alternative to use cases, you can use define your most important requirements using **user stories**.
+1. 定义 2–3 个最重要的**用例**，对应案例研究中的需求。
+2. 使用 C4 表示法定义两个架构图（**上下文图和容器图**），以支持这些用例。
+3. 针对其中一个用例，定义一个**顺序图**，展示容器图中组件的交互过程。
 
-### 5.3. Task 2: Defining the Architecture (20 marks)
+### 5.2. 任务 1：定义用例（8 分）
 
-To support the use cases, you need to produce 2 architecture diagrams:
+基于需求分析，定义你认为最重要的用例（**大约 2 或 3 个用例**）。这些用例代表了架构必须支持的高优先级需求。每个用例必须：
 
-- **C4 System Context Level diagram**: showing your system + users + neighbouring systems. This is useful for Business stakeholders, execs and non-tech users.
-- **C4 Container Level diagram**: showing major application/components like web apps, APIs, DBs. This is useful for developers, tech leads and architects.
+* 有一个清晰的名称，并支持一个非常具体的用户功能
+* 定义时仅反映用户视角（不依赖技术或实现）
 
-Please make sure that:
+作为用例的替代，你也可以使用**用户故事**来定义最重要的需求。
 
-- The names of common entities (components and relations) in the 2 diagrams are matching as one is a further decomposition of the other.
-- Good C4 design rules have been followed.
+### 5.3. 任务 2：定义架构（20 分）
 
-### 5.4. Task 3: Defining the behaviour (12 marks)
+为了支持这些用例，你需要制作 2 张架构图：
 
-For one of the use cases identified in Task 1, create a sequence diagram that illustrates how the architecture is supporting the use case. Make sure that:
+* **C4 系统上下文级别图**：展示你的系统 + 用户 + 邻近系统。适用于业务相关方、高管和非技术用户。
+* **C4 容器级别图**：展示主要的应用/组件，如网页应用、API、数据库。适用于开发者、技术负责人和架构师。
 
-- Each component (vertical line) in the sequence diagram corresponds to a C4 component, either external (from System context level) or internal (from the Container diagram).
-- Invocations between components have to be clearly labelled according to good design rules in sequence diagrams.
+请确保：
 
-## 6. Marking criteria
+* 两张图中的实体名称（组件和关系）保持一致，因为容器图是上下文图的进一步细化。
+* 遵循良好的 C4 设计规范。
 
-| Criteria                                 | Description                                                                                                                                                                                                                                                                                               |
-| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Defining the Use Cases (8 marks)**     | • Are the use cases clearly defined and articulated?<br>• Do use cases align with the intended purpose of the application?                                                                                                                                                                                |
-| **Defining the Architecture (20 marks)** | • Has the architecture followed good C4 design practices?<br>• Is the architecture clearly explained for a business user?<br>• Can the architecture serve as a good implementation blueprint for a developer?<br>• Is the architecture flexible, open to changes and extensible with new functionalities? |
-| **Defining the Behaviour (12 marks)**    | • Are the interactions clearly explained according to good modelling practices?<br>• Is the sequence diagram aligned with the use case description?<br>• Is the sequence diagram aligned with the architecture description?                                                                               |
+### 5.4. 任务 3：定义行为（12 分）
 
-## 7. Resources
+针对任务 1 中的某一个用例，创建一个顺序图，说明架构如何支持该用例。请确保：
 
-### 7.1. Information on the C4 model:
+* 顺序图中每个组件（垂直线）对应 C4 架构中的组件，可为外部组件（来自上下文图）或内部组件（来自容器图）。
+* 组件之间的调用必须清晰标注，符合顺序图中的良好设计规范。
 
-- Home page: [Home | C4 model](https://c4model.com)
-- C4 modelling:[ Visualising software architecture with the C4 model - Simon Brown, Agile on the Beach 2019 ](https://www.youtube.com/watch?v=x2-rSnhpw0g&t=785s)(watch from min 9)
+## 6. 评分标准
 
-### 7.2. Information on modelling tools
+| 评分标准           | 描述                                                                                       |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| **定义用例（8 分）**  | • 用例是否清晰定义与表达？<br>• 用例是否与应用目标一致？                                                         |
+| **定义架构（20 分）** | • 是否遵循良好的 C4 设计规范？<br>• 架构是否对业务用户清晰可解释？<br>• 架构是否可作为开发者的良好实现蓝图？<br>• 架构是否具有灵活性、可变性和可扩展性？ |
+| **定义行为（12 分）** | • 组件交互是否按良好的建模规范清晰表达？<br>• 顺序图是否与用例描述一致？<br>• 顺序图是否与架构描述一致？                              |
 
-**Recommended tool:**
+## 7. 资源
 
-- [Excalidraw — Collaborative whiteboarding made easy](https://excalidraw.com)
-- [Excalidraw & Mermaid Guide](https://cgi.cse.unsw.edu.au/~cs2511/25T2/setup/excalidraw-mermaid)
+### 7.1. 关于 C4 模型的信息：
 
-**Alternatives (with tutor approval):**
+* 官网主页: [Home | C4 model](https://c4model.com)
+* C4 建模介绍：[用 C4 模型可视化软件架构 - Simon Brown，Agile on the Beach 2019](https://www.youtube.com/watch?v=x2-rSnhpw0g&t=785s)（从第 9 分钟开始观看）
 
-- [Draw.io / diagrams.net](https://app.diagrams.net): Flowchart Maker & Online Diagram Software is the simplest diagramming tool out there that supports C4 diagrams, UML diagrams, and sequence diagrams.
-- [PlantUML](https://plantuml.com): Open-source tool that uses simple textual descriptions to draw beautiful UML diagrams. This is good for code to diagram and diagram to code but has a steep learning curve as you will need to learn the diagramming syntax and DSL.
+### 7.2. 建模工具的信息
 
-## 8. Submission
+**推荐工具：**
 
-This assignment is to be submitted on [Moodle](https://moodle.telt.unsw.edu.au/mod/turnitintooltwo/view.php?id=7987670). Only **one** group member needs to submit the assignment.
+* [Excalidraw — 简易协作白板工具](https://excalidraw.com)
+* [Excalidraw & Mermaid 指南](https://cgi.cse.unsw.edu.au/~cs2511/25T2/setup/excalidraw-mermaid)
+
+**替代工具（需经导师批准）：**
+
+* [Draw.io / diagrams.net](https://app.diagrams.net)：最简单的流程图制作工具，支持 C4 图、UML 图和顺序图。
+* [PlantUML](https://plantuml.com)：开源工具，使用简单的文本描述生成精美的 UML 图。适合从代码生成图或从图反推代码，但需要学习其语法和 DSL，学习曲线较陡峭。
+
+## 8. 提交
+
+本作业需通过 [Moodle](https://moodle.telt.unsw.edu.au/mod/turnitintooltwo/view.php?id=7987670) 提交。仅需**一名**小组成员提交作业。

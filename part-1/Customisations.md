@@ -1,44 +1,50 @@
-# 1. Customisations
+# 1. 自定义功能
 
-> Everything in this page is completely optional and worth no marks!!
-> It’s just here if you want to make some cool customisations to your version of the game to make it your own
+> 本页面的所有内容都是完全可选的，不计入分数！！
+> 如果你想为自己的游戏版本添加一些很酷的自定义内容，这些内容会对你有帮助。
 
-- [1. Customisations](#1-customisations)
-  - [1.1. Influencing the look of the game and controlling rendering](#11-influencing-the-look-of-the-game-and-controlling-rendering)
-  - [1.2. Localisation/Changing Text](#12-localisationchanging-text)
-  - [1.3. Getting the map to render a very simple world](#13-getting-the-map-to-render-a-very-simple-world)
-    - [1.3.1. Some other comments about this](#131-some-other-comments-about-this)
-  - [1.4. Reference](#14-reference)
-  - [1.5. Changing graphics and styling](#15-changing-graphics-and-styling)
-    - [1.5.1. TileSets](#151-tilesets)
-  - [1.6. Goals](#16-goals)
-    - [1.6.1. How to signal that the game has finished](#161-how-to-signal-that-the-game-has-finished)
-  - [1.7. Defining Animations \& Audio Cues](#17-defining-animations--audio-cues)
-    - [1.7.1. Through the skin file](#171-through-the-skin-file)
-  - [1.8. Randomising Audio](#18-randomising-audio)
-  - [1.9. Animations](#19-animations)
-    - [1.9.1. A simple health bar](#191-a-simple-health-bar)
-    - [1.9.2. A more crazy example!](#192-a-more-crazy-example)
-    - [1.9.3. A more detailed specification](#193-a-more-detailed-specification)
-    - [1.9.4. All Possible Actions](#194-all-possible-actions)
+* [1. 自定义功能](#1-customisations)
 
-## 1.1. Influencing the look of the game and controlling rendering
+  * [1.1. 影响游戏外观和控制渲染](#11-influencing-the-look-of-the-game-and-controlling-rendering)
+  * [1.2. 本地化/更改文本](#12-localisationchanging-text)
+  * [1.3. 渲染一个非常简单的世界](#13-getting-the-map-to-render-a-very-simple-world)
 
-Learning how to interact with an already built (and potentially clunky) system, is a critical part of the design experience, and one we want to encourage through this course.
+    * [1.3.1. 其他一些说明](#131-some-other-comments-about-this)
+  * [1.4. 参考](#14-reference)
+  * [1.5. 更改图形和样式](#15-changing-graphics-and-styling)
 
-## 1.2. Localisation/Changing Text
+    * [1.5.1. 图块集](#151-tilesets)
+  * [1.6. 目标](#16-goals)
 
-Let's begin with a very simple example, we are going to add your name to the main menu AND change an image :D.
+    * [1.6.1. 如何标志游戏结束](#161-how-to-signal-that-the-game-has-finished)
+  * [1.7. 定义动画和音效提示](#17-defining-animations--audio-cues)
 
-Firstly, make sure your project is entirely setup. Then what we want to do next is run the project as is. You won't be able to do anything overly fancy without any code but we'll at least be able to see how the system works, by faking a world state.
+    * [1.7.1. 通过皮肤文件](#171-through-the-skin-file)
+  * [1.8. 随机音频](#18-randomising-audio)
+  * [1.9. 动画](#19-animations)
 
-When you run the project you'll see a screen like below;
+    * [1.9.1. 简单的生命条](#191-a-simple-health-bar)
+    * [1.9.2. 更疯狂的例子！](#192-a-more-crazy-example)
+    * [1.9.3. 更详细的规范](#193-a-more-detailed-specification)
+    * [1.9.4. 所有可用的动作](#194-all-possible-actions)
+
+## 1.1. 影响游戏外观和控制渲染
+
+学习如何与一个已经构建好（可能不太优雅）的系统交互，是设计体验的重要组成部分，这是我们希望在本课程中鼓励的技能。
+
+## 1.2. 本地化/更改文本
+
+我们从一个非常简单的例子开始，我们将把你的名字添加到主菜单中，并更改一张图片 \:D。
+
+首先，请确保你的项目完全设置好了。接着我们运行该项目。虽然你还不能做什么炫酷的事情（因为你还没有写代码），但通过伪造一个世界状态，至少我们可以看到系统是如何运作的。
+
+运行项目时，你会看到如下界面：
 
 ![](/images/customisations1.png)
 
-Let's change the second subtitle (the one that says `Backend created by (your names here)`). How do we do this? Well it's actually extraordinarily easy! We don't even need to rerun the application.
+我们来更改第二个子标题（写着 `Backend created by (your names here)` 的那一行）。怎么改？其实非常简单！你甚至不需要重新运行程序。
 
-We just need to find a file called `src/main/resources/languages/en_US.json` (currently we have no language selector, but that may be a requested feature that we'll implement in the future). We've copied the file below for your reference.
+你只需要找到一个名为 `src/main/resources/languages/en_US.json` 的文件（目前我们还没有语言选择器，但这可能是未来会实现的功能）。我们已经为你复制了该文件的部分内容，供你参考：
 
 ```json
 {
@@ -55,27 +61,25 @@ We just need to find a file called `src/main/resources/languages/en_US.json` (cu
 }
 ```
 
-> For brevity `...` is used to show that there is more but irrelevant content in a file.
+> 为简洁起见，这里使用 `...` 表示文件中还有其他不相关内容。
 
-You'll notice there is a TON we can do here, from changing the font, to changing titles, to changing pretty much every bit of text in the game! Let's change `subtitle_2`, don't add your whole teams name, try to just add yours (be careful of merge conflicts so you may want to do it in a bit more of a co-ordinated way). Then reload the page, and tada it's been updated!
+你会注意到，我们可以在这里做很多事情，例如更换字体、更改标题，甚至几乎修改游戏中所有文本！我们现在来修改 `subtitle_2`，不用添加你们整个小组的名字，只需要添加你自己的（注意避免合并冲突，因此可以更有协调地进行这项更改）。然后刷新页面，瞧！它已经更新啦！
 
-## 1.3. Getting the map to render a very simple world
+## 1.3. 渲染一个非常简单的世界
 
-Next we are going to just hard code an extremely trivial world, we won't be able to use the arrow buttons (since we won't be writing anything for tick where movement is processed) but we'll be able to at least load a simple world.
+接下来我们将手动构建一个非常简单的世界。虽然我们还不能使用方向键（因为我们还没处理 tick 中的移动逻辑），但我们至少能加载一个简单的世界。
 
-First look at the following world and pick out the details of the player and the surrounding area, they are fully covered in walls, and have a door next to them.
+先看下图所示的世界，找出其中玩家与周围区域的细节，他们被墙壁包围，旁边有一扇门。
 
 ![](/images/customisations2.png)
 
-The code to generate this is as follows and should be placed in newGame. This is very rough code and is just for demonstration purposes.
-
-What the code does is manually build the entities for the world.
+生成这个世界的代码如下，应放置在 `newGame` 方法中。以下代码较为粗略，仅作演示用途。
 
 ```java
 public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
     List<EntityResponse> entities = new ArrayList<>();
 
-    // let's generate some walls
+    // 生成一些墙壁
     /**
         *
         *  WWWWW
@@ -83,19 +87,19 @@ public DungeonResponse newGame(String dungeonName, String gameMode) throws Illeg
         *  W D W
         *  WWWWW
         *
-        * where P is the player, D is a door, and W is some walls
+        * P 是玩家，D 是门，W 是墙壁
         */
 
     for (int x = 0; x < 5; x++) {
         for (int y = 0; y < 4; y++) {
             if (x == 0 || y == 0 || x == 4 || y == 3) {
-                // only generate borders
+                // 只生成边框
                 entities.add(new EntityResponse("entity-" + x + " - " + y, "wall", new Position(x, y, 2), false));
             }
         }
     }
 
-    // now to add the player and coin
+    // 添加玩家和门
     entities.add(new EntityResponse("entity-player", "player", new Position(2, 1, 2), false));
     entities.add(new EntityResponse("entity-door", "door", new Position(2, 2, 2), false));
 
@@ -103,11 +107,11 @@ public DungeonResponse newGame(String dungeonName, String gameMode) throws Illeg
 }
 ```
 
-However, when running this (make sure to stop / start the server since you are making code changes), you'll find that the door doesn't render, you get this weird sort of green rectangle? Why? Well this is because it failed to find the asset for the door!
+但是，当你运行这个（记得在代码修改后重启服务器），你会发现门并没有渲染出来，看到的是一个奇怪的绿色矩形？为什么？这是因为找不到门的图像资源！
 
 ![](/images/customisations3.png)
 
-Let's go and add it, we just have to go to `src/main/resources/skins/default.json` which you'll notice looks something like below;
+我们需要手动添加这个资源。进入 `src/main/resources/skins/default.json` 文件，你会看到如下内容：
 
 ```json
 {
@@ -131,14 +135,14 @@ Let's go and add it, we just have to go to `src/main/resources/skins/default.jso
     "bow": "images/tileset/items/bow_0.png",
     "player": "images/tileset/entities/entity.png",
     "bomb": "images/tileset/items/bomb.png"
-    // ... (a ton of entities)
+    // ... （还有很多实体）
   }
 }
 ```
 
-Small note, you can change the `resolution_px` to change how big all the assets are rendered, this can help if you want to render high resolution images.
+小提示：你可以修改 `resolution_px` 来控制图像渲染大小。如果你希望渲染高分辨率图片，这个参数非常有用。
 
-Just add a new line (remembering to put a comma on the previous line) such as below;
+我们只需在 `entities` 部分添加一行，如下所示（别忘了给上一行加逗号）：
 
 ```diff
     "entities": {
@@ -161,39 +165,39 @@ Just add a new line (remembering to put a comma on the previous line) such as be
     }
 ```
 
-Notice the comma on the sword line. We give you tons of images to start with (most are named and categorised, some are left up to you to name/categorise if you want). You can also find your own images/assets (and are somewhat encouraged!).
+注意 `"sword"` 那行后面的逗号。我们为你准备了大量图片素材（大部分已经命名和分类，有些留给你自己命名分类）。你也可以使用自己找到的图像资源（我们甚至鼓励你这样做！）。
 
-Once we do that, we don't even need to restart!
+修改完后，**不需要重启程序**！
 
 ![](/images/customisations4.png)
 
-Maybe try to change the example so it renders a bit of treasure instead! Look around and see what you can find for the entity types and so on. You should end up with
+你也可以尝试更改这个例子，比如改为渲染一个宝藏。查看各种实体类型，看看能找到什么资源。最后你应该得到类似这样的效果：
 
 ![](/images/customisations5.png)
 
-From this point you've been able to create a simple world, and change a couple of images, there are tons more to learn. Such as tilesets and all.
+至此，你已经能创建一个简单世界，并修改图像资源了。还有更多内容值得探索，比如图块集等。
 
-### 1.3.1. Some other comments about this
+### 1.3.1. 其他一些说明
 
-As you've probably noticed, the frontend doesn't really know what an "entity" is, it just knows that you want to render some images, furthermore there are surely some questions about the 3rd parameter to the position. This is called the `layer` and allows you to positionally place entities on top of each other.
+你可能已经注意到，前端其实并不知道什么是“实体”，它只知道你想渲染一张图片。此外，你可能对 `Position` 的第三个参数有疑问，它被称为 `layer`，用于控制实体之间的层叠关系。
 
-As a more in depth explanation... we can talk about 'z sorting' which is how you sort which entity / image should appear above or below which other entities. The way this is exposed to you is through the use of a third axis `z` or `layer`. That is for example the position `(1, 1, 0)` would be at `x = 1, y = 1` and at the layer `0` which is below `(1, 1, 1)` for example. It's recommended you standardise layers (i.e. place all items on the same layer, and so on...) rather than just randomly guess in each one. Entities are allowed to move between layers.
+更深入一点讲，我们可以引入“Z轴排序（z sorting）”的概念，即决定哪个实体/图像应该显示在其他实体之上或之下。我们通过第三个坐标 `z` 或称 `layer` 来暴露这个功能。例如位置 `(1, 1, 0)` 表示在 `x=1, y=1` 且层级为 0，会在 `(1, 1, 1)` 之下显示。我们建议你规范使用层级（比如所有物品都放在同一层），而不是随意设定。实体是可以在层之间移动的。
 
-## 1.4. Reference
+## 1.4. 参考
 
-This project offers a lot of flexibility for you to customise the game's visuals/audio/mechanics to what you want. The only important consideration is that you shouldn't reduce the complexity of the solution (that is you can make lateral changes but can't simplify how a certain mechanic works).
+该项目为你提供了极大的灵活性，允许你根据自己的需求自定义游戏的视觉效果、音效和机制。唯一需要注意的是：你不应简化解决方案的复杂性（即你可以进行横向的修改，但不能简化某项机制的实现方式）。
 
-In order to help you, the frontend is extremely flexible and offers you the ability to define the following;
+为了帮助你实现这些，前端是非常灵活的，支持你定义以下内容：
 
-- Different images for every graphic
-- Styling (colours/fonts/...)
-- Animations & Audio Cues during events
+* 为每个图形指定不同的图片
+* 样式（颜色、字体等）
+* 事件触发时的动画与音效提示
 
-The system is intentionally not made to be perfect and you may have to work around some awkward design choices (as you would have to in real life) to come up with a clean and simple solution.
+该系统并非为了完美而设计，你可能需要绕过某些尴尬的设计决策（就像现实开发中那样），从而提出一个干净简洁的解决方案。
 
-## 1.5. Changing graphics and styling
+## 1.5. 更改图形和样式
 
-To enable alternate graphics you need to setup the concept of a "skin.json" file; these are JSON files that allow you to customise graphics. An example is shown below;
+若你想启用替代图形，需要设置一个名为 "skin.json" 的文件；这些 JSON 文件允许你自定义图形。例如：
 
 ```json
 {
@@ -204,11 +208,11 @@ To enable alternate graphics you need to setup the concept of a "skin.json" file
 }
 ```
 
-The default skin (`src/resources/skins/default.json`) will show you all the various things you can change, note that entities (tiles/characters/items/...) aren't listed in the skin since their icon is specified as part of the entity itself.
+默认皮肤文件（`src/resources/skins/default.json`）会展示你可以更改的所有内容。注意：实体（如图块、角色、物品等）不会出现在皮肤文件中，因为它们的图标是在实体本身中指定的。
 
-### 1.5.1. TileSets
+### 1.5.1. 图块集
 
-Sometimes you want to randomise images based on some weighting, you can do this through the use of tilesets. From the default asset file.
+有时你可能希望基于某种权重随机图像，你可以通过图块集来实现。从默认资源文件中：
 
 ```json
         "background_image": {
@@ -219,31 +223,31 @@ Sometimes you want to randomise images based on some weighting, you can do this 
         },
 ```
 
-You can think of each of those numbers as the amount of raffle tickets that asset bought, when we go and pick out the winner if you are have more tickets you are more likely to win (and be rendered), so it's not percentage based. This makes it much more convenient to extend these lists and just generally is nicer to work with.
+你可以把这些数字理解为“抽奖券”的数量。当我们选择要渲染的图像时，抽奖券越多的图像越容易被选中。这种方式不是基于百分比，因此更容易扩展并保持友好。
 
-## 1.6. Goals
+## 1.6. 目标
 
-You'll probably want to render goals correctly at some point, like below;
+你可能希望在某个阶段正确地渲染目标内容，就像下面这样：
 
 ![](/images/customisations6.png)
 
-It's actually a lot easier than you might think! The above example is literally just `":treasure AND :boulder"` (literally go and hardcode it in your dungeon response and see!). How, this works is that any bit of text that is prefixed with : in goals will resolve to an image rather than raw text. The image typically being the entity type. You can do some pretty funky stuff here such as the following; `":treasure(5) AND :boulder(4)/:switch(3)"` (to indicate that we have 5 pieces of treasure to pickup, 3 switches to hold down left, and 4 boulders that we can use).
+其实比你想的要简单得多！上面的例子实际上就是 `":treasure AND :boulder"`（你可以在 dungeon response 中硬编码它并看看效果！）。原理是：任何在目标字符串中以冒号 `:` 开头的文本都会被解析为图像，而不是纯文本。这些图像通常对应实体类型。你还可以做一些比较花哨的写法，比如 `":treasure(5) AND :boulder(4)/:switch(3)"`（表示你需要收集5个宝藏、压住3个开关并且需要4个石头）。
 
 ![](/images/customisations7.png)
 
-### 1.6.1. How to signal that the game has finished
+### 1.6.1. 如何标志游戏结束
 
-You can signal that the game has finished by returning an empty string of goals. This will only cause it to trigger an end game alert IF you've previously sent goals for that game.
+当你希望游戏结束时，只需返回一个空字符串作为 goals。**前提是你之前给该游戏设置过目标**，这样它才会触发结束游戏的提示弹窗。
 
-## 1.7. Defining Animations & Audio Cues
+## 1.7. 定义动画和音效提示
 
-You can define a series of animation/audio cues to play during specific events in 2 ways, one is reactive and the other is proactive.
+你可以通过两种方式定义在特定事件中播放的动画/音效提示：一种是被动式（reactive），另一种是主动式（proactive）。
 
-### 1.7.1. Through the skin file
+### 1.7.1. 通过皮肤文件
 
-> A few concessions around music are; it won't play when the tab isn't active, you'll have to click on the game at least once for the music to start playing if you are on a chromium browser (this is a restriction put in place by Chrome). There is also a little mute button on the bottom left. Also VLAB doesn't support audio.
+> 关于音乐的几点限制：当浏览器标签页不活跃时音乐不会播放；如果你使用 Chromium 浏览器，必须先点击游戏画面，音乐才会播放（这是 Chrome 的限制）；左下角有一个静音按钮；此外，VLAB 不支持音频。
 
-You can specify background music through the skin file as follows;
+你可以在皮肤文件中指定背景音乐，例如：
 
 ```json
 {
@@ -258,15 +262,15 @@ You can specify background music through the skin file as follows;
 }
 ```
 
-We support; mp3's and ogg's. Keep in mind that in Firefox mp3's may not work so you may want to convert them to ogg's.
+系统支持 mp3 和 ogg 格式。请注意：在 Firefox 中 mp3 可能无法正常播放，因此你可能需要将其转换为 ogg。
 
-> The actual folder name here doesn't matter (funnily enough as long as they sit inside `src/resources` the path is purely for style reasons)
+> 实际上，文件夹的名称无所谓（只要文件在 `src/resources` 目录下即可，路径更多是出于风格组织的目的）。
 
-The default skin (`src/resources/skins/default.json`) will show you all the various things you can change. This includes most events such as clicking on a button or background music.
+默认皮肤文件（`src/resources/skins/default.json`）会展示你可以修改的大多数事件项，例如点击按钮、背景音乐等。
 
-## 1.8. Randomising Audio
+## 1.8. 随机音频
 
-You can randomise audio through the use of a tileset like configuration as per before...
+你可以像使用图块集那样配置多个音频资源来实现随机播放，例如：
 
 ```json
 {
@@ -279,149 +283,124 @@ You can randomise audio through the use of a tileset like configuration as per b
 }
 ```
 
-Once a randomised track has finished it'll randomly pick the next one to play. It won't however play the same song twice (unless that's the only song).
+一首随机选中的曲目播放完毕后，系统将自动选择另一首播放。不会连续播放相同的音轨（除非你只配置了一首）。
 
-## 1.9. Animations
+## 1.9. 动画
 
-Animations are a useful part of a modern application, and the frontend has (albeit limited) support for them. Animations are defined on an entity and persist for the specified frame.
+动画是现代应用程序中的重要组成部分，虽然前端对动画的支持有限，但仍可以实现一些功能。动画绑定在实体上，在指定的帧中持续存在。
 
-### 1.9.1. A simple health bar
+### 1.9.1. 简单的生命条
 
-Taking the example from before we can generate a very simple healthbar as follows;
+以下是一个生成简单生命条的例子：
 
 ```java
 public DungeonResponse newGame(String dungeonName, String gameMode) throws IllegalArgumentException {
         List<EntityResponse> entities = new ArrayList<>();
 
-        // let's generate some walls
-        /**
-            *
-            *  WWWWW
-            *  W P W
-            *  W D W
-            *  WWWWW
-            *
-            * where P is the player, D is a door, and W is some walls
-            */
+        // 生成墙壁（略）
 
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 4; y++) {
-                if (x == 0 || y == 0 || x == 4 || y == 3) {
-                    // only generate borders
-                    entities.add(new EntityResponse("entity-" + x + " - " + y, "wall", new Position(x, y, 2), false));
-                }
-            }
-        }
-
-        // now to add the player and coin
+        // 添加玩家实体
         entities.add(new EntityResponse("entity-player", "player", new Position(2, 1, 2), false));
 
         List<AnimationQueue> animations = new ArrayList<>();
-        // Arguments are;
-        // - when (unused for now, just specify "PostTick")
-        // - entityId (unique id that corresponds to what entity you want to animate)
-        // - queue (queue of actions)
-        // - loop (do you want the animation to loop)
-        // - duration (how long do you want the animation to last, any negative value is infinite)
+        // 参数说明：
+        // - when（当前未使用，设为 "PostTick"）
+        // - entityId（要应用动画的实体 ID）
+        // - queue（动作队列）
+        // - loop（是否循环）
+        // - duration（动画持续时间，负数表示无限）
 
-        // In this case it creates 2 animations on the player
-        // the first one sets the healthbar to 0.8 (from 0 to 1 inclusive)
-        // the second animates the healthbar down to 0.5 over a period of 0.5 seconds
-        // The format is specified strictly in the next section.
         animations.add(new AnimationQueue("PostTick", "entity-player", Arrays.asList(
             "healthbar set 0.8", "healthbar tint 0x00ff00", "healthbar set 0.2, over 1.5s", "healthbar tint 0xff0000, over 0.5s"
         ), false, -1));
 
-        // To make it a bit more interesting we'll shake the healthbar
-        // 'shake' will apply some random rotation/scale, '0x00ff00' is green.
-        // these effects will last 0.5s
         animations.add(new AnimationQueue("PostTick", "entity-player", Arrays.asList("healthbar shake, over 0.5s, ease Sin"), false, 0.5));
 
         return new DungeonResponse("some-random-id", dungeonName, entities, Arrays.asList(new ItemResponse("item-1", "bow"), new ItemResponse("item-2", "sword")), new ArrayList<>(), "", animations);
 }
 ```
 
-NOTE: You'll notice that you are creating the animations EVERY time. Think about how you can abstract this nicely.
+\*\*注意：\*\*你目前是每次都重新创建动画，思考下如何将其抽象化处理。
 
-This results in the following;
+渲染结果如下：
 
 ![](/images/customisations8.png)
 
-### 1.9.2. A more crazy example!
+### 1.9.2. 更疯狂的例子！
 
-Replace the animation creation code with the following. In this case we keep the healthbar but cause it to loop for 10s before stopping, as well as swapping the player sprite out and moving them along the x-axis.
+将上面的动画创建代码替换为以下内容。在这个例子中，我们保留了生命条动画并让其循环播放 10 秒，然后将玩家的精灵图替换为石块，并让其沿 x 轴缓慢移动。
 
 ```java
-        animations.add(new AnimationQueue("PostTick", "entity-player", Arrays.asList(
-            "healthbar set 0.8", "healthbar tint 0x00ff00", "healthbar set 0.2, over 1.5s", "healthbar tint 0xff0000, over 0.5s"
-        ), true, 10));
+animations.add(new AnimationQueue("PostTick", "entity-player", Arrays.asList(
+    "healthbar set 0.8", "healthbar tint 0x00ff00", "healthbar set 0.2, over 1.5s", "healthbar tint 0xff0000, over 0.5s"
+), true, 10));
 
-        // In this case, we'll replace the player with a boulder, and move it horizontally across slowly.
-        // You could play an animation by swapping out sprites as it moves.
-        animations.add(new AnimationQueue("PostTick", "entity-player", Arrays.asList("healthbar shake, over 0.5s, ease Sin", "tint 0x00ff00", "translate-x 1, over 2s", "sprite boulder"), false, 0.5));
+animations.add(new AnimationQueue("PostTick", "entity-player", Arrays.asList(
+    "healthbar shake, over 0.5s, ease Sin", "tint 0x00ff00", "translate-x 1, over 2s", "sprite boulder"
+), false, 0.5));
 ```
 
-> ⚠  NOTE: If processing movement, it's recommended that you return the final position in the entity response object, and then process movement by doing a translation (of duration 0s) back to the old position then translate them back to the final position. i.e. translate-x -1, over 0s followed by translate-x 1, over 2s
+> ⚠ 注意：如果你在处理移动逻辑，建议在 `EntityResponse` 中返回最终位置，然后通过一个持续时间为 0 的平移先移回旧位置，再从旧位置平移回新位置。即：`translate-x -1, over 0s` 后跟 `translate-x 1, over 2s`
 
-### 1.9.3. A more detailed specification
+### 1.9.3. 更详细的规范
 
-An animation queue is a very trivial set of actions that can be performed on entities. The class structure is as follows;
+动画队列（AnimationQueue）是一个非常简单的类，定义了一组可以对实体执行的动作。其结构如下：
 
 ```java
 public class AnimationQueue {
-    /** _when_ should this animation play?  Currently unused, but should be "PostTick" */
+    /** 何时播放动画？当前未使用，设为 "PostTick" */
     private final String when;
 
-    /** The entity to perform this on */
+    /** 要应用动画的实体 ID */
     private final String entityId;
 
-    /** List of actions to perform (more info below) */
+    /** 要执行的动作列表（详见下方） */
     private final List<String> queue;
 
-    /** If true, will repeat all animations once all in queue are completed. */
+    /** 如果为 true，动画将在队列全部完成后循环播放 */
     private final boolean loop;
 
-    /** If loop is specified, will repeat animation until total elapsed is approximately specified duration */
+    /** 如果启用了 loop，则动画会重复播放直到累计时间达到该值 */
     private final double duration;
 }
 ```
 
-AnimationQueue.java
+构造函数如下：
 
 ```java
 public AnimationQueue(String when, String entityId, List<String> queue, boolean loop, double duration);
 ```
 
-There is also an overload for DungeonResponse that takes in an animation queue.
+此外，`DungeonResponse` 也提供了一个重载版本，可以接收动画队列：
 
 ```java
 public DungeonResponse(String dungeonId, String dungeonName, List<EntityResponse> entities,
-            List<ItemResponse> inventory, List<ItemResponse> buildables, String goals,
-            List<AnimationQueue> animations)
+        List<ItemResponse> inventory, List<ItemResponse> buildables, String goals,
+        List<AnimationQueue> animations)
 ```
 
-### 1.9.4. All Possible Actions
+### 1.9.4. 所有可用的动作
 
-You'll probably be using really just entityId/queue to setup unique animations.
+你通常只需使用 `entityId` 和 `queue` 来定义专属动画。
 
-Actions within a queue use spaces and commas to separate arguments, so make sure you match the format exactly. Actions are 'interpolated' (transitions between the old and new states).
+队列中的动作通过空格和逗号分隔参数，因此请确保格式完全匹配。动作是通过插值实现的（即从旧状态平滑过渡到新状态）。
 
-The following are all the available commands for healthbar;
+以下是所有适用于生命条的命令：
 
-- `healthbar` manipulate the healthbar in some way...
-- `healthbar set (amount)` will set the healthbar progress, amount has to be in the region 0 <= amount <= 1
-- `healthbar shake` shakes the healthbar
-- `healthbar scale (amount)` scales the healthbar to the amount specified
-- `healthbar tint (colour)` sets the colour of the healthbar to the hexcode specified i.e. 0xff00ff
+* `healthbar`：表示作用于生命条的动画指令前缀
+* `healthbar set (amount)`：设置生命条进度，取值范围 0 <= amount <= 1
+* `healthbar shake`：使生命条抖动
+* `healthbar scale (amount)`：将生命条缩放为指定比例
+* `healthbar tint (color)`：将生命条颜色设置为指定的十六进制颜色码，例如 `0xff00ff`
 
-The following are all the available commands for entities in general;
+以下是所有通用实体支持的命令：
 
-- `sprite (entity-type)` override the sprite used, will ignore both ease and over modifiers. Looks up the sprite through the entities mapping in default.json
-- `tint (hex)` tints a sprite to the specified hexcode colour.
-- `rotate (degrees)` rotates sprite by specified degrees
-- `scale (ratio)` will set the entities scale to the specified ratio.
-- `scale-x (ratio)` will set the entities horizontal scale to the specified ratio.
-- `scale-y (ratio)` will set the entities vertical scale to the specified ratio.
-- `translate-x (x)` will translate the entity along the x-axis, scales such that translate-x 1 == resolution
-- `translate-y (x)` will translate the entity along the y-axis, scales such that translate-x 1 == resolution
-- `set-layer (layer)` allows you to change the entities layer to place it above other entities visually. This SETS the layer.
+* `sprite (entity-type)`：重写所用精灵图（忽略 `ease` 和 `over` 修饰符），图像路径从 `default.json` 中的实体映射中查找
+* `tint (hex)`：将精灵图染色为指定的十六进制颜色
+* `rotate (degrees)`：将图像旋转指定角度
+* `scale (ratio)`：将实体整体缩放为指定倍数
+* `scale-x (ratio)`：设置实体在水平方向的缩放比例
+* `scale-y (ratio)`：设置实体在垂直方向的缩放比例
+* `translate-x (x)`：沿 x 轴平移实体，单位比例与图块大小一致（`translate-x 1 == 一个图块`）
+* `translate-y (x)`：沿 y 轴平移实体
+* `set-layer (layer)`：设置实体的图层编号，用于控制其显示在其他实体的上/下方

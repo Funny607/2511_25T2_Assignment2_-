@@ -1,131 +1,131 @@
-# Assignment II Part 1: Pair Blog Template
+# 第二次作业第 1 部分：配对博客模板
 
-## Task 1) Code Analysis and Refactoring ⚙️
+## 任务 1）代码分析与重构 ⚙️
 
-### a) From DRY to Design Patterns
+### a）从 DRY 到设计模式
 
-[Links to your merge requests](/put/links/here)
+[合并请求链接](/put/links/here)
 
-> i. Look inside src/main/java/dungeonmania/entities/enemies. Where can you notice an instance of repeated code? Note down the particular offending lines/methods/fields.
+> i. 查看 src/main/java/dungeonmania/entities/enemies 目录。你在哪些地方发现了重复代码的实例？请记录下具体的问题代码行/方法/字段。
 
-[Answer]
+\[回答]
 
-> ii. What Design Pattern could be used to improve the quality of the code and avoid repetition? Justify your choice by relating the scenario to the key characteristics of your chosen Design Pattern.
+> ii. 可以使用什么设计模式来提升代码质量并避免重复？请通过将场景与所选设计模式的关键特征联系起来来证明你的选择。
 
-[Answer]
+\[回答]
 
-> iii. Using your chosen Design Pattern, refactor the code to remove the repetition.
+> iii. 使用你选择的设计模式，重构代码以移除重复部分。
 
-[Briefly explain what you did]
+\[简要说明你做了什么]
 
-### b) Inheritance Design
+### b）继承设计
 
-[Links to your merge requests](/put/links/here)
+[合并请求链接](/put/links/here)
 
-> i. List one design principle that is violated by collectable objects based on the description above. Briefly justify your answer.
+> i. 根据上述描述，列出可收集对象违反的一个设计原则。简要说明你的理由。
 
-[Answer]
+\[回答]
 
-> ii. Refactor the inheritance structure of the code, and in the process remove the design principle violation you identified.
+> ii. 重构代码的继承结构，并在此过程中消除你识别出的设计原则违背问题。
 
-[Briefly explain what you did]
+\[简要说明你做了什么]
 
-### c) Open-Closed Goals
+### c）开闭原则目标
 
-[Links to your merge requests](/put/links/here)
+[合并请求链接](/put/links/here)
 
-> i. Do you think the design is of good quality here? Do you think it complies with the open-closed principle? Do you think the design should be changed?
+> i. 你认为这里的设计质量好吗？你认为它符合开闭原则吗？你认为这个设计应该被修改吗？
 
-[Answer]
+\[回答]
 
-> ii. If you think the design is sufficient as it is, justify your decision. If you think the answer is no, pick a suitable Design Pattern that would improve the quality of the code and refactor the code accordingly.
+> ii. 如果你认为设计已经足够合理，请为你的决定提供理由。如果你认为不是，请选择一个合适的设计模式以提升代码质量，并据此进行重构。
 
-[Briefly explain what you did]
+\[简要说明你做了什么]
 
-### d) Open Refactoring
+### d）开放式重构
 
-[Merge Request 1](/put/links/here)
+[合并请求 1](/put/links/here)
 
-[Briefly explain what you did]
+\[简要说明你做了什么]
 
-[Merge Request 2](/put/links/here)
+[合并请求 2](/put/links/here)
 
-[Briefly explain what you did]
+\[简要说明你做了什么]
 
-Add all other changes you made in the same format here:
+以相同格式在此处添加你所做的所有其他更改：
 
-## Task 2) Evolution of Requirements 🔧
+## 任务 2）需求演化 🔧
 
-### a) Slimes (15 marks)
+### a）史莱姆（15 分）
 
-[Links to your merge requests](/put/links/here)
+[合并请求链接](/put/links/here)
 
-**Assumptions**
+**假设**
 
-[Any assumptions made]
+\[所有假设]
 
-**Design**
+**设计**
 
-[Design]
+\[设计说明]
 
-**Changes after review**
+**评审后的更改**
 
-[Design review/Changes made]
+\[设计评审/所做更改]
 
-**Test list**
+**测试列表**
 
-[Test List]
+\[测试清单]
 
-**Other notes**
+**其他说明**
 
-[Any other notes]
+\[其他备注]
 
-### b) Sun Stone & More Buildables (15 marks)
+### b）太阳石与更多可构建物（15 分）
 
-[Links to your merge requests](/put/links/here)
+[合并请求链接](/put/links/here)
 
-**Assumptions**
+**假设**
 
-[Any assumptions made]
+\[所有假设]
 
-**Design**
+**设计**
 
-[Design]
+\[设计说明]
 
-**Changes after review**
+**评审后的更改**
 
-[Design review/Changes made]
+\[设计评审/所做更改]
 
-**Test list**
+**测试列表**
 
-[Test List]
+\[测试清单]
 
-**Other notes**
+**其他说明**
 
-[Any other notes]
+\[其他备注]
 
-### c) Logic Switches (20 marks) - GROUP ONLY
+### c）逻辑开关（20 分）— 仅限小组完成
 
-**NOTE: This task is for groups of THREE to complete only. It will not go towards your marks otherwise.**
+**注意：该任务仅供三人小组完成。否则不会计入你的成绩。**
 
-[Links to your merge requests](/put/links/here)
+[合并请求链接](/put/links/here)
 
-**Assumptions**
+**假设**
 
-[Any assumptions made]
+\[所有假设]
 
-**Design**
+**设计**
 
-[Design]
+\[设计说明]
 
-**Changes after review**
+**评审后的更改**
 
-[Design review/Changes made]
+\[设计评审/所做更改]
 
-**Test list**
+**测试列表**
 
-[Test List]
+\[测试清单]
 
-**Other notes**
+**其他说明**
 
-[Any other notes]
+\[其他备注]

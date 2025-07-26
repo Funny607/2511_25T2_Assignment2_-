@@ -1,122 +1,120 @@
 # Assignment-ii <!-- omit in toc -->
 
-## Due: Week 10 Friday, 3pm [Sydney Local Time](https://www.timeanddate.com/worldclock/australia/sydney) (8th August 2025)
+## 截止日期：第10周星期五，下午3点 [悉尼本地时间](https://www.timeanddate.com/worldclock/australia/sydney)（2025年8月8日）
 
-- [1. Part 1 \[60 Marks\]](#1-part-1-60-marks)
-- [2. Part 2 \[40 Marks\]](#2-part-2-40-marks)
-- [3. Other Information](#3-other-information)
-  - [3.1. Late Penalties](#31-late-penalties)
-  - [3.2. Extenuating Circumstances](#32-extenuating-circumstances)
-  - [3.3. Other Expectations](#33-other-expectations)
-  - [3.4. Plagiarism](#34-plagiarism)
-  - [3.5. Copyright Notice](#35-copyright-notice)
-- [4. Credits](#4-credits)
+- [1. 第1部分 \[60分\]](#1-part-1-60-marks)
+- [2. 第2部分 \[40分\]](#2-part-2-40-marks)
+- [3. 其他信息](#3-other-information)
+  - [3.1. 迟交处罚](#31-late-penalties)
+  - [3.2. 特殊情况](#32-extenuating-circumstances)
+  - [3.3. 其他要求](#33-other-expectations)
+  - [3.4. 抄袭](#34-plagiarism)
+  - [3.5. 版权声明](#35-copyright-notice)
+- [4. 致谢](#4-credits)
 
-Key notes:
+重点说明：
 
-- There are **two** parts to this assignment.
-- **No submissions will be accepted after the due date. This includes students with special considerations and ELP.** See [this](#3-other-information).
-- We will take the contents of your `main` branch as your final submission for Part 1. See [this](#3-other-information).
-- There are no "Short Extensions" from Special Consideration for this assignment. See [this](#32-extenuating-circumstances).
-- Ensure your Part 1 submission compiles with our dryrun [here](./part-1/Part1_Specification.md#63-dryruns).
-- Please visit the [course website](https://cgi.cse.unsw.edu.au/~cs2511/25T2/els-spec-cons) for Special Consideration or Equitable Learning Plans.
-- Part 2 must be submitted on [Moodle](https://moodle.telt.unsw.edu.au/mod/turnitintooltwo/view.php?id=7987670).
+- 本次作业包含**两个**部分。
+- **截止时间之后不接受任何提交，包括有特殊情况或平等学习计划（ELP）的学生。** 详见[此处](#3-other-information)。
+- 我们将以你 `main` 分支的内容作为第1部分的最终提交版本。详见[此处](#3-other-information)。
+- 本作业不接受特殊情况所提供的“短期延期”。详见[此处](#32-extenuating-circumstances)。
+- 请确保你的第1部分提交通过我们的 dryrun 检查：[点此查看](./part-1/Part1_Specification.md#63-dryruns)。
+- 有关特殊情况或平等学习计划，请访问[课程网站](https://cgi.cse.unsw.edu.au/~cs2511/25T2/els-spec-cons)。
+- 第2部分必须提交到 [Moodle](https://moodle.telt.unsw.edu.au/mod/turnitintooltwo/view.php?id=7987670)。
 
-# 1. Part 1 [60 Marks]
+# 1. 第1部分 [60分]
 
-In this assignment, you are provided an existing developed system. You will first need to analyse and refactor the code, then adapt the system to an evolution in requirements.
+本次作业将提供一个已经开发好的系统。你需要首先分析并重构代码，然后根据需求变化对系统进行适配。
 
-The aims of this part can be broken down into five major themes:
+本部分的目标可分为五个核心主题：
 
-1. **Acclimatising to an existing system.** For many of you this will be the largest codebase you have worked on to date - which can be very daunting! Being able to work with a system that you haven’t built from scratch and don’t fully understand is a vital skill, since software is never developed in isolation.
-2. **Refactoring Techniques.** Like when you go camping, you always want to leave the code in a better state than you found it in. We’ve intentionally put in a series of design flaws, with accompanying design smells for you to discover and refactor.
-3. **Design Patterns.** Being able to see patterns in existing code, and to use patterns to improve code quality is an essential skill in a Software Engineer. You’ll have the chance to do this and apply the theoretical ideas discussed in lectures.
-4. **Evolution of Requirements.** Software is never static - it always evolves and grows as do its requirements. You’ll need to build on the existing system to accommodate for these changes, in doing so undergo an iterative design and development process.
-5. **Dealing with The Unknown.** There are many unknowns in this assignment that you and your partner will encounter. You will need to explore and investigate together, clarify and ask for help where needed and approach these unknowns with grace in order to succeed.
+1. **熟悉现有系统。** 对你们中的许多人来说，这可能是迄今为止接触过的最大代码库——可能会令人望而生畏！能够处理自己没从头开发、也不完全理解的系统是软件工程师必备的技能。
+2. **重构技术。** 就像你露营时要把营地打扫干净再离开一样，你也应该在离开代码前把它变得更好。我们特意在系统中放置了一些设计缺陷和“设计异味”，供你发现和重构。
+3. **设计模式。** 能够在已有代码中识别模式，并使用设计模式提高代码质量是软件工程师的重要技能。你将有机会应用课程中讲授的理论。
+4. **需求演进。** 软件从不是静止的——它总是在发展和变化中。你将基于现有系统来适配这些变化，进行迭代式的设计和开发。
+5. **应对未知。** 本作业中存在许多未知问题，你和你的伙伴需要一同探索、调查、澄清并在必要时寻求帮助，以从容应对挑战并取得成功。
 
-This spec is split into **two** sections.
+本说明分为**两个**部分：
 
-1. [Product Specification - MVP](./part-1/MVP.md) contains the requirements the existing MVP we've provided was built to.
-2. [Part 1 Specification](./part-1/Part1_Specification.md) contains your tasks you'll need to complete for this assignment.
+1. [产品规范 - MVP](./part-1/MVP.md)：描述现有 MVP 实现的原始需求。
+2. [第1部分规范](./part-1/Part1_Specification.md)：描述你需要完成的任务。
 
-We have also included some extra documentation which may be useful to you.
+我们还附上了一些额外文档，供你参考：
 
-- [Setting up](./part-1/Setup.md)
-- [Customisations](./part-1/Customisations.md)
-- [Blog Instructions](./part-1/Blog_Instructions.md)
-- [Dungeon Map Creation Tool](https://cs2511-dungeonmania-map-generator.vercel.app) (for assistance only, may be incomplete)
+- [系统设置指南](./part-1/Setup.md)
+- [个性化设置](./part-1/Customisations.md)
+- [博客说明](./part-1/Blog_Instructions.md)
+- [地下城地图创建工具](https://cs2511-dungeonmania-map-generator.vercel.app)（仅供参考，可能不完整）
 
-# 2. Part 2 [40 Marks]
+# 2. 第2部分 [40分]
 
-> This part of the assignment will be released on Week 8, Monday.
+> 本部分将于第8周星期一发布。
 
-Part 2 focuses on content introduced from Week 7 onward. Two tutorials and labs will explore key topics related to this part. In this part, you will model the high-level architecture of a system,
-focusing on both structural and behavioural aspects. The case study is inspired by realistic, industry-relevant requirements to provide a practical design experience. These models will be developed
-using the C4 architectural notation and behavioural modelling.
+第2部分重点是第7周及以后介绍的内容。两个教程和实验课将深入探讨与本部分相关的关键主题。在此部分中，你将建模一个系统的高级架构，聚焦其结构性和行为性方面。案例研究将基于现实、贴近行业的需求，以提供实际的设计体验。这些模型将使用 C4 架构表示法和行为建模技术进行开发。
 
-- [Part 2 Specification](./part-2/Part2_Specification.md)
+- [第2部分规范](./part-2/Part2_Specification.md)
 
-# 3. Other Information
+# 3. 其他信息
 
-## 3.1. Late Penalties
+## 3.1. 迟交处罚
 
-**No submissions will be accepted after the due date. This includes students with special considerations and ELP.**
+**截止日期之后不接受任何提交，包括有特殊情况和 ELP 的学生。**
 
-## 3.2. Extenuating Circumstances
+## 3.2. 特殊情况
 
-Mark leniency must be approved through Special Consideration or pre-arranged through an Equitable Learning Plan. For more information, please visit the [course website](https://cgi.cse.unsw.edu.au/~cs2511/25T2/els-spec-cons#23-assignment-ii). If you have any questions, please email [cs2511@cse.unsw.edu.au](mailto:cs2511@cse.unsw.edu.au).
+关于成绩宽限的批准必须通过特殊情况申请或预先安排的平等学习计划完成。详细信息请访问[课程网站](https://cgi.cse.unsw.edu.au/~cs2511/25T2/els-spec-cons#23-assignment-ii)。如有疑问，请发送邮件至 [cs2511@cse.unsw.edu.au](mailto:cs2511@cse.unsw.edu.au)。
 
-## 3.3. Other Expectations
+## 3.3. 其他要求
 
-While it is up to you as a pair to decide how work is distributed between you, for the purpose of assessment there are certain key criteria all partners must attain:
+虽然你们小组可以自行决定工作分配方式，但在评估时每位成员都必须达到以下关键标准：
 
-- Code contribution;
-- Non-code contribution;
-- Usage of Git/GitLab;
-- Individual blog posts; and
-- Academic conduct.
+- 代码贡献；
+- 非代码贡献；
+- 使用 Git/GitLab；
+- 撰写个人博客；
+- 遵守学术规范。
 
-While, in general, both students will receive the same mark for the assignment, if you as an individual fail to meet these criteria your final assignment mark will be reduced.
-
-> If you believe a your partner is not contributing as they should contribute, you must inform your tutor at the end of that corresponding week.
+> 通常两位成员将获得相同的分数，但如果某成员未达到上述标准，其作业总评分将被降低。
 >
-> For example, if your partner has not contributed in Week 7, you need to report this before the end of Week 7. You must not wait beyond this. If you fail to report in time, we may not be able to address the issue and/or apply redistribution of marks.
+> 如果你认为你的组员没有尽到应有的责任，你必须在对应周的结束前通知你的导师。
+>
+> 例如，如果你组员在第7周没有贡献内容，你需要在第7周结束前报告此事。不要延迟。如果未及时报告，我们可能无法介入或重新分配分数。
 
-## 3.4. Plagiarism
+## 3.4. 抄袭
 
-Your program must be entirely your group's work. Plagiarism detection software will be used to compare all submissions pairwise (including submissions for similar assignments in previous years, if applicable) and serious penalties will be applied, including an entry on UNSW's plagiarism register. Relevant scholarship authorities will be informed if students holding scholarships are involved in an incident of plagiarism or other misconduct.
+你们的程序必须完全由你的小组独立完成。我们将使用抄袭检测软件对所有提交进行两两比较（包括往年类似作业），并对抄袭行为严惩不贷，包括记录在 UNSW 的抄袭档案中。如果有奖学金持有者涉及抄袭或其他不当行为，将通报相关奖学金机构。
 
-You are also not allowed to submit code obtained with the help of ChatGPT, GitHub Copilot, Gemini or similar automatic tools.
+你们**不得**提交使用 ChatGPT、GitHub Copilot、Gemini 或类似自动工具生成的代码。
 
-- Do not copy ideas or code from others outside your group.
-- Do not use a publicly accessible repository or allow anyone outside your group to see your code, except for the teaching staff of COMP2511.
-- Code generated by ChatGPT, GitHub Copilot, Gemini and similar tools will be treated as plagiarism.
+- 不得从你的小组以外的其他人处复制想法或代码。
+- 不得使用公共代码仓库，也不得让非小组成员查看你们的代码，教学团队除外。
+- 使用 ChatGPT、Copilot、Gemini 等工具生成的代码将被视为抄袭。
 
-The course reserves the right to ask you to explain your code or design choices to a member of staff as part of your submission, or complete a similar assessment.
+课程组保留要求你向教学人员解释你的代码或设计选择的权利，或要求你完成类似评估。
 
-Please refer to the on-line resources to help you understand what plagiarism is and how it is dealt with at UNSW:
+请参考以下在线资源了解 UNSW 关于抄袭的规定及处理方式：
 
-- [Academic Integrity and Plagiarism](https://www.student.unsw.edu.au/plagiarism/integrity)
-- [UNSW Plagiarism Policy](https://www.unsw.edu.au/content/dam/pdfs/governance/policy/2022-01-policies/plagiarismpolicy.pdf)
+- [学术诚信与抄袭](https://www.student.unsw.edu.au/plagiarism/integrity)
+- [UNSW 抄袭政策](https://www.unsw.edu.au/content/dam/pdfs/governance/policy/2022-01-policies/plagiarismpolicy.pdf)
 
-## 3.5. Copyright Notice
+## 3.5. 版权声明
 
-Reproducing, publishing, posting, distributing or translating this assignment is an infringement of copyright and will be referred to UNSW Student Conduct and Integrity for action.
+擅自复制、发布、分发或翻译本作业将被视为侵犯版权行为，并将上报 UNSW 学生行为与诚信办公室处理。
 
-# 4. Credits
+# 4. 致谢
 
-If no specific license is specified it's public domain permissible (i.e. usable in commercial/non-commercial products) but no explicit license was found.
+如未明确声明许可协议，则视为公共领域资源（可用于商业或非商业用途），但未提供明确授权。
 
-- Frontend + monolith built by cs2511: Braedon Wooding, Nick Patrikeos, George Litsas, Noa Challis, Chloe Cheong, Sienna Archer, Tina Ji, Webster Zhang, Adi Kishore, Amanda Lu
-- The one ring: Created by Jordan Irwin (AntumDeluge)
-- Mercenary: Animated Ranger by Calciumtrice, usable under Creative Commons Attribution 3.0 license.
-- Portals: Portals made by RodHakGames - RHG
-- Boulder: This work, made by Viktor Hahn (Viktor.Hahn@web.de), is licensed under the Creative Commons Attribution 4.0 International License. Creative Commons — Attribution 4.0 International — CC BY 4.0
-- Alagard Font: Made by Pix3M, usable under Creative Commons Attribution 3.0 license.
-- Armor + Shield: Made by Zeno
-- Tileset + Some Random Entities: Made by egordorichev, these assets are public domain and free to use on whatever you want, personal or commercial (aka CC0 license).
-- Coin/Treasure: By La Red Games
-- Zombie Toast: By LHTeam (LazyHamsters )
-- Toaster: By Reakain; LICENCE: This asset pack can be used in both free and commercial projects. You can modify it to suit your own needs. Credit is not necessary, but very appreciated. You may not redistribute it or resell it.
-- Spider: By Elthen
-- Assignment authored by Robert Clifton-Everest, Braedon Wooding, Ashesh Mahidadia, Fethi Rabhi, Nick Patrikeos and Amanda Lu.
+- 前端与整体系统由 cs2511 开发：Braedon Wooding、Nick Patrikeos、George Litsas、Noa Challis、Chloe Cheong、Sienna Archer、Tina Ji、Webster Zhang、Adi Kishore、Amanda Lu
+- 魔戒：由 Jordan Irwin (AntumDeluge) 创建
+- 雇佣兵：由 Calciumtrice 制作的“动画游侠”，采用 CC BY 3.0 授权协议
+- 传送门：由 RodHakGames - RHG 制作
+- 巨石：由 Viktor Hahn (Viktor.Hahn@web.de) 制作，采用 CC BY 4.0 授权协议
+- Alagard 字体：由 Pix3M 制作，采用 CC BY 3.0 授权协议
+- 护甲与盾牌：由 Zeno 制作
+- 图块与随机实体：由 egordorichev 制作，属于公共领域（CC0）
+- 金币/宝藏：由 La Red Games 提供
+- 僵尸吐司：由 LHTeam (LazyHamsters) 制作
+- 烤面包机：由 Reakain 制作；许可：可用于免费或商业项目，可自行修改，无需署名（但署名将被感谢），禁止重新分发或转售
+- 蜘蛛：由 Elthen 制作
+- 本作业由 Robert Clifton-Everest、Braedon Wooding、Ashesh Mahidadia、Fethi Rabhi、Nick Patrikeos 和 Amanda Lu 编写

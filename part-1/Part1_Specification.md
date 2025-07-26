@@ -1,248 +1,257 @@
-# Part 1: Assignment Specification <!-- omit in toc -->
+# 第 1 部分：作业说明 <!-- omit in toc -->
 
-### Changelog:
+### 更新日志：
 
-- 05/07 4pm: Updated merging behaviour so that all slimes of the same colour now merge based on damage (higher absorbs lower), not just red slimes.
-- 06/07 12pm: Clarified that slimes are limited by the same movement constraints as the Player, except portals have no effect on them.
-- 10/07 7pm: Added links to the approved assumptions forum post and assignment-ii walkthrough video.
-- 17/07 9pm: Clarified that slimes merge only after all slimes have finished moving.
-- 18/07 1am: Improved general wording of the slimes specification. Blue slimes heal the player in battle, rather than cause damage.
-- 20/07 3pm: Undid error in recent changelog which removed the halving effect of green slimes.
+* 07月05日 下午4点：更新了合并行为，现在所有相同颜色的史莱姆都会基于伤害值进行合并（高伤害吸收低伤害），不再仅限于红色史莱姆。
+* 07月06日 中午12点：澄清史莱姆的移动限制与玩家相同，但传送门对它们无效。
+* 07月10日 晚上7点：添加了指向已批准的假设论坛帖子和 assignment-ii 演示视频的链接。
+* 07月17日 晚上9点：澄清史莱姆只有在所有史莱姆完成移动后才会合并。
+* 07月18日 凌晨1点：改进了史莱姆规范的整体措辞。蓝色史莱姆在战斗中会治疗玩家，而不是造成伤害。
+* 07月20日 下午3点：撤销了最近更新日志中误删绿色史莱姆减半效果的错误。
 
-This page contains the tasks you’ll need to complete part 1 for this assignment, and how you’ll be assessed.
+本页面包含你需要完成本作业第 1 部分的任务内容以及评估方式。
 
-- [1. Assignment Parts](#1-assignment-parts)
-- [2. Getting Started](#2-getting-started)
-- [3. Tasks](#3-tasks)
-  - [Task 1) Code Analysis and Refactoring (25 marks) ⚙️](#task-1-code-analysis-and-refactoring-25-marks-️)
-    - [a) From DRY to Design Patterns (5 marks)](#a-from-dry-to-design-patterns-5-marks)
-    - [b) Inheritance Design (5 marks)](#b-inheritance-design-5-marks)
-    - [c) Open-Closed Goals (5 marks)](#c-open-closed-goals-5-marks)
-    - [d) Open Refactoring (10 marks)](#d-open-refactoring-10-marks)
-  - [Task 2) Evolution of Requirements (30 marks) 🔧](#task-2-evolution-of-requirements-30-marks-)
-    - [Software Delivery - Task Lifecycle](#software-delivery---task-lifecycle)
-    - [a) Slimes (15 marks)](#a-slimes-15-marks)
-      - [Technical Specification](#technical-specification)
-      - [Another Example](#another-example)
-    - [b) Sun Stone \& More Buildables (15 marks)](#b-sun-stone--more-buildables-15-marks)
-      - [Technical Specification](#technical-specification-1)
-    - [c) Logic Switches (20 marks)](#c-logic-switches-20-marks)
-      - [a) Logical Entities](#a-logical-entities)
-      - [b) Logical Rules](#b-logical-rules)
-      - [Technical Specification](#technical-specification-2)
-- [4. Titbits](#4-titbits)
-  - [4.1. Git Practices 🧭](#41-git-practices-)
-  - [4.2. Assumptions 👾](#42-assumptions-)
-  - [4.3. Test Design 🐝](#43-test-design-)
-  - [4.4. Dungeon Map Helper](#44-dungeon-map-helper)
-- [5. Design](#5-design)
-  - [5.1. Pair Blogging](#51-pair-blogging)
-  - [5.2. Individual Blogging](#52-individual-blogging)
-- [6. Assessment](#6-assessment)
-  - [6.1. Marking Criteria](#61-marking-criteria)
-  - [6.2. Submission](#62-submission)
-  - [6.3. Dryruns](#63-dryruns)
-    - [6.3.1.Ensuring your code **compiles** with our tests through GitLab CI/CD pipelines.](#631ensuring-your-code-compiles-with-our-tests-through-gitlab-cicd-pipelines)
-    - [6.3.2. Ensuring your code **compiles and passes** with our tests through GitLab CI/CD pipelines.](#632-ensuring-your-code-compiles-and-passes-with-our-tests-through-gitlab-cicd-pipelines)
+* [1. 作业部分](#1-assignment-parts)
+* [2. 入门指南](#2-getting-started)
+* [3. 任务](#3-tasks)
 
-# 1. Assignment Parts
+  * [任务 1）代码分析与重构（25 分）⚙️](#task-1-code-analysis-and-refactoring-25-marks-️)
 
-**This assignment has two parts, of which this is the first**. The first part assesses the first half of the course, focusing on design principles and patterns. The second part, to be released in Monday Week 8, will assess system architecture.
+    * [a）从 DRY 到设计模式（5 分）](#a-from-dry-to-design-patterns-5-marks)
+    * [b）继承设计（5 分）](#b-inheritance-design-5-marks)
+    * [c）开放-封闭目标（5 分）](#c-open-closed-goals-5-marks)
+    * [d）开放式重构（10 分）](#d-open-refactoring-10-marks)
+  * [任务 2）需求演进（30 分）🔧](#task-2-evolution-of-requirements-30-marks-)
 
-# 2. Getting Started
+    * [软件交付 - 任务生命周期](#software-delivery---task-lifecycle)
+    * [a）史莱姆（15 分）](#a-slimes-15-marks)
 
-You can access your pair repository through the [course website](https://cgi.cse.unsw.edu.au/~cs2511/25T2/assignments)
+      * [技术规范](#technical-specification)
+      * [另一个示例](#another-example)
+    * [b）太阳石与更多可建造物（15 分）](#b-sun-stone--more-buildables-15-marks)
 
-> For this assignment, you will need to make two sets of blog posts and add these to your repo:
+      * [技术规范](#technical-specification-1)
+    * [c）逻辑开关（20 分）](#c-logic-switches-20-marks)
+
+      * [a）逻辑实体](#a-logical-entities)
+      * [b）逻辑规则](#b-logical-rules)
+      * [技术规范](#technical-specification-2)
+* [4. 小贴士](#4-titbits)
+
+  * [4.1 Git 实践 🧭](#41-git-practices-)
+  * [4.2 假设 👾](#42-assumptions-)
+  * [4.3 测试设计 🐝](#43-test-design-)
+  * [4.4 地牢地图助手](#44-dungeon-map-helper)
+* [5. 设计](#5-design)
+
+  * [5.1 配对博客](#51-pair-blogging)
+  * [5.2 个人博客](#52-individual-blogging)
+* [6. 评估](#6-assessment)
+
+  * [6.1 评分标准](#61-marking-criteria)
+  * [6.2 提交方式](#62-submission)
+  * [6.3 干跑](#63-dryruns)
+
+    * [6.3.1 通过 GitLab CI/CD 流水线确保你的代码**能被编译**。](#631ensuring-your-code-compiles-with-our-tests-through-gitlab-cicd-pipelines)
+    * [6.3.2 通过 GitLab CI/CD 流水线确保你的代码**能被编译并通过**我们的测试。](#632-ensuring-your-code-compiles-and-passes-with-our-tests-through-gitlab-cicd-pipelines)
+
+# 1. 作业部分
+
+**本作业分为两个部分，这是第一部分。** 第一部分评估课程前半部分的内容，重点在于设计原则与模式。第二部分将在第 8 周的周一发布，评估系统架构。
+
+# 2. 入门指南
+
+你可以通过[课程网站](https://cgi.cse.unsw.edu.au/~cs2511/25T2/assignments)访问你的配对代码仓库。
+
+> 本次作业你需要编写两类博客文章，并将它们添加到你的仓库中：
 >
-> - Your pair blog post, which contains the answers to these questions and links to your code changes.
-> - Your individual blog post, which serves as a record of your individual contribution.
->   [You can view instructions and templates for this blogging here](./Blog_Instructions.md).
+> * 配对博客，包含问题答案和代码更改的链接。
+> * 个人博客，用作你个人贡献的记录。
+>   [你可以在此查看博客编写的说明与模板](./Blog_Instructions.md)。
 
-You can also check out [this video](https://www.loom.com/share/cef4b99f5f42472a8c48532929fd18f3?sid=9ec3952e-e0c7-404b-89e8-c7a1af6e433f) to help you get started on part 1 of the assignment.
+你也可以查看[这个视频](https://www.loom.com/share/cef4b99f5f42472a8c48532929fd18f3?sid=9ec3952e-e0c7-404b-89e8-c7a1af6e433f)来帮助你开始完成作业第一部分。
 
-# 3. Tasks
+# 3. 任务
 
-This part of the assignment consists of two core tasks. **We strongly recommend reading the entire specification before starting**, as earlier tasks may introduce design decisions or code that influence later tasks.
+本部分作业包含两个核心任务。**我们强烈建议你在开始前通读完整规范**，因为前面的任务可能会引入影响后续任务的设计决策或代码。
 
-## Task 1) Code Analysis and Refactoring (25 marks) ⚙️
+## 任务 1）代码分析与重构（25 分）⚙️
 
-In this task, you will need to analyse the design of the monolith, including the patterns and smells present in the implementation, and apply refactoring techniques discussed in the course in order to improve the quality of the code.
+在该任务中，你需要分析单体系统的设计，包括实现中的设计模式和代码异味，并应用课程中讨论的重构技术，以提升代码质量。
 
-> ### Instructions for Task 1:
+> ### 任务 1 指南：
 >
-> Put all of your answers to the following theory questions in your **pair blog post**.
+> 将下列理论问题的所有答案写入你的**配对博客文章**中。
 >
-> For each refactoring change, **before you start coding** take some time to plan and write up a design in your pair blog post. This should include:
+> 对于每次重构更改，在**开始编码之前**，请花一些时间规划并在配对博客中写下你的设计，包括：
 >
-> - What fields/methods you will need to add/change in a class
-> - What new classes/packages you will need to create
+> * 你将在哪些类中添加/更改哪些字段/方法
+> * 你需要创建哪些新类/包
 >
-> **After you finish coding**, make a Merge Request into the `main` branch of your repository with the following:
+> **编码完成后**，请在你的代码仓库的 `main` 分支上发起一个 Merge Request，并包括以下内容：
 >
-> - A meaningful MR title that encompasses the changes
-> - A brief description which outlines the changes being made
-> - Make sure to keep the MR as small as possible - don't make any extra changes that aren’t absolutely necessary. Try to keep the number of files the changes touch to a minimum.
-> - Make sure all the Continuous Integration checks (regression tests, linting, coverage) remain passing.
+> * 一个具有代表性的 MR 标题，涵盖所做的更改
+> * 一个简要说明，概述所进行的更改内容
+> * 确保 MR 足够小 —— 不要做任何不必要的额外更改。尽量减少变更影响到的文件数量。
+> * 确保所有的持续集成检查（回归测试、代码格式检查、覆盖率）都保持通过。
 >
-> Your partner will need to **code review** and either:
+> 你的搭档需要对该 MR 进行**代码审查**，并选择：
 >
-> - Leave comments in the MR with things to fix (you can do code reviews sync or async), requiring you to **iterate on the MR** and **resubmit** for review; or
-> - Approve the MR.
+> * 在 MR 中留下需要修复的评论（可以同步或异步进行代码审查），要求你**迭代 MR**并**重新提交审查**；或
+> * 批准该 MR。
 >
-> Once the MR is approved, copy and paste the link to your MR into your blog post.
+> MR 获批后，将其链接复制粘贴到你的博客文章中。
 >
-> Make sure to do this for each part of the question - **if you don't you will lose marks**.
+> 确保为每一部分问题都这么做 —— **否则你会丢分**。
 >
-> Each group member must make a non-trivial contribution to Task 1 (e.g. being the primary designer and programmer for a subtask, or evidence of substantial collaboration) in order to meet learning outcomes. This will be determined through commit history and individual blogging. If you feel these do not reflect your contribution, make a note in your individual blog.
+> 每个小组成员都必须对任务 1 作出实质性贡献（例如，作为某子任务的主要设计者和程序员，或有充分证据表明进行了协作），以满足学习成果。这将通过提交历史和个人博客进行判断。如果你认为这些内容未能反映你的贡献，请在个人博客中注明。
 
-### a) From DRY to Design Patterns (5 marks)
+### a）从 DRY 到设计模式（5 分）
 
-- i. Look inside `app/src/main/java/dungeonmania/entities/enemies`. Where can you notice an instance of repeated code? Note down the particular offending lines/methods/fields.
-- ii. What Design Pattern could be used to improve the quality of the code and avoid repetition? Justify your choice by relating the scenario to the key characteristics of your chosen Design Pattern.
-- iii. Using your chosen Design Pattern, refactor the code to remove the repetition.
+* i. 查看 `app/src/main/java/dungeonmania/entities/enemies`，你能在哪些地方发现重复代码？请记下具体的重复行/方法/字段。
+* ii. 哪种设计模式可以用来提升代码质量并避免重复？请通过将情境与该设计模式的关键特征进行对比来论证你的选择。
+* iii. 使用你选择的设计模式，重构代码以去除重复。
 
-### b) Inheritance Design (5 marks)
+### b）继承设计（5 分）
 
-Currently, there is a flaw in the inheritance structure of collectables. A note from a member of the previous engineering team says:
+当前，可收集物品的继承结构存在缺陷。来自前任工程团队成员的备注如下：
 
-> I don't understand why some collectable items like Wood and Treasure have durability and do things like apply buffs, especially when they're not being used in battle anyway.
+> 我不理解为什么某些可收集物品（如木材和宝藏）具有耐久度，并能像应用增益效果一样起作用，尤其当它们并不会在战斗中使用时。
 
-- i. List one design principle that is violated by collectable objects based on the description above. Briefly justify your answer.
-- ii. Refactor the **inheritance structure** of the code, and in the process remove the design principle violation you identified.
+* i. 根据上述描述，列出一个被可收集对象违反的设计原则。简单说明你的理由。
+* ii. 重构代码的**继承结构**，并在此过程中修复你识别出的设计原则违背问题。
 
-### c) Open-Closed Goals (5 marks)
+### c）开放-封闭目标（5 分）
 
-Look inside the goals package at the code provided.
+查看提供的 goals 包中的代码。
 
-- i. Do you think the design is of good quality here? Do you think it complies with the open-closed principle? Do you think the design should be changed?
-- ii. If you think the design is sufficient as it is, justify your decision. If you think the answer is no, pick a suitable Design Pattern that would improve the quality of the code and refactor the code accordingly.
+* i. 你认为这里的设计质量如何？你认为它符合开放-封闭原则吗？你觉得这个设计是否需要改进？
+* ii. 如果你认为该设计已经足够合理，请说明你的理由。如果你认为答案是否定的，请选择一个合适的设计模式来提升代码质量并进行重构。
 
-### d) Open Refactoring (10 marks)
+### d）开放式重构（10 分）
 
-Make any other refactoring improvements you see fit to the codebase. This can include resolving code smells, violations of design principles, using Design Patterns discussed or any other general improvements to the health and quality of the code.
+对代码库进行你认为合适的任何其他重构改进。这可以包括解决代码异味、设计原则违背问题、使用所学设计模式，或任何其他提升代码质量与健康度的优化。
 
-Some areas and questions you can consider:
+你可以考虑的一些方面和问题：
 
-- Consider violations of the Law of Demeter and the Liskov substitution principle.
-- Some classes such as `Exit` contain a number of common empty and unused methods. This might be a symptom of a deeper issue with the inheritance structure.
-- The current implementation of the crafting system for buildable entities contains a significant amount of hard coding. Think about how you can improve this.
-- If you run `gradle test`, you will see a warning about "deprecated" methods in the codebase. What is the significance of this message? What should you, as the programmer, do with the code?
+* 考虑迪米特法则（Law of Demeter）和里氏替换原则（Liskov Substitution Principle）的违背情况。
+* 一些类（如 `Exit`）包含多个通用的空方法或未使用方法。这可能表明其继承结构存在更深层次的问题。
+* 当前可建造实体的制作系统实现存在大量硬编码。考虑如何改进此部分。
+* 如果你运行 `gradle test`，你会看到关于代码库中“已弃用”方法的警告信息。这个提示说明了什么？作为程序员的你，应当如何处理这些代码？
 
-The above list isn’t exhaustive; there are plenty of other areas to improve the quality of the code.
+上述列表并不穷尽；还有许多其他领域可以提升代码质量。
 
-Some hints for this task:
+以下是一些建议提示：
 
-> 🥇 You don't need to have a perfect design to achieve full marks for this task. Some code smells or design problems may be disproportionately difficult or even impossible to refactor, given the nature of the assignment. It is recommended that you aim for "low-hanging fruit" before judging if you need to attempt more difficult refactors.
+> 🥇 要获得本任务的满分，并不需要拥有完美的设计。有些代码异味或设计问题可能由于作业本身的限制，难以或无法被合理重构。建议优先处理“低垂的果实”后再考虑是否需要挑战更难的重构任务。
 >
-> 🧠 Don't make solutions to problems that don’t exist yet! :) Avoid over-engineering or over-abstracting in places where you might want to improve the design for some future change in requirements - instead improve the design of the current system. This will inherently make your software open-closed.
+> 🧠 不要为尚不存在的问题提出解决方案！:) 避免过度工程或在尚未明确未来需求变化的地方进行过度抽象 —— 而应提升当前系统的设计。这本身就能使你的软件具备开放-封闭性。
 >
-> You’ll also want to split this task into one MR for each refactoring change you make.
+> 建议你将本任务中每一次重构变更分成一个单独的 MR。
 
-## Task 2) Evolution of Requirements (30 marks) 🔧
+## Task 2) 需求演化（30 分）🔧
 
-In this task, you and your partner/group will need to complete the tasks **Slimes** and **Sunstone & More Buildables**. If you are in a group of three, you must complete the additional component: **Logic Switches**.
+在本任务中，你与搭档/小组需要完成任务 **Slimes（史莱姆）** 和 **Sunstone & More Buildables（太阳石与更多可建造物）**。如果你所在的小组有三人，还必须完成额外组件：**Logic Switches（逻辑开关）**。
 
-If you are in a group of 3, your mark will be out of 50 and scaled to 30.
+如果你所在的是三人小组，你的分数将按满分 50 分计，再按比例换算成 30 分。
 
-> Each group member must make a non-trivial contribution to Task 2 (e.g. being the primary designer and programmer for a subtask, or evidence of substantial collaboration) in order to meet learning outcomes. This will be determined through commit history and individual blogging. If you feel these do not reflect your contribution, make a note in your individual blog.
+> 每位小组成员必须对 Task 2 做出实质性贡献（例如：作为某子任务的主要设计者和程序员，或有明确的协作证据），以达成学习成果。这将通过提交记录与个人博客内容来判断。如果你认为这些无法体现你的贡献，请在个人博客中注明。
 
-You do not need to do any frontend modifications for any of these tasks, and will not be assessed on any frontend material.
+你无需对任何任务进行前端修改，也不会因前端部分被评估。
 
-You should create a new folder for your tests called `task2` and place all your tests inside of it.
+你应创建一个新的文件夹 `task2` 来放置所有测试。
 
-### Software Delivery - Task Lifecycle
+### 软件交付 - 任务生命周期
 
-For each part of this task, you will need to undertake the following process. This will help your tutor assess your design during marking.
+对于任务的每个部分，你需要执行以下流程。这将帮助你的导师在评分时评估你的设计。
 
-1.  **Requirements Engineering**. Analyse the task requirements, including the technical and product specifications. If you need to, make some assumptions and document these in your pair blog post.
-2.  **Detailed Design**. In your pair blog post, plan out a detailed design for the task. This should include:
-    - What fields/methods you will need to add/change in a class
-    - What new classes/packages you will need to create
-3.  **Design Review**. Have your partner review the design, and go back and iterate on the design if needed.
-4.  **Create a Test List**. Once the design is approved, write a **test list** (a list of all the tests you will write) for the task. Map out each of the conceptual cases you want to test. This can be written in your blog post, or if you want make function stubs for JUnit tests and put up a Merge Request (link in your blog).
-5.  **Test List Review**. Have someone else in your team review the test list to make sure the test cases all make sense and cover the input space.
-6.  **Create the Skeleton**. Stub out anything you need to with class/method prototypes.
-7.  **Write the tests**, which should be failing assertions currently since the functionality hasn't been implemented.
-8.  **Development**. Implement the functionality so that your tests pass.
-9.  Run a **usability test** (check your functionality works on the frontend).
-10. Where needed, **refactor** your code to improve the style and design while keeping the tests passing.
-11. Put up a **merge request** with your changes into main. The CI should be passing. The merge request should have a meaningful title and contain a description of the changes you have made. In most cases you should just be able to link them to your design/test list blog.
-12. **Code Review** from your partner, iterate where needed then they should approve the MR.
+1. **需求工程**。分析任务需求，包括技术与产品规范。如有需要，可作出部分假设，并在小组博客中记录。
+2. **详细设计**。在小组博客中规划任务的详细设计，包括：
 
-Feel free to split tasks further where you see fit, especially for larger tasks (e.g. Logic Switches). Keep your Merge Requests small and make the iteration cycle short, incrementally building your MVP as you go.
+   * 需要在某个类中添加/更改的字段/方法
+   * 需要创建的新类/包
+3. **设计评审**。请你的搭档评审设计，如有需要进行迭代修改。
+4. **创建测试清单**。设计通过后，为任务编写一个 **测试清单**（列出将要编写的所有测试）。规划你想测试的每个概念用例。你可以将其写入博客，或如果愿意，可以为 JUnit 编写测试函数的桩代码并提交一个 Merge Request（链接放在博客中）。
+5. **测试清单评审**。请组内其他成员评审测试清单，确保测试用例合理且涵盖所有输入空间。
+6. **创建代码骨架**。为类/方法编写桩代码。
+7. **编写测试**，这些测试目前应为失败状态，因为功能尚未实现。
+8. **开发**。实现功能以使测试通过。
+9. 运行一次 **可用性测试**（检查功能是否在前端正常运行）。
+10. 如有必要，**重构**代码以改善风格与设计，同时保持测试通过。
+11. 提交一个 **Merge Request** 将更改合并到主分支。CI 应通过。Merge Request 应有有意义的标题，并包含所做更改的描述。通常你只需链接到你的设计/测试清单博客。
+12. 来自搭档的 **代码审查**，如有必要进行迭代修改，然后由其批准 MR。
 
-> 💡 If you've done Task 1 well and have a nice healthy codebase, this task should be relatively straightforward! If you're finding parts of this task difficult to integrate with the existing design, that's probably a sign you need to do some more refactoring.
+你可以根据需要进一步拆分任务，特别是对于较大的任务（例如 Logic Switches）。保持 Merge Request 精简，使迭代周期短，逐步构建 MVP。
 
-> ♻️ A note about **backwards compatibility**:
+> 💡 如果你完成得当 Task 1，并有一个健康的代码库，那本任务应相对简单！如果你发现某些部分难以与现有设计集成，这可能意味着你需要进一步重构。
+
+> ♻️ 关于 **向后兼容性** 的说明：
 >
-> - **All** the regression tests we have provided to you in the starter code should remain passing.
-> - All of the MVP configuration files (in the provided config files) do not currently contain the fields listed in the technical specifications for Tasks 2a)-c). Rather than retroactively adding these fields to the existing configuration files, you will need to design your implementation to accommodate for this and maintain backwards compatibility. **All configuration files in our Task 2 autotests will contain all values from Task 2** and the MVP.
+> * 我们在起始代码中提供的 **所有回归测试** 应继续通过。
+> * 所有 MVP 配置文件（在提供的配置文件中）当前都**不包含** Task 2a)-c) 技术规范中列出的字段。你需要设计实现方式，以支持该情况并保持向后兼容性。**我们 Task 2 的自动测试所用的所有配置文件都将包含 Task 2 与 MVP 中的所有字段。**
 
-### a) Slimes (15 marks)
+### a) Slimes（史莱姆）（15 分）
 
-In this section, you will modify the codebase to introduce a new type of enemy: slimes. Slimes travel in a single, predetermined direction. When they encounter an object they cannot move onto, they instinctively reverse direction and head back the way they came. Slimes follow the same movement constraints as the Player, except portals have no effect on them (they simply pass through).
+在本节中，你将修改代码库，引入一种新类型的敌人：史莱姆。史莱姆沿一个预设方向移动。当它们遇到无法移动到的物体时，会本能地反转方向，朝相反方向移动。史莱姆的移动规则与玩家相同，**但传送门对它们无效（它们会直接穿过传送门）**。
 
-> For example, Slime A starts by moving right. On the next tick, it notices an object to its right that it cannot move onto. It reverses direction, moves left, and continues moving left until it encounters another obstacle it cannot pass.
+> 例如，史莱姆 A 初始向右移动。下一刻，它发现右侧有一个无法移动到的物体。它于是反转方向，向左移动，并在遇到另一个障碍前继续向左移动。
 
-When two or more slimes occupy the same tile at the end of a tick, they merge into a single slime. The remaining slime absorbs the others' special attributes.
+当两个或多个史莱姆在某个 tick 结束时占据同一格子，它们会合并为一个史莱姆。留下的史莱姆吸收其它史莱姆的特殊属性。
 
-There are multiple kinds of slimes. Importantly, **the type of the slime that is absorbed becomes the type of the resulting slime**. For example, if a red slime absorbs a green slime, it transforms into a green slime with the red slime’s effects appended to it.
+史莱姆有多种类型。重要的是，**被吸收的史莱姆类型会成为合并后史莱姆的类型**。例如，如果红史莱姆吸收绿史莱姆，它会变成一个绿色史莱姆，继承红史莱姆的效果。
 
-
-Below are all the slime types you will encounter:
+以下是你将遇到的所有史莱姆类型：
 
 <table>
 <thead>
   <tr>
-    <th><span style="font-weight:bold">Entity</span></th>
-    <th><span style="font-weight:bold">Image</span></th>
-    <th><span style="font-weight:bold">Description</span></th>
+    <th><span style="font-weight:bold">实体</span></th>
+    <th><span style="font-weight:bold">图像</span></th>
+    <th><span style="font-weight:bold">描述</span></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Green Slime</td>
+    <td>绿色史莱姆</td>
     <td><img src='/images/green_slime.png' /></td>
-    <td>Green slimes are often found in lush forest areas. They begin with a peaceful nature, moving upwards and dealing no damage. However, once absorbed, they can inherit damage from other slimes, though only at half the
-    original strength &mdash; making them more dangerous than they first appear.
+    <td>绿色史莱姆常见于郁郁葱葱的森林区域。它们天性平和，初始向上移动且不造成伤害。然而，一旦被吸收，它们可以从其它史莱姆那里继承伤害值，但仅为原始值的一半——这使得它们比看起来更具威胁。
     <details style="margin-top:5px">
-      <summary>Example</summary>
+      <summary>示例</summary>
       <p>
-        If a green slime is absorbed by a red slime with 10 points of damage, the red slime transforms into a green slime with 5 points of damage.
+        如果绿色史莱姆被具有 10 点伤害的红色史莱姆吸收，则红色史莱姆会变为绿色史莱姆，并具有 5 点伤害。
       </p>
     </details>
   </td>
   </tr>
   <tr>
-    <td>Red Slime</td>
+    <td>红色史莱姆</td>
     <td><img src='/images/red_slime.png' /></td>
-    <td>Red slimes commonly dwell in hot, volcanic regions. Their constant exposure to intense heat has made them highly aggressive. They start by moving downwards and deal maximum damage upon encountering the player. When absorbed by another slime, they increase the damage dealt by their own attack power.
+    <td>红色史莱姆通常生活在炽热的火山地区。它们长期暴露在高温中，因而极具攻击性。它们初始向下移动，并在遇到玩家时造成最大伤害。当被其它史莱姆吸收时，会增加其自身攻击力所造成的伤害值。
     <details style="margin-top:5px">
-      <summary>Example</summary>
+      <summary>示例</summary>
       <p>
-        If a red slime with 10 points of damage is absorbed by another red slime with 15 points of damage, the resulting slime remains red and has 25 points of damage.
+        如果一个具有 10 点伤害的红史莱姆被另一个具有 15 点伤害的红史莱姆吸收，合并后的史莱姆仍为红色，且具有 25 点伤害。
       </p>
     </details>
     </td>
   </tr>
   <tr>
-    <td>Blue Slime</td>
+    <td>蓝色史莱姆</td>
     <td><img src='/images/blue_slime.png' /></td>
-    <td>Blue slimes are extremely rare, and their natural habitat remains a mystery. Legends say that when blue slimes battle the player, they don't deal damage &mdash; instead, they mysteriously restore the player's health. They start by moving to the right and, if they encounter other slimes, they reverse the effects of the most recent absorption. However, when a blue slime itself is absorbed, it loses its mystical healing powers.
+    <td>蓝色史莱姆极为稀有，其自然栖息地仍是谜。传说当蓝史莱姆与玩家战斗时，它们不会造成伤害——反而神秘地恢复玩家生命值。它们初始向右移动，在遇到其它史莱姆时，会逆转最近一次吸收的效果。然而，当蓝史莱姆本身被吸收时，它将失去神秘的治疗能力。
     <details style="margin-top:5px">
-      <summary>Example 1</summary>
-      <p>Consider a case where a red slime absorbs a green slime, and then a blue slime:</p>
+      <summary>示例 1</summary>
+      <p>考虑这样一种情况：红史莱姆吸收了绿史莱姆，然后又吸收了蓝史莱姆：</p>
       <ul>
-        <li>The green slime is absorbed by a red slime with 10 points of damage. The red slime transforms into a green slime with 5 points of damage.</li>
-        <li>The blue slime is then absorbed by that green slime. The green slime transforms into a blue slime with 10 points of damage.</li>
+        <li>绿史莱姆被具有 10 点伤害的红史莱姆吸收。红史莱姆变为绿色史莱姆，具有 5 点伤害。</li>
+        <li>蓝史莱姆随后被该绿色史莱姆吸收。该绿色史莱姆变为蓝色史莱姆，具有 10 点伤害。</li>
       </ul>
     </details>
     <details style="margin-top:5px">
-      <summary>Example 2</summary>
+      <summary>示例 2</summary>
       <p>
-        In the case where a blue slime is absorbed by a red slime with 10 points of damage, the red slime becomes a blue slime with 10 points of damage.  
-        In other words, the slime’s colour changes, but its stats do not as there is no previous absorption to undo.
+        如果蓝史莱姆被一个具有 10 点伤害的红史莱姆吸收，则红史莱姆变为蓝色史莱姆，具有 10 点伤害。
+        换言之，史莱姆颜色发生变化，但属性不变，因为没有前一次吸收可以被逆转。
       </p>
     </details>
     </td>
@@ -250,620 +259,614 @@ Below are all the slime types you will encounter:
 </tbody>
 </table>
 
-**Slimes merge in a predetermined order: red, green, blue. When two merging slimes have the same colour, the one with the larger damage absorbs the other.**
+**史莱姆按预设顺序进行合并：红色、绿色、蓝色。当两个合并的史莱姆颜色相同时，伤害值较大的那个会吸收另一个。**
 
-- When slimes occupy the same tile, **red slimes** absorb other red slimes first, followed by green slimes and then blue slimes.
-- If there are no red slimes, **green slimes** absorb other green slimes first, followed by blue slimes.
-- If there are no red or green slimes, **blue slimes** absorb each other.
+* 当史莱姆占据同一格时，**红色史莱姆**会优先吸收其他红色史莱姆，其次是绿色，最后是蓝色。
+* 若无红色史莱姆，**绿色史莱姆**会优先吸收其他绿色史莱姆，然后是蓝色。
+* 若无红色或绿色史莱姆，则**蓝色史莱姆**彼此吸收。
 
-#### Technical Specification
+#### 技术规范
 
-The list of inputs in [Section 4.1.1. of the MVP specification](./MVP.md#411-input-specification---entities-mvp) now includes the following entities:
+[第 4.1.1 节 MVP 规范](./MVP.md#411-input-specification---entities-mvp) 中的输入列表现在包括以下实体：
 
 <table>
 <thead>
   <tr>
-    <th>Entity</th>
-    <th>JSON Prefix</th>
-    <th>Creatable from Dungeon Map?</th>
+    <th>实体</th>
+    <th>JSON 前缀</th>
+    <th>可以从地牢地图创建？</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Green Slime</td>
+    <td>绿色史莱姆</td>
     <td>
     <code>green_slime</code>
   </td>
-    <td>Yes</td>
+    <td>是</td>
   </tr>
   <tr>
-    <td>Red Slime</td>
+    <td>红色史莱姆</td>
     <td>
     <code>red_slime</code>
   </td>
-    <td>Yes</td>
+    <td>是</td>
   </tr>
   <tr>
-    <td>Blue Slime</td>
+    <td>蓝色史莱姆</td>
     <td>
     <code>blue_slime</code>
   </td>
-    <td>Yes</td>
+    <td>是</td>
   </tr>
 </tbody>
 </table>
 
-The list of configuration fields in [Section 4.2.1. of the MVP specification](./MVP.md#421-configuration-fields-mvp) now includes the following fields:
+[第 4.2.1 节 MVP 规范](./MVP.md#421-configuration-fields-mvp) 中的配置字段列表现在包括以下字段：
 
 <table>
 <thead>
   <tr>
-    <th style="font-weight:bold">JSON Format</th>
-    <th style="font-weight:bold">Description</th>
+    <th style="font-weight:bold">JSON 格式</th>
+    <th style="font-weight:bold">说明</th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td><code>slime_attack</code></td>
-    <td>Attack damage of the red slime.</td>
+    <td>红色史莱姆的攻击伤害。</td>
   </tr>
   <tr>
     <td><code>slime_heal</code></td>
-    <td>Health restored by the blue slime.</td>
+    <td>蓝色史莱姆恢复的生命值。</td>
   </tr>
   <tr>
     <td><code>slime_health</code></td>
-    <td>Health of slimes.</td>
+    <td>史莱姆的生命值。</td>
   </tr>
 </tbody>
 </table>
 
-#### Another Example
+#### 另一个示例
 
-Below is an example of a merge between a red, a green, and two blue slimes based on the following technical specifications:
+以下是根据以下技术规格将一个红色、一个绿色和两个蓝色史莱姆合并的示例：
 
-- `slime_attack: 10`
-- `slime_heal: 5`
-- `slime_health: 10`
+* `slime_attack: 10`
+* `slime_heal: 5`
+* `slime_health: 10`
 
-1. **Initial Slimes**:
+1. **初始史莱姆**：
 
-   - **Red Slime**: `slime_attack: 10`, `slime_health: 10`
-   - **Green Slime**: `slime_health: 10`
-   - **Blue Slime**: `slime_heal: 5`, `slime_health: 10`
-   - **Blue Slime**: `slime_heal: 5`, `slime_health: 10`
+   * **红色史莱姆**：`slime_attack: 10`，`slime_health: 10`
+   * **绿色史莱姆**：`slime_health: 10`
+   * **蓝色史莱姆**：`slime_heal: 5`，`slime_health: 10`
+   * **蓝色史莱姆**：`slime_heal: 5`，`slime_health: 10`
 
-2. **Merge Process**:
+2. **合并过程**：
 
-   - The red slime absorbs the green slime and becomes a green slime with `slime_attack: 5`, `slime_health: 10`.
-   - The green slime absorbs the blue slime and becomes a blue slime with `slime_attack: 10`, `slime_health: 10`.
-   - The blue slime absorbs the blue slime and becomes a blue slime with `slime_attack: 5`, `slime_health: 10`.
+   * 红色史莱姆吸收绿色史莱姆并变为绿色史莱姆，属性为 `slime_attack: 5`，`slime_health: 10`。
+   * 绿色史莱姆吸收蓝色史莱姆并变为蓝色史莱姆，属性为 `slime_attack: 10`，`slime_health: 10`。
+   * 蓝色史莱姆吸收蓝色史莱姆并仍为蓝色史莱姆，属性为 `slime_attack: 5`，`slime_health: 10`。
 
-3. **Result**:
-   - Blue Slime: `slime_attack: 5` and `slime_health: 10`. Importantly, it does not have any healing abilities as it has been absorbed.
+3. **结果**：
 
-On the next tick, the resulting blue slime collides with a green slime with stats `slime_attack: 15`, `slime_health: 10`.
+   * 蓝色史莱姆：`slime_attack: 5` 和 `slime_health: 10`。重要的是，它没有任何治疗能力，因为它已被吸收。
 
-> One possible way it could have reached 15 attack is by three red slimes merging, followed by absorbing a green slime.
+在下一轮中，生成的蓝色史莱姆与一个绿色史莱姆碰撞，该绿色史莱姆的属性为 `slime_attack: 15`，`slime_health: 10`。
 
-The green slime absorbs the blue slime, resulting in a blue slime with `slime_attack: 30`, `slime_health: 10`.
+> 它可能达到 15 攻击力的一个方式是由三个红色史莱姆合并而成，然后吸收一个绿色史莱姆。
 
-### b) Sun Stone & More Buildables (15 marks)
+绿色史莱姆吸收蓝色史莱姆，结果成为一个蓝色史莱姆，属性为 `slime_attack: 30`，`slime_health: 10`。
 
-In this task, the following collectable entities need to be added:
+### b）太阳石与更多可建造物（15 分）
+
+在本任务中，需要添加以下可收集实体：
 
 <table>
 <thead>
   <tr>
-    <th><span style="font-weight:bold">Entity</span></th>
-    <th><span style="font-weight:bold">Image</span></th>
-    <th><span style="font-weight:bold">Description</span></th>
+    <th><span style="font-weight:bold">实体</span></th>
+    <th><span style="font-weight:bold">图片</span></th>
+    <th><span style="font-weight:bold">说明</span></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Sun Stone</td>
+    <td>太阳石</td>
     <td><img src='/images/sunstone.png' /></td>
-    <td>A special form of treasure, hard and treasuable. It can be picked up by the player. Can be used to open any door. Since it is classed as treasure it counts towards the treasure goal, but it cannot be used to bribe mercenaries. Can also be used interchangeably with treasure or keys when building entities, though if the player possesses enough treasure or keys those should be preferred when crafting. When used for opening doors, or when replacing another material such as a key or treasure in building entities, it is retained after use. When used as a listed ingredient in crafting, it is consumed. Sunstones will always be prioritised to be used as a listed ingredient before serving as a replacement material.</td>
+    <td>一种特殊形式的宝藏，坚硬且珍贵。玩家可以拾取。可用于打开任何门。由于其被归类为宝藏，因此计入宝藏目标，但不能用于贿赂雇佣兵。在建造实体时，可以与宝藏或钥匙互换使用，但如果玩家拥有足够的宝藏或钥匙，优先使用它们。当用于开门或替代钥匙或宝藏时不会消耗，但当作为合成所需材料时将会被消耗。在用作合成材料时，总是优先使用太阳石，而不是作为替代材料。</td>
   </tr>
 </tbody>
 </table>
 
-The following buildable entities have also been added:
+以下可建造实体也已被添加：
 
 <table>
 <thead>
   <tr>
-    <th><span style="font-weight:bold">Entity</span></th>
-    <th><span style="font-weight:bold">Image</span></th>
-    <th><span style="font-weight:bold">Description</span></th>
+    <th><span style="font-weight:bold">实体</span></th>
+    <th><span style="font-weight:bold">图片</span></th>
+    <th><span style="font-weight:bold">说明</span></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Sceptre</td>
+    <td>权杖</td>
     <td><img src='/images/sceptre.png' /></td>
-    <td>Can be crafted with (1 wood OR 2 arrows) + (1 key OR 1 treasure) + (1 sun stone). A player with a sceptre does not need to bribe mercenaries to become allies, as they can use the sceptre to control their minds without any distance constraint. They can do so by interacting with the particular mercenary they wish to mind control. Mind control has the same effects as bribing, but the effects only last for a certain number of ticks. This number of ticks begins counting down immediately after the sceptre is used.
+    <td>可以使用以下材料之一进行合成：(1 木头 或 2 箭) + (1 钥匙 或 1 宝藏) + (1 太阳石)。持有权杖的玩家无需贿赂雇佣兵即可使其成为盟友，因为他们可以使用权杖控制其思想，无距离限制。玩家可以与希望控制的特定雇佣兵交互以施展精神控制。精神控制效果等同于贿赂，但持续时间有限。从权杖使用的那一刻起立即开始计时。
     <details margin-top="5px">
         <br>
-        <summary>Example</summary>
-        In a case where the sceptre's duration is 2 ticks:
+        <summary>示例</summary>
+        当权杖的持续时间为 2 回合时：
         <ul>
-            <li>Tick 1 - player's turn: Player mind controls enemy. </li>
-            <li>Tick 1 - enemy's turn: Enemy is mind controlled. </li>
-            <li>Tick 2 - player's turn: Player moves. </li>
-            <li>Tick 2 - enemy's turn: Enemy is mind controlled. </li>
-            <li>Tick 3 - player's turn: Player moves. </li>
-            <li>Tick 3 - enemy's turn: Enemy is no longer mind controlled. </li>
+            <li>第 1 回合 - 玩家回合：玩家进行精神控制。</li>
+            <li>第 1 回合 - 敌人回合：敌人处于精神控制中。</li>
+            <li>第 2 回合 - 玩家回合：玩家移动。</li>
+            <li>第 2 回合 - 敌人回合：敌人仍处于精神控制中。</li>
+            <li>第 3 回合 - 玩家回合：玩家移动。</li>
+            <li>第 3 回合 - 敌人回合：敌人不再被精神控制。</li>
         </ul>
         </details>
     <br>
-    Other than the standard behaviour of allying mercenaries, sceptres do not have any direct effect in battle.
-    The behaviour after a sceptre is used is not specified and will not be tested: it can be destroyed, retained, etc.
+    除了让雇佣兵成为盟友的标准行为外，权杖在战斗中没有任何直接效果。
+    使用权杖后的行为未作规定，不会进行测试：它可以被摧毁、保留等。
    </td>
   </tr>
     <tr>
-    <td>Midnight Armour</td>
+    <td>午夜盔甲</td>
     <td><img src='/images/midnight_armour.png' /></td>
-    <td>Can be crafted with (1 sword + 1 sun stone) if there are no zombies currently in the dungeon. Midnight armour provides extra attack damage as well as protection, and it lasts forever.</td>
+    <td>可以在地牢中没有僵尸的情况下使用 (1 把剑 + 1 太阳石) 合成。午夜盔甲提供额外的攻击伤害和防御，并且永久有效。</td>
   </tr>
 
 </tbody>
 </table>
 
-> **Where otherwise unspecified, if there are multiple valid options for crafting an item, the precedence of items consumed is undefined.**
+> **除非另有说明，当存在多个有效的合成选项时，消耗物品的优先级未定义。**
 
-#### Technical Specification
+#### 技术规范
 
-The list of inputs in [Section 4.1.1. of the MVP specification](./MVP.md#411-input-specification---entities-mvp) now includes the following entities:
+[第 4.1.1 节 MVP 规范](./MVP.md#411-input-specification---entities-mvp) 中的输入列表现在包括以下实体：
 
-> You may find `NameConverter.java` particularly useful in ensuring your response objects match these strings for automarking.
+> 你可能会发现 `NameConverter.java` 在确保你的响应对象字符串匹配自动评分时特别有用。
 
 <table>
 <thead>
   <tr>
-    <th>Entity</th>
-    <th>JSON Prefix</th>
-    <th>Creatable from Dungeon Map?</th>
+    <th>实体</th>
+    <th>JSON 前缀</th>
+    <th>可以从地牢地图创建？</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Sun Stone</td>
+    <td>太阳石</td>
     <td>
     <code>sun_stone</code>
   </td>
-    <td>Yes</td>
+    <td>是</td>
   </tr>
 
   <tr>
-    <td>Sceptre</td>
+    <td>权杖</td>
     <td>
     <code>sceptre</code>
   </td>
-    <td>No, since this entity must be built by the player.</td>
+    <td>否，因为该实体必须由玩家建造。</td>
   </tr>
   <tr>
-    <td>Midnight Armour</td>
+    <td>午夜盔甲</td>
     <td>
     <code>midnight_armour</code>
   </td>
-    <td>No, since this entity must be built by the player.</td>
+    <td>否，因为该实体必须由玩家建造。</td>
   </tr>
 </tbody>
 </table>
 
-The list of configuration fields in [Section 4.2.1. of the MVP specification](./MVP.md#421-configuration-fields-mvp) now includes the following fields:
+#### 技术规范
+
+[第 4.2.1 节 MVP 规范](./MVP.md#421-configuration-fields-mvp) 中的配置字段列表现在包括以下字段：
 
 <table>
 <thead>
   <tr>
-    <th style="font-weight:bold">JSON Format<br></th>
-    <th style="font-weight:bold">Description</th>
+    <th style="font-weight:bold">JSON 格式<br></th>
+    <th style="font-weight:bold">说明</th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td> <code>mind_control_duration</code>
   </td>
-    <td>The amount of time mind controlling via a sceptre lasts for.</td>
+    <td>通过权杖进行精神控制所持续的时间。</td>
   </tr>
   <tr>
     <td> <code>midnight_armour_attack</code>
   </td>
-    <td>Attack bonus wearing midnight armour gives to the player.</td>
+    <td>穿戴午夜盔甲给予玩家的攻击加成。</td>
   </tr>
   <tr>
     <td> <code>midnight_armour_defence</code>
   </td>
-    <td>Defence bonus wearing midnight armour gives to the player.</td>
+    <td>穿戴午夜盔甲给予玩家的防御加成。</td>
   </tr>
 </tbody>
 </table>
 
-You will not be given any test cases where `mind_control_duration` is less than or equal to 0.
+你不会被给予 `mind_control_duration` 小于或等于 0 的测试用例。
 
-The following interface methods in [Section 4.3.2. of the MVP specification](./MVP.md#432-interface-methods) are now updated:
+[第 4.3.2 节 MVP 规范](./MVP.md#432-interface-methods) 中的以下接口方法已更新：
 
 <table>
 <thead>
   <tr>
-    <th style="font-weight:bold">Method Prototype<br></th>
-    <th style="font-weight:bold">Description<br></th>
-    <th style="font-weight:bold">Exceptions<br></th>
+    <th style="font-weight:bold">方法原型<br></th>
+    <th style="font-weight:bold">说明<br></th>
+    <th style="font-weight:bold">异常<br></th>
   </tr>
 </thead>
 <tbody>
+  <tr>
+    <td><code>public DungeonResponse build(String buildable) throws InvalidActionException</code></td>
+    <td>
+    构建给定实体，其中 buildable 可以是 <code>bow</code>、<code>shield</code>、🆕<code>sceptre</code> 或 🆕<code>midnight_armour</code>
+    </td>
+    <td>
+    IllegalArgumentException：
+    <ul><li>如果 <code>buildable</code> 不是 <code>bow</code>、<code>shield</code>、🆕<code>sceptre</code> 或 🆕<code>midnight_armour</code> 中之一</li></ul> <br>
+    InvalidActionException：
+    <ul><li>如果玩家没有足够的物品来合成该建造物，🆕或者由于当前地牢中存在僵尸，无法合成 <code>midnight_armour</code></li></ul>
+    </td>
+  </tr>
+  <tr>
+    <td><code>public DungeonResponse interact(String entityId) throws IllegalArgumentException</code></td>
+    <td>
+    与雇佣兵交互（玩家贿赂 🆕或精神控制雇佣兵）或与僵尸生成器交互（玩家摧毁生成器）。
+    </td>
+    <td>
+    IllegalArgumentException：
+    <ul>
+    <li>如果 <code>entityId</code> 不是有效的实体 ID</li></ul><br>
+    InvalidActionException：
+    <ul>
+    <li>如果玩家贿赂时未在雇佣兵的指定贿赂半径内</li>
+    <li>🆕如果玩家没有足够的金币且没有权杖却尝试贿赂/精神控制雇佣兵</li>
+    <li>如果玩家未与生成器正交相邻，却尝试摧毁生成器</li>
+    <li>如果玩家没有武器却尝试摧毁生成器</li>
+    </ul>
+    </td>
+  </tr>
 </tbody>
-  <tr>
-    <td><code>public DungeonResponse build(String buildable) throws InvalidActionException</code</td>
-    <td>
-    Builds the given entity, where buildable is one of <code>bow</code>, <code>shield</code>, 🆕<code>sceptre</code>, or 🆕<code>midnight_armour</code>
-    </td>
-    <td>
-    IllegalArgumentException:
-    <ul><li>If <code>buildable</code> is not one of <code>bow</code>, <code>shield</code>, 🆕<code>sceptre</code>, or 🆕<code>midnight_armour</code></li></ul> <br>
-    InvalidActionException:
-    <ul><li>If the player does not have sufficient items to craft the buildable, 🆕or unbuildable for <code>midnight_armour</code> because there are zombies currently in the dungeon.</li></ul>
-    </td>
-  </tr>
-  <tr>
-    <td><code>public DungeonResponse interact(String entityId) throws IllegalArgumentException</code</td>
-    <td>
-    Interacts with a mercenary (where the Player bribes 🆕or mind controls the mercenary) or a zombie spawner, where the Player destroys the spawner.
-    </td>
-    <td>
-    IllegalArgumentException:
-    <ul>
-    <li> If <code> entityId</code> is not a valid entity ID</li></ul><br>
-    </ul>
-    InvalidActionException:
-    <ul>
-    <li>If the player is not within specified bribing radius to the mercenary, when they are bribing</li>
-    <li>🆕If the player does not have enough gold and does not have a sceptre and attempts to bribe/mind-control a mercenary</li>
-    <li>If the player is not cardinally adjacent to the spawner, if they are destroying a spawner</li>
-    <li> If the player does not have a weapon and attempts to destroy a spawner</li>
-    </ul>
-    </td>
-  </tr>
 </table>
 
-### c) Logic Switches (20 marks)
+### c）逻辑开关（20 分）
 
-**NOTE: This task is for groups of THREE to complete only. It will not go towards your marks otherwise.**
+**注意：该任务仅供三人小组完成。否则将不计入评分。**
 
-There are three new entities in this extension:
+本扩展部分引入了三个新实体：
 
 <table>
 <thead>
   <tr>
-    <th><span style="font-weight:bold">Entity</span></th>
-    <th><span style="font-weight:bold">Image</span></th>
-    <th><span style="font-weight:bold">Description</span></th>
+    <th><span style="font-weight:bold">实体</span></th>
+    <th><span style="font-weight:bold">图片</span></th>
+    <th><span style="font-weight:bold">说明</span></th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Light Bulb</td>
+    <td>灯泡</td>
     <td><img src='/images/light_bulb.png' /></td>
-    <td>Light bulbs cannot be collected, but can be lit up by satisfying the logical condition. They are always created as a logical entity.
+    <td>灯泡无法被收集，但可以在满足逻辑条件时点亮。它们总是作为逻辑实体创建。
     </td>
   </tr>
   <tr>
-    <td>Switch Door</td>
+    <td>开关门</td>
     <td><img src='/images/switch_door.png' /></td>
-    <td>Switch doors behave the same as normal doors, except they have a different opening mechanism. They are always created as a logical entity, and can be opened when their logical condition is satisfied.
-    They cannot be opened with a key. The door should only remain open as long as its condition for opening is still true.
+    <td>开关门的行为与普通门相同，但具有不同的开启机制。它们总是作为逻辑实体创建，并可在逻辑条件满足时打开。
+    无法通过钥匙打开。门只在其开启条件仍为真时保持开启。
     </td>
   </tr>
 
   <tr>
-    <td>Wire</td>
+    <td>电线</td>
     <td><img src='/images/wire.png' /></td>
-    <td>Wires cannot be collected, but act as a conductor to pass current between switches and logical entities. Wires themselves do not follow logical rules. Any moveable entity can walk onto a wire.</td>
+    <td>电线无法被收集，但作为导体在开关与逻辑实体之间传导电流。电线本身不遵循逻辑规则。任何可移动实体都可以走到电线上。</td>
   </tr>
 </tbody>
 </table>
 
-If a switch is activated, it sends a current to any cardinally adjacent wires and logical entities. Current can be conducted through **wires and activated switches only** (conductors), meaning that a logical entity may be activated directly by a switch if cardinally adjacent, or indirectly by a cardinally adjacent current-carrying wire. This allows for the creation of dungeons with logic circuits. For example:
+当开关被激活时，会向所有正交相邻的电线和逻辑实体发送电流。电流只能通过**电线和被激活的开关**（导体）传导，这意味着一个逻辑实体可以被正交相邻的开关直接激活，或被正交相邻的携带电流的电线间接激活。这允许构建具有逻辑电路的地牢。例如：
 
 ![](images/logic_circuit.png)
 
-<center style="opacity:0.7">Current from the switch on (3, 1) is propagated through the wires on (4, 1) and (5, 1) to activate the bulb on (6, 1).</center>
+<center style="opacity:0.7">来自 (3, 1) 上开关的电流通过 (4, 1) 和 (5, 1) 上的电线传播，激活了 (6, 1) 上的灯泡。</center>
 </br>
 
-All logical entities will be created in an off state.
+所有逻辑实体在创建时均为关闭状态。
 
-#### a) Logical Entities
+#### a）逻辑实体
 
-Some entities are "logical" entities with a specified configuration value. These entities will only activate if their logical condition is fulfilled. They include:
+某些实体是具有特定配置值的“逻辑”实体。只有当其逻辑条件满足时，这些实体才会被激活。包括：
 
-- Light Bulbs (see above)
-- Switch Doors (see above)
-- Bombs also now have the option to be created as logical entities with a specified configuration value. Bombs which have this attribute will only explode when their logical condition is fulfilled. Bombs created without this value will interact with switches in the same way as they do in the MVP, and do not interact with other logical entities or wires.
+* 灯泡（见上文）
+* 开关门（见上文）
+* 炸弹现在也可以被创建为具有逻辑配置值的逻辑实体。具有此属性的炸弹仅在其逻辑条件满足时爆炸。没有此值的炸弹将按 MVP 中的方式与开关交互，并且不会与其他逻辑实体或电线交互。
 
-Switches and wires are not logical entities, but are conductors - they activate cardinally adjacent wires and logical entities when they are switched on or conducting. Light bulbs and switch doors can be activated but do not transmit current through themselves.
+开关和电线不是逻辑实体，但它们是导体——当它们被激活或导电时，会激活其正交相邻的电线和逻辑实体。灯泡和开关门可以被激活，但不会进一步传导电流。
 
 ![](images/logic_conducting.png)
 
-<center style="opacity:0.7">Assume that (1, 0) contains a boulder-activated switch.</center>
+<center style="opacity:0.7">假设 (1, 0) 位置有一个由石块激活的开关。</center>
 </br>
 
-All switches and logical entities will be created in an inactive state. Wires and logical entities will also remain activated as long as there is a current from a switch running through them - if at some point there were multiple switches powering a component and one of them is turned off, the component will remain activated if there is still current that can reach it. If the source of power for a logical component has been switched off or destroyed, then the logical component will be deactivated.
+所有开关和逻辑实体在创建时均为未激活状态。只要有来自开关的电流经过，电线和逻辑实体将持续保持激活状态——如果某一时刻有多个开关为某组件供电，而其中一个被关闭，只要还有电流可以到达，该组件仍会保持激活。如果逻辑组件的电源已被关闭或摧毁，该组件将被关闭。
 
-Any other entities do not have conductive or logical behaviours when placed next to a conducting wire or switch.
+任何其他实体在放置在导电电线或开关旁时都不具有导电或逻辑行为。
 
-#### b) Logical Rules
+#### b) 逻辑规则
 
-Logical entities will obey one of the following rules:
+逻辑实体将遵循以下规则之一：
 
-- **OR** - the entity will be activated if there is 1 or more cardinally adjacent activated conductor
+* **OR（或）** - 如果有一个或多个在四个主方向上相邻的导线被激活，则该实体将被激活。
 
-- **AND** - the entity is activated if all cardinally adjacent conductors are activated. Furthermore, there must be at least 2 cardinally adjacent conductors.
-![](images/logic_and.png)
-<center style="opacity:0.7">The bulb can only be activated if the switch on (2, 1) and the wires on (3, 0) and (4, 1) are all activated. Hence, both switches must be switched on in order to activate the bulb.</center>
+* **AND（与）** - 如果所有在四个主方向上相邻的导线都被激活，并且至少有两个这样的导线，则该实体将被激活。
+  ![](images/logic_and.png)
+
+<center style="opacity:0.7">只有当位置 (2, 1) 上的开关和位置 (3, 0)、(4, 1) 上的导线都被激活时，灯泡才能被激活。因此，必须同时打开两个开关才能点亮灯泡。</center>
 </br>
 
-- **XOR** - the entity will be activated if there is 1 and only 1 cardinally adjacent activated conductor
-![](images/logic_and.png)
-<center style="opacity:0.7">The bulb can only be activated by switching on just the switch on (2, 1). If the switch on (2, 0) is turned on, then the cardinally adjacent wires on (3, 0) and (4, 1) will also conduct which do not satisfy the XOR condition. </center>
+* **XOR（异或）** - 如果恰好只有一个在四个主方向上相邻的导线被激活，则该实体将被激活。
+  ![](images/logic_and.png)
+
+<center style="opacity:0.7">灯泡只能通过打开位置 (2, 1) 上的开关来点亮。如果打开位置 (2, 0) 上的开关，则其相邻的导线 (3, 0) 和 (4, 1) 也会导电，从而不满足 XOR 条件。</center>
 </br>
 
-- **CO_AND** - the entity will only be activated if there are 2 or more cardinally adjacent activated conductors, which are **all activated on the same tick**, e.g. if a switch activates two wires that are both cardinally adjacent to a logical entity with the `co_and` condition, it should be activated.
-![](images/logic_coand.png)
-<center style="opacity:0.7">Activating the switch on (3, 1) will also activate the bulb's cardinally adjacent wires on (4, 0) and (4, 2) on the same tick, and satisfy the co_and condition. If any or both of the switches on (1, 0) and (1, 2) are activated before the middle switch then the bulb will NOT turn on as the adjacent conductors are activated on different ticks.</center>
+* **CO\_AND（协同与）** - 如果有两个或更多在四个主方向上相邻的导线，并且它们**在同一刻被激活**，则该实体将被激活。例如，如果一个开关激活了两个导线，而这两个导线都与具有 `co_and` 条件的逻辑实体相邻，那么该实体应该被激活。
+  ![](images/logic_coand.png)
+
+<center style="opacity:0.7">激活位置 (3, 1) 上的开关也会在同一刻激活灯泡相邻的导线 (4, 0) 和 (4, 2)，从而满足 co_and 条件。如果位置 (1, 0) 和 (1, 2) 上的任一或两个开关在中间开关之前被激活，则由于导线不是在同一刻激活，灯泡将不会亮起。</center>
 </br>
 
-Note that all conductor activation should be checked before before logical conditions are computed within the same tick. Activation order of the logical entities is undefined.
+请注意，在同一刻中，所有导线的激活应在逻辑条件计算之前完成。逻辑实体的激活顺序是不确定的。
 
-In the case that another conductor powers an already activated component, the current is not 'refreshed'. The `co_and` case should rely on the tick the adjacent conductor is initially powered from a deactivated state.
+如果另一个导线为已被激活的组件供电，则电流不会被“刷新”。`co_and` 情况应依赖于导线从未激活状态初次被激活的时刻。
 
-#### Technical Specification
+#### 技术规格
 
-The list of inputs in [Section 4.1.1. of the MVP specification](./MVP.md#411-input-specification---entities-mvp) now includes the following entities:
+[ MVP 规范文档第 4.1.1 节](./MVP.md#411-input-specification---entities-mvp) 中的输入实体列表现在包含以下实体：
 
 <table>
 <thead>
   <tr>
-    <th>Entity</th>
-    <th>JSON Prefix</th>
-    <th>Creatable from Dungeon Map?</th>
+    <th>实体</th>
+    <th>JSON 前缀</th>
+    <th>是否可从地牢地图创建？</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td>Light Bulb (off)</td>
-    <td>
-    <code>light_bulb_off</code>
-  </td>
-    <td>Yes</td>
+    <td>灯泡（关闭）</td>
+    <td><code>light_bulb_off</code></td>
+    <td>是</td>
   </tr>
   <tr>
-    <td>Light Bulb (on)</td>
-    <td>
-    <code>light_bulb_on</code>
-  </td>
-    <td>No, since light bulbs will always be created off.</td>
-  </tr>
-    <tr>
-    <td>Wire</td>
-    <td>
-    <code>wire</code>
-  </td>
-    <td>Yes</td>
+    <td>灯泡（开启）</td>
+    <td><code>light_bulb_on</code></td>
+    <td>否，因为灯泡始终以关闭状态创建。</td>
   </tr>
   <tr>
-    <td>Closed Switch Door</td>
-    <td>
-    <code>switch_door</code>
-  </td>
-    <td>Yes</td>
+    <td>导线</td>
+    <td><code>wire</code></td>
+    <td>是</td>
   </tr>
   <tr>
-    <td>Open Switch Door</td>
-    <td>
-    <code>switch_door_open</code>
-  </td>
-    <td>No, since switch doors will always be created as closed.</td>
+    <td>关闭的开关门</td>
+    <td><code>switch_door</code></td>
+    <td>是</td>
+  </tr>
+  <tr>
+    <td>打开的开关门</td>
+    <td><code>switch_door_open</code></td>
+    <td>否，因为开关门总是以关闭状态创建。</td>
   </tr>
 </tbody>
 </table>
 
-- All logical entities will be created with the field <code>logic</code> which will be one of <code>and</code>, <code>or</code>, <code>xor</code>, or <code>co_and</code>. Note that light bulbs and switch doors will always be created with a logic field. Regular doors will never be created with a logic field, nor will floor switches or wires.
-- Bombs may be created with the field <code>logic</code>. If they have this field, they are expected to be able to interact with other logical entities as described. Bombs created without this field function as they do in the MVP and do not need to interact with other logical entities.
+* 所有逻辑实体将在创建时带有字段 <code>logic</code>，其值为 <code>and</code>、<code>or</code>、<code>xor</code> 或 <code>co\_and</code>。请注意，灯泡和开关门始终具有 logic 字段。普通门不会带有 logic 字段，地板开关和导线也不会。
+* 炸弹可以在创建时带有 <code>logic</code> 字段。如果带有该字段，它们应按描述与其他逻辑实体交互。未带有该字段的炸弹则按照 MVP 的方式工作，不需要与其他逻辑实体交互。
 
-# 4. Titbits
+# 4. 小知识点
 
-## 4.1. Git Practices 🧭
+## 4.1 Git 实践 🧭
 
-- We will not be assessing your commit messages, though for the sake of good practice you should write meaningful commits.
-- The main branch should always remain stable - the pipeline should always be passing. You are welcome to comment out some of the example tests we have provided until you can get them working locally.
-- When putting up Merge Requests, all changes in the diff should be relevant to the task which they relate to (not polluted with irrelevant changes, as this makes it difficult for reviewers);
-- Code reviews should occur as comments on Merge Requests - if you are doing the code review synchronously leave comments on the MR as your minutes/action items
+* 我们不会评估你的提交信息，但为了良好实践，你应撰写有意义的提交。
+* 主分支应始终保持稳定 —— 管道应始终通过。你可以暂时注释掉我们提供的一些示例测试，直到你能在本地使它们工作。
+* 提交合并请求时，diff 中的所有变更都应与相关任务有关（不应包含无关更改，因为这会使评审变得困难）；
+* 代码审查应作为合并请求上的评论进行 —— 如果你是同步进行代码审查，请将评论留在合并请求中作为会议记录/行动项。
 
-## 4.2. Assumptions 👾
+## 4.2 假设 👾
 
-As you develop your implementation of the tasks, you will undoubtedly come across scenarios where some behaviour is not properly defined by the specification. This is a complex assignment - if we defined every possible scenario, the specification would go on forever. Unlike previous courses, this one is about design. We are not trying to catch you out by testing every imaginable edge case. The autotests are there to verify that you have followed the specification and completed the work, not to trip you up on obscure edge cases.
+在你实现任务过程中，必然会遇到一些行为规范中未明确规定的情形。这是一个复杂的作业 —— 如果我们定义每一个可能的情形，规范将会无止境。与之前的课程不同，这门课侧重于设计。我们并不试图通过测试每一个可能的边界情况来刁难你。自动测试的目的是验证你是否遵循了规范并完成了工作，而不是在晦涩的边界情况下让你出错。
 
-Here are the steps you should follow if you are unsure about something in the spec:
+如果你对规范中某项内容感到不确定，请遵循以下步骤：
 
-1. Double check the spec, do a ctrl/command-f to check it isn't mentioned elsewhere, in a lot of situations this will be the case.
-2. **Check the [Approved Assumptions](https://discourse01.cse.unsw.edu.au/25T2/COMP2511/t/assignment-ii-part-1-approved-assumptions/1266) post on the forum**, all of the approved assumptions from previous terms are there and new ones will be added if they come up.
-3. Make a post in the forum **(please search first)** asking the Course Staff whether you are able to make an assumption about the behaviour in this case. We will either:
+1. 仔细检查规范，使用 ctrl/command+f 查找其他位置是否提到该内容，很多情况下确实会有提及。
+2. **查看论坛上的 [Approved Assumptions](https://discourse01.cse.unsw.edu.au/25T2/COMP2511/t/assignment-ii-part-1-approved-assumptions/1266) 帖子**，上面列出了历届已批准的假设，如果有新的假设出现也会添加上去。
+3. 在论坛发帖 **（请先搜索）** 向课程团队询问你是否可以对该行为作出假设。我们将会：
 
-- Approve the assumption and add to the [Approved Assumptions](https://discourse01.cse.unsw.edu.au/25T2/COMP2511/t/assignment-ii-part-1-approved-assumptions/1266) page
-- Update the specification if appropriate, or
-- Respond explaining how the behaviour is defined in the scope of the specification.
+* 批准该假设并将其添加至 [Approved Assumptions](https://discourse01.cse.unsw.edu.au/25T2/COMP2511/t/assignment-ii-part-1-approved-assumptions/1266) 页面
+* 如果合适，更新规范，或
+* 回复说明该行为如何在规范范围内被定义
 
-Any ambiguities/assumptions that we have listed as approved **we will not be testing** in automarking.
+对于我们列为已批准的所有模糊性/假设内容，**我们不会在自动评分中进行测试**。
 
-## 4.3. Test Design 🐝
+## 4.3. 测试设计 🐝
 
-When it comes to writing tests for the new features, you should write functional tests on the controller.
+在为新功能编写测试时，你应该在控制器上编写功能测试。
 
-All of the existing tests in the monolith are written in this way, and you can structure your tests similarly.
+单体系统中所有现有的测试都是以这种方式编写的，你可以以类似的方式构建你的测试。
 
-## 4.4. Dungeon Map Helper
+## 4.4. 地牢地图辅助工具
 
-We’ve provided a dungeon map helper [here](https://cs2511-dungeonmania-map-generator.vercel.app/) for you here to assist with visualising and creating test maps.
+我们为你提供了一个地牢地图辅助工具 [这里](https://cs2511-dungeonmania-map-generator.vercel.app/)，帮助你可视化并创建测试地图。
 
-Please note it is not comprehensive (not all entities and fields are provided), and it may contain some bugs!
+请注意，该工具并不全面（并未提供所有实体和字段），且可能存在一些 bug！
 
-# 5. Design
+# 5. 设计
 
-## 5.1. Pair Blogging
+## 5.1. 配对博客记录
 
-You must complete the pair blog according to the template, including documenting your design decisions for each coding task.
+你必须按照模板完成配对博客记录，包括记录你对每项编码任务的设计决策。
 
-## 5.2. Individual Blogging
+## 5.2. 个人博客记录
 
-As well as your pair blog, you will need to fill out an individual blog post each week to describe your contributions. This may include summarising your activities, adding links to your merge requests, and reflecting on the challenges you faced in the past week.
+除了配对博客外，你每周还需要填写一篇个人博客，描述你所做的贡献。这可能包括总结你的活动、添加合并请求的链接，并反思你在过去一周中遇到的挑战。
 
-The individual blog is not given a mark weighting but is mandatory for all students.
-We will use these blog posts to determine individual marks in the case where pair contribution is not equal.
+个人博客不计分，但所有学生必须完成。
+如果配对贡献不均，我们将依据这些博客文章来决定个人得分。
 
-# 6. Assessment
+# 6. 评估
 
-## 6.1. Marking Criteria
+## 6.1. 评分标准
 
 <table>
 <thead>
 <tr>
-    <td style="font-weight:bold; width:15%;">Task</td>
-    <td style="font-weight:bold; width:19%;">Subtask</td>
-    <td style="font-weight:bold; width:66%;">Criteria</td>
+    <td style="font-weight:bold; width:15%;">任务</td>
+    <td style="font-weight:bold; width:19%;">子任务</td>
+    <td style="font-weight:bold; width:66%;">评分标准</td>
 </tr>
 </thead>
 <tbody>
 
 <tr>
-    <td rowspan="4">Task 1 ⚙️<br>25 marks</td>
-    <td>a) From DRY to Design Patterns (5 marks)</td>
+    <td rowspan="4">任务 1 ⚙️<br>25 分</td>
+    <td>a) 从 DRY 到设计模式（5 分）</td>
     <td>
         <ul>
-            <li>Has the smell been pinpointed?</li>
-            <li>Has a suitable Design Pattern been selected and justified?</li>
-            <li>Was the pattern well implemented?</li>
+            <li>是否明确识别出代码异味？</li>
+            <li>是否选择并合理解释了合适的设计模式？</li>
+            <li>是否良好地实现了该模式？</li>
         </ul>
     </td>
 </tr>
 <tr>
-    <td>b) Inheritance Design (5 marks)</td>
+    <td>b) 继承设计（5 分）</td>
     <td>
         <ul>
-            <li>Was the design principle identified, with clear justification?</li>
-            <li>Was the design flaw resolved?</li>
+            <li>是否识别了设计原则，并提供了清晰的解释？</li>
+            <li>是否解决了设计缺陷？</li>
         </ul>
     </td>
 </tr>
 <tr>
-    <td>c) Open-Closed Goals (5 marks)</td>
+    <td>c) 开闭目标（5 分）</td>
     <td>
         <ul>
-            <li>Is the stance justified according to the design?</li>
-            <li>If applicable, was any refactoring done to improve the design?</li>
+            <li>是否根据设计合理地表达了立场？</li>
+            <li>如适用，是否进行了重构以改进设计？</li>
         </ul>
     </td>
 </tr>
 <tr>
-    <td>d) Open Refactoring (10 marks)</td>
+    <td>d) 自由重构（10 分）</td>
     <td>
-        For 3 marks, <b>some</b> additional smells/flaws are identified and resolved.<br>
-        For 5 marks, <b>listed</b> additional smells/flaws (or equivalent) are identified and resolved.<br>
-        For 10 marks, <b>substantially more</b> additional smells/flaws are identified and resolved, equivalent to double that of the 5 mark criteria.
+        获得 3 分：识别并解决了一些额外的代码异味/缺陷。<br>
+        获得 5 分：识别并解决了列出的额外异味/缺陷（或等价）。<br>
+        获得 10 分：识别并解决了更多额外异味/缺陷，相当于 5 分标准的两倍。
     </td>
 </tr>
 <tr>
-    <td>Task 2 🔧<br>30 marks</td>
+    <td>任务 2 🔧<br>30 分</td>
     <td>
-        For each subtask completed:<br><br>
-        a) Slimes (15 marks)<br><br>
-        b) Sunstone & More Buildables (15 marks)<br><br>
-        If you are in a group of 3:<br>
-        c) Logic Switches (20 marks)
+        对每个已完成的子任务：<br><br>
+        a) 史莱姆（15 分）<br><br>
+        b) 阳光石及更多可建造物（15 分）<br><br>
+        如果你在一个 3 人小组中：<br>
+        c) 逻辑开关（20 分）
     </td>
     <td>
-        <b>Software Correctness</b> (40% of the marks for the subtask)<br>
-        This section will be automarked.<br><br>
-        <b>Software Design</b> (50% of the marks for the subtask)
+        <b>软件正确性</b>（该子任务得分的 40%）<br>
+        本部分将通过自动评分完成。<br><br>
+        <b>软件设计</b>（该子任务得分的 50%）
         <ul>
-            <li>Is the design seamlessly integrated into the existing infrastructure?</li>
-            <li>Does the design adhere to principles discussed in the course?</li>
-            <li>Does the design contain any smells?</li>
+            <li>设计是否无缝集成进已有架构？</li>
+            <li>设计是否遵循了课程中讨论的原则？</li>
+            <li>设计中是否存在异味？</li>
         </ul>
-        <b>Software Testing</b> (10% of the marks for the subtask)
+        <b>软件测试</b>（该子任务得分的 10%）
         <ul>
-            <li>Have functional tests on the controller been written?</li>
-            <li>Do the tests cover a range of cases?</li>
-            <li>Are the tests well designed?</li>
+            <li>是否在控制器上编写了功能测试？</li>
+            <li>测试是否覆盖了各种情况？</li>
+            <li>测试是否设计良好？</li>
         </ul>
     </td>
 </tr>
 <tr>
-    <td rowspan="2"">Easy Marks 🧂<br>5 marks</td>
-    <td>Code Hygiene 🚿</td>
+    <td rowspan="2">简单得分 🧂<br>5 分</td>
+    <td>代码规范 🚿</td>
     <td>
-        You will receive <strong>0/5 marks</strong> in the <strong>Easy Marks</strong> section if you fail to meet <em>any</em> of the following requirements:
+        如果你未满足以下 <em>任一</em> 要求，你将在 <strong>简单得分</strong> 中获得 <strong>0/5 分</strong>：
         <ul>
-            <li>All regression tests must pass</li>
-            <li>Code coverage must remain above 80%</li>
-            <li>The linter must pass</li>
+            <li>所有回归测试必须通过</li>
+            <li>代码覆盖率必须保持在 80% 以上</li>
+            <li>linter 必须通过</li>
         </ul>
-        In simple terms, the pipeline on the <code>main</code> branch of your repository must remain green (i.e. passing) for the entire assignment.<br><br>
-        If pipelines are running slowly, you’re expected to run linting and tests locally. If they pass locally, you may force merge. The purpose of the pipeline is to help you keep <code>main</code> in a working state. It’s not a hard requirement for merging.<br><br>
-        <strong>Slow pipelines are not a valid excuse for failing to meet these requirements or for not merging to <code>main</code>.</strong>
+        简而言之，你的仓库 <code>main</code> 分支的流水线必须在整个作业中保持为绿色（即通过状态）。<br><br>
+        如果流水线运行缓慢，你应该在本地运行 lint 和测试。如果它们在本地通过，你可以强制合并。流水线的目的是帮助你保持 <code>main</code> 处于工作状态。它并不是合并的强制要求。<br><br>
+        <strong>流水线变慢不是未满足这些要求或未合并到 <code>main</code> 的合理借口。</strong>
     </td>
-</td>
 </tr>
 <tr>
-    <td>Merge Requests 🧭</td>
+    <td>合并请求 🧭</td>
     <td>
-        You will get 0/5 marks in this Easy Marks section if you:
+        如果你有以下情况，你将在本项中获得 0/5 分：
         <ul>
-            <li>Have Merge Requests that are too large and contain too many changes</li>
-            <li>Don’t link your Merge Requests in your blog post</li>
+            <li>合并请求体积过大，包含过多更改</li>
+            <li>未在博客中链接你的合并请求</li>
         </ul>
-        This is to make it easier for your marker to award you for your work. If you stick to the blog template, you will be fine here 🙂
+        此项旨在帮助评分者更方便地为你的工作评分。只要你遵循博客模板，就不会有问题 🙂
     </td>
 </tr>
 </tbody>
 </table>
 
-## 6.2. Submission
+## 6.2. 提交
 
-We will take the contents of your `main` branch as your final submission. There are no late submissions. See [this](#54-late-penalties).
+我们将以你 `main` 分支的内容作为最终提交版本。**不接受任何迟交**。详见 [此处](#54-late-penalties)。
 
-## 6.3. Dryruns
+## 6.3. Dryrun 测试
 
-To ensure your code **compiles with our automarker** and **basic functionality works as expected** we have provided you a basic dryrun test. If your code does not compile with our automarker, you will receive 0 for the automarking section. Any code changes to fix the compilation issue will result in a non-negotiable 20% penalty. **It is your responsibility to ensure your code compiles with our automarker**.
+为了确保你的代码 **可以在我们的自动评分器上编译** 并且 **基本功能如预期运行**，我们为你提供了一个基础 dryrun 测试。如果你的代码无法在自动评分器上编译，你将会在自动评分部分得 0 分。任何为修复编译问题所做的代码修改将导致**不可协商的 20% 扣分**。**确保你的代码能通过我们的自动评分器编译是你的责任。**
 
-You can find the dryrun files here: [https://cgi.cse.unsw.edu.au/~cs2511/public/dryrun-files/dryrun_ass2/ ](https://cgi.cse.unsw.edu.au/~cs2511/public/dryrun-files/dryrun_ass2/).
+你可以在以下链接找到 dryrun 文件：[https://cgi.cse.unsw.edu.au/\~cs2511/public/dryrun-files/dryrun\_ass2/](https://cgi.cse.unsw.edu.au/~cs2511/public/dryrun-files/dryrun_ass2/)。
 
-**Make sure you read all of the output!**
+**务必阅读 dryrun 的全部输出内容！**
 
-### 6.3.1.Ensuring your code **compiles** with our tests through GitLab CI/CD pipelines.
+### 6.3.1. 通过 GitLab CI/CD 流水线确保你的代码能通过我们的测试进行编译。
 
-Every time you push code to the `main` branch on GitLab or create a merge request on GitLab, an automated pipeline will run that first:
+每当你向 GitLab 上的 `main` 分支推送代码或创建 merge request 时，自动流水线将会运行并依次执行以下操作：
 
-1. Compiles your code with your own tests
-2. Runs your tests
-3. Replaces your tests with our dryrun tests found [here](https://cgi.cse.unsw.edu.au/~cs2511/public/dryrun-files/dryrun_ass2/)
-4. Checks if your code compiles with our tests
+1. 使用你自己的测试编译代码
+2. 运行你的测试
+3. 用我们 dryrun 中的测试替换你的测试，测试文件地址见：[此处](https://cgi.cse.unsw.edu.au/~cs2511/public/dryrun-files/dryrun_ass2/)
+4. 检查你的代码能否通过我们的 dryrun 测试编译
 
-Note: If any of the previous steps fail, it will not run the next step.
+注意：如果前面任意一步失败，下一步将不会被执行。
 
-**You should try to maintain a green pipeline on the `main` branch at all times.**
+**你应始终尽量保持 `main` 分支流水线为绿色（通过状态）。**
 
-### 6.3.2. Ensuring your code **compiles and passes** with our tests through GitLab CI/CD pipelines.
+### 6.3.2. 通过 GitLab CI/CD 流水线确保你的代码能通过我们的测试进行编译和运行。
 
-Every time you push code to the `main` branch on GitLab or create a merge request on GitLab, you can click on the Green or Red indicator next to your commit. This should bring you to a page that looks like the following:
+每次你向 GitLab 上的 `main` 分支推送代码或创建 merge request 时，你可以点击提交记录旁的绿/红色状态指示器。这将打开如下所示页面：
 
 ![](/images/gitlab-pipelines.png)
 
-You can request a manual run of the pipeline by clicking on the `Run` button (see red arrow in image above). This will run the pipeline with the dryrun tests.
+你可以点击 `Run` 按钮（见上图红色箭头所示）手动运行 dryrun 流水线。这将使用 dryrun 测试运行流水线。
 
-The pipeline **will always pass** as to not affect your overall `main` branch pipeline status. This means you will have to **manually check the output of the dryrun test**. You should view the logs and output and determine if you have passed the correct tests.
+该流水线 **始终会显示通过**，以避免影响你 `main` 分支的整体状态。这意味着你需要**手动检查 dryrun 测试的输出结果**。你应查看日志和输出，确认是否通过了正确的测试。
 
-**Only task 2 will be tested with the dryrun tests.**
+**只有 Task 2 会通过 dryrun 进行测试。**
 
-> Note: This behaviour is different to assignment-i.
+> 注意：此行为不同于 assignment-i。

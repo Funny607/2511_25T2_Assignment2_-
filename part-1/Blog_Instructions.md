@@ -1,16 +1,16 @@
 # Blogging
 
-For this assignment, each individual will need to complete two blog posts:
+在本次作业中，每位成员需要完成两篇博客：
 
-- One of these is an individual blog which briefly outlines what you as an individual did in each week. You should fill the entry once a week during that week, not all at the very end. [Here is a template for the entries](./Individual_Blog_YOUR_NAME_HERE.md). We have included a single copy of this template in your repository.
-  - Make enough copies of the template in your repository for each person in the group.
-  - Each person should rename their own file, changing `YOUR_NAME_HERE` to their name.
-- The other is a shared blog which will contain answers to the questions in Task 1, as well as designs for Task 2 and issues identified in Task 3. [Here is a template for this blog post](./Pair_Blog_Template.md). We have included a copy of this template as `Pair_Blog.md` in your repository.
+- 一篇是**个人博客**，简要说明你每周个人完成了哪些工作。你应在每周**当周填写对应的内容**，而不是等到最后一次性补写。[这里是条目的模板](./Individual_Blog_YOUR_NAME_HERE.md)。我们已经在你的代码库中包含了这个模板的副本。
+  - 请为你们小组中的每个人在代码库中复制该模板文件。
+  - 每位同学应将自己的文件重命名，将 `YOUR_NAME_HERE` 替换为自己的名字。
+- 另一篇是**共享博客**，包含第1任务中的问题回答、第2任务的设计方案以及第3任务中识别的问题。[这里是该博客的模板](./Pair_Blog_Template.md)。我们已经在你的代码库中将该模板命名为 `Pair_Blog.md`。
 
-You are permitted to use a Google Doc or some other collaborative text editor to work on your pair blog, and copy the template onto that doc.
+你可以使用 Google Doc 或其他协作式文本编辑器共同撰写共享博客，并将模板复制到该文档中。
 
-These blogs must be added to your pair repository.
+这些博客必须添加到你们的小组代码库中。
 
-You are permitted to upload the blogs in `pdf`, `markdown`, or any other legible text format which supports links.
+你可以上传博客为 `pdf`、`markdown` 或任何其他支持超链接的可读文本格式。
 
-**You cannot submit a link to a blog hosted elsewhere.**. Submission must remain within the repository.
+**你不能提交托管在其他网站上的博客链接。**博客内容必须保存在你的代码库中。
